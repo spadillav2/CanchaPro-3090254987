@@ -15,6 +15,7 @@ public class CanchaProSandraPadilla {
      */
     public static void main(String[] args) {
 //Creación del programa
+System.out.println("Prueba de GitHub, segundo intento porque el primero lo borré sin querer : (");
     }
     
 }
