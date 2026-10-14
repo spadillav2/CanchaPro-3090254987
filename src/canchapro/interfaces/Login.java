@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package canchapro.sandrapadilla;
+package canchapro.interfaces;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -72,6 +73,7 @@ public class Login extends javax.swing.JFrame {
         btnIngresar.setText("Ingresar");
         btnIngresar.setBorder(null);
         btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnIngresar.addActionListener(this::btnIngresarActionPerformed);
 
         txtPassword.setBackground(new java.awt.Color(255, 255, 255));
         txtPassword.setText("********");
@@ -358,6 +360,28 @@ lblMinimizar.setForeground(Color.white);
      pnlMinimizar.setBackground(Color.getHSBColor(0,51,0));
      lblMinimizar.setForeground(Color.white);
     }//GEN-LAST:event_lblMinimizarMouseExited
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+      String contra= "12345";
+      String user= "Admin";
+      boolean userCorrecto;
+      boolean contraCorrecta;
+      if (txtUsuario.getText().equals(user) && String.valueOf(txtPassword.getPassword()).equals(contra)){
+   new Principal().setVisible(true);
+      this.setVisible(false);
+      }
+      
+      else if (String.valueOf(txtPassword.getPassword()).equals(contra)&& !txtUsuario.getText().equals(user)){
+       JOptionPane.showMessageDialog(null, "Usuario incorrecto. Intente de nuevo");
+       txtUsuario.setText("");
+      }
+      else {
+       JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Intente de nuevo");
+       txtPassword.setText("");
+      }
+      
+      
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
      * @param args the command line arguments
