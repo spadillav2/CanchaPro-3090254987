@@ -10,11 +10,69 @@ import java.time.LocalDateTime;
  */
 public class Pago {
     
-    public String 
+    public static final String EFECTIVO ="efectivo";
+    public static final String TRANSFERENCIA = "transferencia";
+    public static final String TARJETA = "tarjeta";
     
     
     private String codigo;
     private LocalDateTime fechaHoraPago;
-    private String metodo;
     private double monto;
+    private String metodo;
+    private String observacion;
+
+    public Pago(String codigo, LocalDateTime fechaHoraPago, double monto, String metodo) {
+        this.codigo = codigo;
+        this.fechaHoraPago = fechaHoraPago;
+        this.monto = monto;
+        this.metodo = metodo;
+    }
+
+   
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public LocalDateTime getFechaHoraPago() {
+        return fechaHoraPago;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public String getMetodo() {
+        return metodo;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setFechaHoraPago(LocalDateTime fechaHoraPago) {
+        this.fechaHoraPago = fechaHoraPago;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+    
+    @Override
+    public String toString(){
+        return codigo +" - "+fechaHoraPago+" - "+ monto + " - "+ metodo +" - "+observacion;
+    }
+    
 }
