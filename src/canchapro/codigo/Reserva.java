@@ -10,6 +10,11 @@ import java.time.LocalTime;
  * @author Padilla
  */
 public class Reserva {
+    private LocalDate fechaCancelacion;
+private String motivoCancelacion;
+private String operadorCancelacion;
+    
+    
     public static final String PENDIENTE = "pendiente";
     public static final String CONFIRMADA = "confirmada";
     public static final String EN_CURSO ="en_curso";
@@ -39,7 +44,7 @@ public class Reserva {
         this.estado = PENDIENTE;
      this.servicios = new ServicioAdicional [10];
     this.cantidadServicios=0;
-      this.pago= new Pago[10];
+      this.pago= new Pago[20];
       this.cantidadPagos=0;
     }
 
@@ -89,6 +94,27 @@ public class Reserva {
         return cantidadPagos;
     }
 
+    public LocalDate getFechaCancelacion() {
+        return fechaCancelacion;
+    }
+
+    public String getMotivoCancelacion() {
+        return motivoCancelacion;
+    }
+
+    public String getOperadorCancelacion() {
+        return operadorCancelacion;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
@@ -161,5 +187,79 @@ public double calcularTotalPagado(){
 public String toString(){
     return codigo + " - "+ cliente.getNombre()+" - " + cancha.getNombre()+" - "+ fecha + " - "+ horaInicio + " - "+estado;
 }
+
+
+public double calcularPrecioCancha(Tarifa tarifa) {
+    double total = tarifa.calcularPrecioHoraCancha(fecha, horaInicio) * duracion;
+    return total;
+}
+
+
+
+
+public double calcularTotal(Tarifa tarifa) {
+    double precioCancha = calcularPrecioCancha(tarifa);
+    double totalServicios = calcularTotalServicios();
+    double total = precioCancha + totalServicios;
+    return total;
+}
+
     
+public double calcularSaldo(Tarifa tarifa){
+    double preciototal=calcularTotal(tarifa);
+    double totalpagado=calcularTotalPagado();
+    double saldo;
+    saldo= preciototal-totalpagado;
+    return saldo;
+}
+
+
+public String registrarPago(Pago p, Tarifa tarifa) {
+    if (estado.equals(CANCELADA)) {
+        return "La reserva está cancelada";
+    }
+    if (p.getMonto() <= 0) {
+        return "El monto debe ser mayor a 0";
+    }
+    if (p.getMonto() > calcularSaldo(tarifa)) {
+        return "El monto debe ser menor o igual a Q. " + calcularSaldo(tarifa);
+    }
+    if (cantidadPagos >= pago.length) {
+        return "Ha excedido la cantidad máxima de pagos";
+    }
+    pago[cantidadPagos] = p;
+    cantidadPagos++;
+    return "Pago Aceptado";
+}
+
+
+
+
+public boolean cancelar(String motivo, String operador) {
+    if (estado.equals(FINALIZADA) || estado.equals(CANCELADA)) {
+        return false;
+    }
+    estado = CANCELADA;
+    fechaCancelacion = LocalDate.now();
+    motivoCancelacion = motivo;
+    operadorCancelacion = operador;
+    return true;
+}
+
+
+
+
+/*
+public boolean seTraslapaCon(LocalDate fechaNueva, LocalTime inicioNueva, int duracionNueva) {
+   boolean traslape=false;
+    if (estado.equals(Reserva.CANCELADA)){
+       traslape= false;
+    }
+        LocalTime finNueva = inicioNueva.plusHours(duracionNueva);
+        else if ( inicioNueva.isBefore(calcularHoraFin()) && finNueva.isAfter(horaInicio)){
+       traslape= true;
+   }
+        return traslape;
+}
+*/
 }

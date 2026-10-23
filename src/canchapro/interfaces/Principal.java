@@ -4,6 +4,11 @@
  */
 package canchapro.interfaces;
 
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Padilla
@@ -17,6 +22,8 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        this.setLocationRelativeTo(this);
+         /*SetImageLabel(lblLogo, "src/Resources/la10Negro.png");*/
     }
 
     /**
@@ -28,17 +35,129 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        lblDisponibilidad = new javax.swing.JLabel();
+        lblNuevaReserva = new javax.swing.JLabel();
+        lblClientes = new javax.swing.JLabel();
+        lblPagos = new javax.swing.JLabel();
+        lblReportes = new javax.swing.JLabel();
+        lblConfiguracion = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
+        lblLogo2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setName("Principal"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1020, 640));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1020, 640));
+        jPanel1.setName(""); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(1020, 640));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(0, 51, 0));
+
+        lblDisponibilidad.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblDisponibilidad.setForeground(new java.awt.Color(255, 255, 255));
+        lblDisponibilidad.setText("Disponibilidad");
+
+        lblNuevaReserva.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblNuevaReserva.setForeground(new java.awt.Color(255, 255, 255));
+        lblNuevaReserva.setText("Nueva Reserva");
+
+        lblClientes.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblClientes.setForeground(new java.awt.Color(255, 255, 255));
+        lblClientes.setText("Clientes");
+
+        lblPagos.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblPagos.setForeground(new java.awt.Color(255, 255, 255));
+        lblPagos.setText("Pagos");
+
+        lblReportes.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblReportes.setForeground(new java.awt.Color(255, 255, 255));
+        lblReportes.setText("Reportes");
+
+        lblConfiguracion.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
+        lblConfiguracion.setText("Configuración");
+
+        lblLogo.setMaximumSize(new java.awt.Dimension(1099, 1201));
+        lblLogo.setMinimumSize(new java.awt.Dimension(1099, 1201));
+
+        lblLogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/la10Negro.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDisponibilidad)
+                            .addComponent(lblNuevaReserva)
+                            .addComponent(lblClientes)
+                            .addComponent(lblPagos)
+                            .addComponent(lblReportes)
+                            .addComponent(lblConfiguracion)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(lblLogo2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(44, 44, 44))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(35, Short.MAX_VALUE)
+                        .addComponent(lblLogo2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)))
+                .addComponent(lblNuevaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(lblClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(lblPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(lblReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(lblConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(164, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 640));
+
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 51, 0));
+        jLabel1.setText("La10");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
@@ -67,8 +186,40 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Principal().setVisible(true));
+       
+        
     }
 
+/*
+  private void SetImageLabel(JLabel lblLogo, String root) {
+    ImageIcon image = new ImageIcon(root);
+    
+ 
+    int ancho = lblLogo.getWidth() > 0 ? lblLogo.getWidth() : 100;
+    int alto = lblLogo.getHeight() > 0 ? lblLogo.getHeight() : 50;
+
+    Icon icon = new ImageIcon(
+        image.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH)
+    );
+    lblLogo.setIcon(icon);
+    this.repaint();
+}
+    */
+   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblClientes;
+    private javax.swing.JLabel lblConfiguracion;
+    private javax.swing.JLabel lblDisponibilidad;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblLogo2;
+    private javax.swing.JLabel lblNuevaReserva;
+    private javax.swing.JLabel lblPagos;
+    private javax.swing.JLabel lblReportes;
     // End of variables declaration//GEN-END:variables
 }
+
+
