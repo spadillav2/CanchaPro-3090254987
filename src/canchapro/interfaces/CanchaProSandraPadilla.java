@@ -5,6 +5,7 @@
 package canchapro.interfaces;
 import canchapro.codigo.Cancha;
 import canchapro.codigo.Cliente;
+import canchapro.codigo.GestionReservas;
 import canchapro.codigo.Pago;
 import canchapro.codigo.Reserva;
 import canchapro.codigo.ServicioAdicional;
@@ -70,7 +71,19 @@ System.out.println("Otro dia, misma hora (false): " + existente.seTraslapaCon(Lo
 existente.cancelar("Prueba", "Lupe");
 System.out.println("Reserva cancelada, 18:00 x 2h (false): " + existente.seTraslapaCon(dia, LocalTime.of(18, 0), 2));
 
+GestionReservas gestor = new GestionReservas();
+Cancha cancha2 = new Cancha("C02", "El Maracana", "Futbol 5", 10, 150.0, Cancha.DISPONIBLE, LocalTime.of(8, 0), LocalTime.of(23, 0));
+Cancha cancha3 = new Cancha("C03", "El Monumental", "Futbol 7", 14, 150.0, Cancha.MANTENIMIENTO, LocalTime.of(8, 0), LocalTime.of(23, 0));
+//LocalDate dia = LocalDate.of(2026, 10, 23);
 
+System.out.println("Base 18:00 x 2h (aceptada): " + gestor.agregarReserva(new Reserva("R11", cliente, cancha, dia, LocalTime.of(18, 0), 2)));
+System.out.println("1) 16:00 x 1h (aceptada): " + gestor.agregarReserva(new Reserva("R12", cliente, cancha, dia, LocalTime.of(16, 0), 1)));
+System.out.println("2) 20:00 x 1h (aceptada): " + gestor.agregarReserva(new Reserva("R13", cliente, cancha, dia, LocalTime.of(20, 0), 1)));
+System.out.println("3) 19:00 x 2h (rechazada): " + gestor.agregarReserva(new Reserva("R14", cliente, cancha, dia, LocalTime.of(19, 0), 2)));
+System.out.println("4) 18:00 x 1h (rechazada): " + gestor.agregarReserva(new Reserva("R15", cliente, cancha, dia, LocalTime.of(18, 0), 1)));
+System.out.println("5) Mantenimiento (rechazada): " + gestor.agregarReserva(new Reserva("R16", cliente, cancha3, dia, LocalTime.of(18, 0), 2)));
+System.out.println("Otra cancha 18:00 x 2h (aceptada): " + gestor.agregarReserva(new Reserva("R17", cliente, cancha2, dia, LocalTime.of(18, 0), 2)));
+System.out.println("Codigo duplicado (rechazada): " + gestor.agregarReserva(new Reserva("R11", cliente, cancha2, dia, LocalTime.of(10, 0), 1)));
 
 
 
