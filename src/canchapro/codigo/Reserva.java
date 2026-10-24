@@ -249,17 +249,17 @@ public boolean cancelar(String motivo, String operador) {
 
 
 
-/*
 public boolean seTraslapaCon(LocalDate fechaNueva, LocalTime inicioNueva, int duracionNueva) {
-   boolean traslape=false;
-    if (estado.equals(Reserva.CANCELADA)){
-       traslape= false;
+    boolean traslape = false;
+    LocalTime finNueva = inicioNueva.plusHours(duracionNueva);
+
+    if (estado.equals(CANCELADA)) {
+        traslape = false;
+    } else if (!fecha.equals(fechaNueva)) {
+        traslape = false;
+    } else if (inicioNueva.isBefore(calcularHoraFin()) && finNueva.isAfter(horaInicio)) {
+        traslape = true;
     }
-        LocalTime finNueva = inicioNueva.plusHours(duracionNueva);
-        else if ( inicioNueva.isBefore(calcularHoraFin()) && finNueva.isAfter(horaInicio)){
-       traslape= true;
-   }
-        return traslape;
+    return traslape;
 }
-*/
 }

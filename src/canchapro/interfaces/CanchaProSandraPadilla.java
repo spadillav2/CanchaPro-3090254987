@@ -54,6 +54,27 @@ System.out.println("Estado: " + reserva2.getEstado());
 System.out.println("Pago en reserva cancelada: " + reserva2.registrarPago(new Pago("P05", LocalDateTime.now(), 50, Pago.EFECTIVO), tarifa));
 System.out.println("Cancelar otra vez: " + reserva2.cancelar("Otro motivo", "Lupe"));
         
+
+
+
+Reserva existente = new Reserva("R10", cliente, cancha, LocalDate.of(2026, 10, 23), LocalTime.of(18, 0), 2);
+LocalDate dia = LocalDate.of(2026, 10, 23);
+
+System.out.println("16:00 x 1h (false): " + existente.seTraslapaCon(dia, LocalTime.of(16, 0), 1));
+System.out.println("20:00 x 1h (false): " + existente.seTraslapaCon(dia, LocalTime.of(20, 0), 1));
+System.out.println("19:00 x 2h (true): " + existente.seTraslapaCon(dia, LocalTime.of(19, 0), 2));
+System.out.println("18:00 x 1h (true): " + existente.seTraslapaCon(dia, LocalTime.of(18, 0), 1));
+System.out.println("17:00 x 4h, contiene a la existente (true): " + existente.seTraslapaCon(dia, LocalTime.of(17, 0), 4));
+System.out.println("Otro dia, misma hora (false): " + existente.seTraslapaCon(LocalDate.of(2026, 10, 24), LocalTime.of(18, 0), 2));
+
+existente.cancelar("Prueba", "Lupe");
+System.out.println("Reserva cancelada, 18:00 x 2h (false): " + existente.seTraslapaCon(dia, LocalTime.of(18, 0), 2));
+
+
+
+
+
+
     }
 
         
