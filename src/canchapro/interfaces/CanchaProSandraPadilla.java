@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import canchapro.codigo.Tarifa;
 import java.time.LocalDateTime;
+import canchapro.codigo.GestionClientes;
+import java.time.Month;
 /**
  *
  * @author Padilla
@@ -23,6 +25,8 @@ public class CanchaProSandraPadilla {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        /*
 Tarifa tarifa = new Tarifa();
 Cliente cliente = new Cliente("CL01", "Juan", "55551234", LocalDate.now());
 Cancha cancha = new Cancha("C01", "La Bombonera", "Futbol 5", 10, 150.0, Cancha.DISPONIBLE, LocalTime.of(8, 0), LocalTime.of(23, 0));
@@ -86,15 +90,21 @@ System.out.println("Otra cancha 18:00 x 2h (aceptada): " + gestor.agregarReserva
 System.out.println("Codigo duplicado (rechazada): " + gestor.agregarReserva(new Reserva("R11", cliente, cancha2, dia, LocalTime.of(10, 0), 1)));
 
 
-
-
     }
-
+*/
         
+        
+        GestionClientes gestionClientes = new GestionClientes();
+        System.out.println("Cliente 1 "+gestionClientes.agregarCliente(new Cliente ("CL01","Juan","55551234",LocalDate.of(2026, 10, 25)  )));
+         System.out.println("Cliente 1 "+gestionClientes.agregarCliente(new Cliente ("CL01","Genesis","1458274",LocalDate.of(2026, 10, 25)  )));
+          System.out.println("Cliente 1 "+gestionClientes.agregarCliente(new Cliente ("CL02","Ricardo","55551234",LocalDate.of(2026, 10, 25)  )));
+                    System.out.println("Cliente 1 "+gestionClientes.agregarCliente(new Cliente ("CL03","Ricardo","55551235",LocalDate.of(2026, 10, 25)  )));
+          System.out.println("Busqueda1: "+ gestionClientes.buscarClienteporCodigo("CL01"));
+          System.out.println("Busqueda 2: "+ gestionClientes.buscarClienteporTelefono("55551235"));
 //Creación del programa
 //new Login().setVisible(true);
 
-
+    }
 
 
     }
