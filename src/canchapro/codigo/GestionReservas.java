@@ -59,5 +59,35 @@ public class GestionReservas {
     return "Reserva agregada correctamente";
 }
     
-    
+   
+   
+  public Cancha[] canchasDisponibles(GestionCanchas canchas, LocalDate fecha, LocalTime inicio, int duracion, String tipo) {
+
+    // PRIMER CICLO: contar cuántas canchas cumplen
+    int contador = 0;
+    for (int i = 0; i < canchas.getCantCancha(); i++) {
+        Cancha c = canchas.getCancha()[i];
+        if (c.getTipo().equals(tipo) && canchaLibre(c, fecha, inicio, duracion)) {
+            contador++;
+        }
+    }
+
+    // Crear el array del tamaño exacto
+    Cancha[] resultado = new Cancha[contador];
+
+    // SEGUNDO CICLO: llenar el array
+    int posicion = 0;
+    for (int i = 0; i < canchas.getCantCancha(); i++) {
+        Cancha c = canchas.getCancha()[i];
+        if (c.getTipo().equals(tipo) && canchaLibre(c, fecha, inicio, duracion)) {
+            resultado[posicion] = c;
+            posicion++;
+        }
+    }
+    return resultado;
+}
+  
+  
+  
+  
 }

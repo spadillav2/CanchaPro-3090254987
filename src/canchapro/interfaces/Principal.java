@@ -8,7 +8,11 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
+import canchapro.codigo.GestionCanchas;
+import canchapro.codigo.GestionClientes;
+import canchapro.codigo.GestionReservas;
+import canchaproArchivos.ArchivoClientes;
+import java.awt.Color;
 /**
  *
  * @author Padilla
@@ -16,15 +20,27 @@ import javax.swing.JLabel;
 public class Principal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
+private GestionClientes gestionClientes = new GestionClientes();
+private GestionCanchas gestionCanchas = new GestionCanchas();
+private GestionReservas gestionReservas = new GestionReservas();
+private javax.swing.JPanel panelContenido;
 
+
+
+
+private ArchivoClientes archivoClientes = new ArchivoClientes();
     /**
      * Creates new form Principal
      */
-    public Principal() {
-        initComponents();
-        this.setLocationRelativeTo(this);
-         /*SetImageLabel(lblLogo, "src/Resources/la10Negro.png");*/
-    }
+public Principal() {
+    initComponents();
+    this.setLocationRelativeTo(null);
+
+    panelContenido = new javax.swing.JPanel(new java.awt.BorderLayout());
+   jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
+    System.out.println(archivoClientes.cargar(gestionClientes, "clientes.txt"));
+    mostrarPanel(new PnlInicio());
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,134 +54,357 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblDisponibilidad = new javax.swing.JLabel();
-        lblNuevaReserva = new javax.swing.JLabel();
+        lblInicio = new javax.swing.JLabel();
         lblClientes = new javax.swing.JLabel();
         lblPagos = new javax.swing.JLabel();
         lblReportes = new javax.swing.JLabel();
         lblConfiguracion = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogo2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        btnGuardarArchivos = new javax.swing.JButton();
+        lblNuevaReserva = new javax.swing.JLabel();
+        lblCanchas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setName("Principal"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1020, 640));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setMinimumSize(new java.awt.Dimension(1020, 640));
+        jPanel1.setMaximumSize(new java.awt.Dimension(1032, 652));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1032, 652));
         jPanel1.setName(""); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(1020, 640));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1032, 652));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 0));
+        jPanel2.setLayout(null);
 
         lblDisponibilidad.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblDisponibilidad.setForeground(new java.awt.Color(255, 255, 255));
         lblDisponibilidad.setText("Disponibilidad");
+        lblDisponibilidad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblDisponibilidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDisponibilidadMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblDisponibilidadMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblDisponibilidadMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblDisponibilidad);
+        lblDisponibilidad.setBounds(50, 240, 104, 29);
 
-        lblNuevaReserva.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
-        lblNuevaReserva.setForeground(new java.awt.Color(255, 255, 255));
-        lblNuevaReserva.setText("Nueva Reserva");
+        lblInicio.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblInicio.setForeground(new java.awt.Color(255, 255, 255));
+        lblInicio.setText("Inicio");
+        lblInicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                lblInicioFocusGained(evt);
+            }
+        });
+        lblInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblInicioMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblInicioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblInicioMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblInicio);
+        lblInicio.setBounds(50, 140, 105, 29);
 
         lblClientes.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblClientes.setForeground(new java.awt.Color(255, 255, 255));
         lblClientes.setText("Clientes");
+        lblClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblClientesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblClientesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblClientesMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblClientes);
+        lblClientes.setBounds(50, 340, 58, 29);
 
         lblPagos.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblPagos.setForeground(new java.awt.Color(255, 255, 255));
         lblPagos.setText("Pagos");
+        lblPagos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPagosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblPagosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblPagosMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblPagos);
+        lblPagos.setBounds(50, 390, 110, 29);
 
         lblReportes.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblReportes.setForeground(new java.awt.Color(255, 255, 255));
         lblReportes.setText("Reportes");
+        lblReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblReportes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblReportesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblReportesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblReportesMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblReportes);
+        lblReportes.setBounds(50, 450, 64, 29);
 
         lblConfiguracion.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
         lblConfiguracion.setText("Configuración");
+        lblConfiguracion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblConfiguracion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblConfiguracionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblConfiguracionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblConfiguracionMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblConfiguracion);
+        lblConfiguracion.setBounds(50, 500, 101, 29);
 
         lblLogo.setMaximumSize(new java.awt.Dimension(1099, 1201));
         lblLogo.setMinimumSize(new java.awt.Dimension(1099, 1201));
+        jPanel2.add(lblLogo);
+        lblLogo.setBounds(188, 117, 20, 0);
 
         lblLogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/la10Negro.png"))); // NOI18N
+        lblLogo2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblLogo2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogo2MouseClicked(evt);
+            }
+        });
+        jPanel2.add(lblLogo2);
+        lblLogo2.setBounds(20, 30, 150, 90);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDisponibilidad)
-                            .addComponent(lblNuevaReserva)
-                            .addComponent(lblClientes)
-                            .addComponent(lblPagos)
-                            .addComponent(lblReportes)
-                            .addComponent(lblConfiguracion)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addComponent(lblLogo2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(44, 44, 44))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(35, Short.MAX_VALUE)
-                        .addComponent(lblLogo2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)))
-                .addComponent(lblNuevaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(lblClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(lblPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(lblReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(lblConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(164, Short.MAX_VALUE))
-        );
+        btnGuardarArchivos.setBackground(new java.awt.Color(255, 255, 255));
+        btnGuardarArchivos.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
+        btnGuardarArchivos.setForeground(new java.awt.Color(0, 0, 0));
+        btnGuardarArchivos.setText("Guardar en Archivos");
+        btnGuardarArchivos.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        btnGuardarArchivos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarArchivos.addActionListener(this::btnGuardarArchivosActionPerformed);
+        jPanel2.add(btnGuardarArchivos);
+        btnGuardarArchivos.setBounds(30, 560, 150, 50);
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 640));
+        lblNuevaReserva.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblNuevaReserva.setForeground(new java.awt.Color(255, 255, 255));
+        lblNuevaReserva.setText("Nueva Reserva");
+        lblNuevaReserva.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblNuevaReserva.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNuevaReservaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblNuevaReservaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblNuevaReservaMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblNuevaReserva);
+        lblNuevaReserva.setBounds(50, 190, 105, 29);
 
-        jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 51, 0));
-        jLabel1.setText("La10");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, -1));
+        lblCanchas.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblCanchas.setForeground(new java.awt.Color(255, 255, 255));
+        lblCanchas.setText("Canchas");
+        lblCanchas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCanchas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCanchasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCanchasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCanchasMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblCanchas);
+        lblCanchas.setBounds(50, 290, 58, 29);
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 660));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
+       archivoClientes.guardar(gestionClientes, "clientes.txt");
+    javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
+    }//GEN-LAST:event_btnGuardarArchivosActionPerformed
+
+    private void lblLogo2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogo2MouseClicked
+       
+    }//GEN-LAST:event_lblLogo2MouseClicked
+
+    private void lblInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseClicked
+       mostrarPanel(new PnlInicio());
+    }//GEN-LAST:event_lblInicioMouseClicked
+
+    private void lblInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblInicioFocusGained
+      
+    }//GEN-LAST:event_lblInicioFocusGained
+
+    private void lblInicioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseEntered
+ 
+lblInicio.setForeground(Color.gray);
+    }//GEN-LAST:event_lblInicioMouseEntered
+
+    private void lblInicioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseExited
+   
+lblInicio.setForeground(Color.white);
+    }//GEN-LAST:event_lblInicioMouseExited
+
+    private void lblNuevaReservaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaReservaMouseExited
+      
+lblNuevaReserva.setForeground(Color.white);
+    }//GEN-LAST:event_lblNuevaReservaMouseExited
+
+    private void lblNuevaReservaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaReservaMouseEntered
+     
+lblNuevaReserva.setForeground(Color.gray);
+    }//GEN-LAST:event_lblNuevaReservaMouseEntered
+
+    private void lblDisponibilidadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDisponibilidadMouseEntered
+  
+lblDisponibilidad.setForeground(Color.gray);
+    }//GEN-LAST:event_lblDisponibilidadMouseEntered
+
+    private void lblClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseEntered
+     
+lblClientes.setForeground(Color.gray);
+    }//GEN-LAST:event_lblClientesMouseEntered
+
+    private void lblPagosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPagosMouseExited
+
+lblPagos.setForeground(Color.white);
+    }//GEN-LAST:event_lblPagosMouseExited
+
+    private void lblPagosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPagosMouseEntered
+         
+lblPagos.setForeground(Color.gray);
+    }//GEN-LAST:event_lblPagosMouseEntered
+
+    private void lblReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportesMouseEntered
+
+lblReportes.setForeground(Color.gray);
+    }//GEN-LAST:event_lblReportesMouseEntered
+
+    private void lblConfiguracionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseEntered
+
+lblConfiguracion.setForeground(Color.gray);
+    }//GEN-LAST:event_lblConfiguracionMouseEntered
+
+    private void lblDisponibilidadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDisponibilidadMouseExited
+              lblDisponibilidad.setBackground(Color.green);
+lblDisponibilidad.setForeground(Color.white);
+    }//GEN-LAST:event_lblDisponibilidadMouseExited
+
+    private void lblClientesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseExited
+             lblClientes.setBackground(Color.green);
+lblClientes.setForeground(Color.white);
+    }//GEN-LAST:event_lblClientesMouseExited
+
+    private void lblReportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportesMouseExited
+            lblReportes.setBackground(Color.green);
+lblReportes.setForeground(Color.white);
+    }//GEN-LAST:event_lblReportesMouseExited
+
+    private void lblConfiguracionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseExited
+            lblConfiguracion.setBackground(Color.green);
+lblConfiguracion.setForeground(Color.white);
+    }//GEN-LAST:event_lblConfiguracionMouseExited
+
+    private void lblCanchasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanchasMouseEntered
+      lblCanchas.setForeground(Color.gray);
+    }//GEN-LAST:event_lblCanchasMouseEntered
+
+    private void lblCanchasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanchasMouseExited
+       lblCanchas.setForeground(Color.white);
+    }//GEN-LAST:event_lblCanchasMouseExited
+
+    private void lblNuevaReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaReservaMouseClicked
+       mostrarPanel(new pnlNuevaReserva());
+    }//GEN-LAST:event_lblNuevaReservaMouseClicked
+
+    private void lblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseClicked
+    mostrarPanel(new pnlClientes(gestionClientes));
+    }//GEN-LAST:event_lblClientesMouseClicked
+
+    private void lblDisponibilidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDisponibilidadMouseClicked
+       mostrarPanel(new pnlDisponibilidad());
+    }//GEN-LAST:event_lblDisponibilidadMouseClicked
+
+    private void lblCanchasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanchasMouseClicked
+mostrarPanel(new pnlCanchas());
+    }//GEN-LAST:event_lblCanchasMouseClicked
+
+    private void lblPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPagosMouseClicked
+        mostrarPanel(new pnlPagos());
+    }//GEN-LAST:event_lblPagosMouseClicked
+
+    private void lblReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportesMouseClicked
+     mostrarPanel(new pnlReportes());
+    }//GEN-LAST:event_lblReportesMouseClicked
+
+    private void lblConfiguracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseClicked
+      mostrarPanel(new pnlConfiguracion());
+    }//GEN-LAST:event_lblConfiguracionMouseClicked
+
     /**
      * @param args the command line arguments
      */
+    
+    
+    
+    private void mostrarPanel(javax.swing.JPanel nuevo) {
+    panelContenido.removeAll();
+    panelContenido.add(nuevo, java.awt.BorderLayout.CENTER);
+    panelContenido.revalidate();
+    panelContenido.repaint();
+}
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -190,30 +429,18 @@ public class Principal extends javax.swing.JFrame {
         
     }
 
-/*
-  private void SetImageLabel(JLabel lblLogo, String root) {
-    ImageIcon image = new ImageIcon(root);
-    
- 
-    int ancho = lblLogo.getWidth() > 0 ? lblLogo.getWidth() : 100;
-    int alto = lblLogo.getHeight() > 0 ? lblLogo.getHeight() : 50;
 
-    Icon icon = new ImageIcon(
-        image.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH)
-    );
-    lblLogo.setIcon(icon);
-    this.repaint();
-}
-    */
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnGuardarArchivos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblCanchas;
     private javax.swing.JLabel lblClientes;
     private javax.swing.JLabel lblConfiguracion;
     private javax.swing.JLabel lblDisponibilidad;
+    private javax.swing.JLabel lblInicio;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo2;
     private javax.swing.JLabel lblNuevaReserva;

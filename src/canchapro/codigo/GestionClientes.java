@@ -11,6 +11,17 @@ package canchapro.codigo;
 public class GestionClientes {
     private Cliente[ ]  cliente = new Cliente [1000];
     private int cantClientes =0;
+
+    public Cliente[] getCliente() {
+        return cliente;
+    }
+
+    public int getCantClientes() {
+        return cantClientes;
+    }
+    
+    
+    
     
     
     
@@ -33,6 +44,43 @@ public class GestionClientes {
         return encontrado;
     }
     
+/*
+  public Cliente buscarClienteporNombre(String nombre) {
+    Cliente encontrado = null;
+    for (int i = 0; i < cantClientes; i++) {
+        if (cliente[i].getNombre().toLowerCase().contains(nombre.toLowerCase())) {
+            encontrado = cliente[i];
+        }
+    }
+    return encontrado;
+}  
+  */
+    
+    
+    public Cliente[] buscarClientesPorNombre(String nombre) {
+    
+    int contador = 0;
+    for (int i = 0; i < cantClientes; i++) {
+        if (cliente[i].getNombre().toLowerCase().contains(nombre.toLowerCase())) {
+            contador++;
+        }
+    }
+
+    // Array del tamaño exacto
+    Cliente[] resultado = new Cliente[contador];
+
+    // SEGUNDO CICLO: llenar el array
+    int posicion = 0;
+    for (int i = 0; i < cantClientes; i++) {
+        if (cliente[i].getNombre().toLowerCase().contains(nombre.toLowerCase())) {
+            resultado[posicion] = cliente[i];
+            posicion++;
+        }
+    }
+    return resultado;
+}
+  
+  
     
     public String agregarCliente(Cliente c){
         if (cantClientes >= cliente.length){
@@ -46,6 +94,8 @@ public class GestionClientes {
         if (buscarClienteporTelefono(c.getTelefono())!=null){
             return "Ya existe un cliente con ese numero de telefono";
         }
+        
+       
         cliente[cantClientes]= c;
         cantClientes ++;
         return "Cliente agregado correctamente";
