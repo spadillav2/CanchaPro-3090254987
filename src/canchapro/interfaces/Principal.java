@@ -4,6 +4,7 @@
  */
 package canchapro.interfaces;
 
+import ModuloTienda.ConfiguracionTienda;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -27,6 +28,11 @@ private javax.swing.JPanel panelContenido;
 
 
 
+//MODULO DE TIENDA
+private String teclasEscritas = "";
+private static final String CODIGO_TIENDA = "3090254987";
+private ConfiguracionTienda configuracion = new ConfiguracionTienda();
+private static final String RUTA_CONFIG = "configuracion.txt";
 
 private ArchivoClientes archivoClientes = new ArchivoClientes();
     /**
@@ -40,6 +46,19 @@ public Principal() {
    jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
     System.out.println(archivoClientes.cargar(gestionClientes, "clientes.txt"));
     mostrarPanel(new PnlInicio());
+    
+    configuracion.cargar(RUTA_CONFIG);
+lblTienda.setVisible(configuracion.isTiendaActiva());
+
+ chkTienda.setSelected(configuracion.isTiendaActiva());
+ 
+ 
+ DlgModuloTienda.setModal(true);
+DlgModuloTienda.setSize(500, 400);
+
+lblLogo2.setFocusable(true);
+btnGuardarArchivos.setFocusable(false);
+ 
 }
 
     /**
@@ -51,6 +70,12 @@ public Principal() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        DlgModuloTienda = new javax.swing.JDialog();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        chkTienda = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblDisponibilidad = new javax.swing.JLabel();
@@ -64,6 +89,54 @@ public Principal() {
         btnGuardarArchivos = new javax.swing.JButton();
         lblNuevaReserva = new javax.swing.JLabel();
         lblCanchas = new javax.swing.JLabel();
+        lblTienda = new javax.swing.JLabel();
+
+        DlgModuloTienda.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel3.setMaximumSize(new java.awt.Dimension(500, 400));
+        jPanel3.setMinimumSize(new java.awt.Dimension(500, 400));
+        jPanel3.setPreferredSize(new java.awt.Dimension(500, 400));
+        jPanel3.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Módulo Tienda");
+        jPanel3.add(jLabel1);
+        jLabel1.setBounds(160, 30, 190, 42);
+
+        chkTienda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        chkTienda.setForeground(new java.awt.Color(0, 51, 0));
+        chkTienda.setText("Módulo Activo");
+        chkTienda.addActionListener(this::chkTiendaActionPerformed);
+        jPanel3.add(chkTienda);
+        chkTienda.setBounds(170, 300, 160, 30);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/shop (1).jpg"))); // NOI18N
+        jLabel2.setAutoscrolls(true);
+        jLabel2.setMaximumSize(new java.awt.Dimension(200, 140));
+        jLabel2.setMinimumSize(new java.awt.Dimension(200, 140));
+        jLabel2.setPreferredSize(new java.awt.Dimension(200, 140));
+        jLabel2.setRequestFocusEnabled(false);
+        jPanel3.add(jLabel2);
+        jLabel2.setBounds(170, 140, 160, 140);
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Bienvenido al módulo tienda! Aqui podrá activarlo o desactivarlo.");
+        jPanel3.add(jLabel3);
+        jLabel3.setBounds(60, 100, 360, 16);
+
+        javax.swing.GroupLayout DlgModuloTiendaLayout = new javax.swing.GroupLayout(DlgModuloTienda.getContentPane());
+        DlgModuloTienda.getContentPane().setLayout(DlgModuloTiendaLayout);
+        DlgModuloTiendaLayout.setHorizontalGroup(
+            DlgModuloTiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        DlgModuloTiendaLayout.setVerticalGroup(
+            DlgModuloTiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -96,7 +169,7 @@ public Principal() {
             }
         });
         jPanel2.add(lblDisponibilidad);
-        lblDisponibilidad.setBounds(50, 240, 104, 29);
+        lblDisponibilidad.setBounds(50, 220, 104, 29);
 
         lblInicio.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblInicio.setForeground(new java.awt.Color(255, 255, 255));
@@ -119,7 +192,7 @@ public Principal() {
             }
         });
         jPanel2.add(lblInicio);
-        lblInicio.setBounds(50, 140, 105, 29);
+        lblInicio.setBounds(50, 130, 105, 29);
 
         lblClientes.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblClientes.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,7 +210,7 @@ public Principal() {
             }
         });
         jPanel2.add(lblClientes);
-        lblClientes.setBounds(50, 340, 58, 29);
+        lblClientes.setBounds(50, 320, 58, 29);
 
         lblPagos.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblPagos.setForeground(new java.awt.Color(255, 255, 255));
@@ -155,7 +228,7 @@ public Principal() {
             }
         });
         jPanel2.add(lblPagos);
-        lblPagos.setBounds(50, 390, 110, 29);
+        lblPagos.setBounds(50, 370, 110, 29);
 
         lblReportes.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblReportes.setForeground(new java.awt.Color(255, 255, 255));
@@ -173,7 +246,7 @@ public Principal() {
             }
         });
         jPanel2.add(lblReportes);
-        lblReportes.setBounds(50, 450, 64, 29);
+        lblReportes.setBounds(50, 420, 64, 29);
 
         lblConfiguracion.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,22 +264,27 @@ public Principal() {
             }
         });
         jPanel2.add(lblConfiguracion);
-        lblConfiguracion.setBounds(50, 500, 101, 29);
+        lblConfiguracion.setBounds(50, 470, 101, 29);
 
         lblLogo.setMaximumSize(new java.awt.Dimension(1099, 1201));
         lblLogo.setMinimumSize(new java.awt.Dimension(1099, 1201));
         jPanel2.add(lblLogo);
         lblLogo.setBounds(188, 117, 20, 0);
 
-        lblLogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/la10Negro.png"))); // NOI18N
+        lblLogo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/la10.png"))); // NOI18N
         lblLogo2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lblLogo2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblLogo2MouseClicked(evt);
             }
         });
+        lblLogo2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                lblLogo2KeyTyped(evt);
+            }
+        });
         jPanel2.add(lblLogo2);
-        lblLogo2.setBounds(20, 30, 150, 90);
+        lblLogo2.setBounds(30, 30, 150, 90);
 
         btnGuardarArchivos.setBackground(new java.awt.Color(255, 255, 255));
         btnGuardarArchivos.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
@@ -234,7 +312,7 @@ public Principal() {
             }
         });
         jPanel2.add(lblNuevaReserva);
-        lblNuevaReserva.setBounds(50, 190, 105, 29);
+        lblNuevaReserva.setBounds(50, 170, 105, 29);
 
         lblCanchas.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
         lblCanchas.setForeground(new java.awt.Color(255, 255, 255));
@@ -252,7 +330,25 @@ public Principal() {
             }
         });
         jPanel2.add(lblCanchas);
-        lblCanchas.setBounds(50, 290, 58, 29);
+        lblCanchas.setBounds(50, 270, 58, 29);
+
+        lblTienda.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
+        lblTienda.setForeground(new java.awt.Color(255, 255, 255));
+        lblTienda.setText("Tienda");
+        lblTienda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblTienda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblTiendaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblTiendaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblTiendaMouseExited(evt);
+            }
+        });
+        jPanel2.add(lblTienda);
+        lblTienda.setBounds(50, 510, 101, 29);
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 660));
 
@@ -271,12 +367,13 @@ public Principal() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
-       archivoClientes.guardar(gestionClientes, "clientes.txt");
+     archivoClientes.guardar(gestionClientes, "clientes.txt");
+configuracion.guardar(RUTA_CONFIG);
     javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
     }//GEN-LAST:event_btnGuardarArchivosActionPerformed
 
     private void lblLogo2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogo2MouseClicked
-       
+lblLogo2.requestFocusInWindow();       
     }//GEN-LAST:event_lblLogo2MouseClicked
 
     private void lblInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseClicked
@@ -393,6 +490,37 @@ mostrarPanel(new pnlCanchas());
       mostrarPanel(new pnlConfiguracion());
     }//GEN-LAST:event_lblConfiguracionMouseClicked
 
+    private void lblLogo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblLogo2KeyTyped
+     detectarTeclas(evt.getKeyChar());
+    }//GEN-LAST:event_lblLogo2KeyTyped
+
+       private void detectarTeclas(char tecla) {
+    teclasEscritas = teclasEscritas + tecla;
+    if (teclasEscritas.endsWith(CODIGO_TIENDA)) {
+        teclasEscritas = "";
+        chkTienda.setSelected(configuracion.isTiendaActiva());
+        DlgModuloTienda.setLocationRelativeTo(this);
+        DlgModuloTienda.setVisible(true);
+    }
+}
+    private void chkTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTiendaActionPerformed
+        configuracion.setTiendaActiva(chkTienda.isSelected());
+    actualizarMenuTienda();
+    DlgModuloTienda.setVisible(false);
+    }//GEN-LAST:event_chkTiendaActionPerformed
+
+    private void lblTiendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblTiendaMouseClicked
+
+    private void lblTiendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblTiendaMouseEntered
+
+    private void lblTiendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblTiendaMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -430,12 +558,25 @@ mostrarPanel(new pnlCanchas());
     }
 
 
+    
+    private void actualizarMenuTienda() {
+    lblTienda.setVisible(configuracion.isTiendaActiva());
+    if (!configuracion.isTiendaActiva()) {
+        mostrarPanel(new PnlInicio());
+    }
+}
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog DlgModuloTienda;
     private javax.swing.JButton btnGuardarArchivos;
+    private javax.swing.JCheckBox chkTienda;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblCanchas;
     private javax.swing.JLabel lblClientes;
     private javax.swing.JLabel lblConfiguracion;
@@ -446,6 +587,7 @@ mostrarPanel(new pnlCanchas());
     private javax.swing.JLabel lblNuevaReserva;
     private javax.swing.JLabel lblPagos;
     private javax.swing.JLabel lblReportes;
+    private javax.swing.JLabel lblTienda;
     // End of variables declaration//GEN-END:variables
 }
 
