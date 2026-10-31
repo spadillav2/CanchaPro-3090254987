@@ -5,13 +5,11 @@
 package canchapro.interfaces;
 
 import ModuloTienda.ConfiguracionTienda;
-import java.awt.Image;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+
 import canchapro.codigo.GestionCanchas;
 import canchapro.codigo.GestionClientes;
 import canchapro.codigo.GestionReservas;
+import canchaproArchivos.ArchivoCanchas;
 import canchaproArchivos.ArchivoClientes;
 import java.awt.Color;
 /**
@@ -25,6 +23,7 @@ private GestionClientes gestionClientes = new GestionClientes();
 private GestionCanchas gestionCanchas = new GestionCanchas();
 private GestionReservas gestionReservas = new GestionReservas();
 private javax.swing.JPanel panelContenido;
+private ArchivoCanchas archivoCanchas = new ArchivoCanchas();
 
 
 
@@ -44,7 +43,7 @@ public Principal() {
 
     panelContenido = new javax.swing.JPanel(new java.awt.BorderLayout());
    jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
-    System.out.println(archivoClientes.cargar(gestionClientes, "clientes.txt"));
+    System.out.println(archivoClientes.cargarArchivos(gestionClientes, "clientes.txt"));
     mostrarPanel(new PnlInicio());
     
     configuracion.cargar(RUTA_CONFIG);
@@ -368,6 +367,7 @@ btnGuardarArchivos.setFocusable(false);
 
     private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
      archivoClientes.guardar(gestionClientes, "clientes.txt");
+     archivoCanchas.guardarCanchas(gestionCanchas, "canchas.txt");
 configuracion.guardar(RUTA_CONFIG);
     javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
     }//GEN-LAST:event_btnGuardarArchivosActionPerformed
@@ -475,7 +475,7 @@ lblConfiguracion.setForeground(Color.white);
     }//GEN-LAST:event_lblDisponibilidadMouseClicked
 
     private void lblCanchasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanchasMouseClicked
-mostrarPanel(new pnlCanchas());
+mostrarPanel(new pnlCanchas(gestionCanchas));
     }//GEN-LAST:event_lblCanchasMouseClicked
 
     private void lblPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPagosMouseClicked
@@ -514,11 +514,11 @@ mostrarPanel(new pnlCanchas());
     }//GEN-LAST:event_lblTiendaMouseClicked
 
     private void lblTiendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseEntered
-        // TODO add your handling code here:
+       lblTienda.setForeground(Color.gray);
     }//GEN-LAST:event_lblTiendaMouseEntered
 
     private void lblTiendaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseExited
-        // TODO add your handling code here:
+lblTienda.setForeground(Color.white);
     }//GEN-LAST:event_lblTiendaMouseExited
 
     /**

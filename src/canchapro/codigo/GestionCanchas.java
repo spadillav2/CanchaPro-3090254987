@@ -51,6 +51,53 @@ public class GestionCanchas {
         return encontrada;
     }
     
+    
+    public Cancha[] buscarCanchasPorNombre(String texto) {
+    int contador = 0;
+    for (int i = 0; i < cantCancha; i++) {
+        if (cancha[i].getNombre().toLowerCase().contains(texto.toLowerCase())) {
+            contador++;
+        }
+    }
+
+    Cancha[] resultado = new Cancha[contador];
+    int posicion = 0;
+    for (int i = 0; i < cantCancha; i++) {
+        if (cancha[i].getNombre().toLowerCase().contains(texto.toLowerCase())) {
+            resultado[posicion] = cancha[i];
+            posicion++;
+        }
+    }
+    return resultado;
+}
+
+public Cancha[] buscarCanchasPorTipo(String tipo) {
+    int contador = 0;
+    for (int i = 0; i < cantCancha; i++) {
+        if (cancha[i].getTipo().equals(tipo)) {
+            contador++;
+        }
+    }
+
+    Cancha[] resultado = new Cancha[contador];
+    int posicion = 0;
+    for (int i = 0; i < cantCancha; i++) {
+        if (cancha[i].getTipo().equals(tipo)) {
+            resultado[posicion] = cancha[i];
+            posicion++;
+        }
+    }
+    return resultado;
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public String agregarCancha(Cancha chachacha){
         
         if (cantCancha>= cancha.length){

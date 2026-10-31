@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
-
+import canchapro.codigo.Cancha;
+import canchapro.codigo.GestionCanchas;
+import java.time.LocalTime;
+import java.util.HashSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Padilla
@@ -13,10 +18,53 @@ public class pnlCanchas extends javax.swing.JPanel {
     /**
      * Creates new form pnlCanchas
      */
-    public pnlCanchas() {
+    private GestionCanchas gestionCanchas;
+    public pnlCanchas(GestionCanchas gestion) {
         initComponents();
+        this.gestionCanchas=gestion;
+        limpiarCampos();
+        refrescarTabla();
     }
 
+    
+    
+    public void agregarFila(DefaultTableModel modelo, Cancha cancha){
+        modelo.addRow(new Object [] {cancha.getCodigo(),cancha.getNombre(),cancha.getTipo(),cancha.getCapacidad(),cancha.getPrecioBase(),cancha.getEstado(),cancha.getHoraApertura(),cancha.getHoraCierre()});
+    }
+    
+    public void refrescarTabla(){
+        DefaultTableModel modelo = (DefaultTableModel) tblCanchas.getModel();
+        modelo.setRowCount(0);
+        for (int i=0; i< gestionCanchas.getCantCancha();i++){
+            agregarFila(modelo, gestionCanchas.getCancha()[i]);
+        }
+    }
+    
+    private void limpiarCampos() {
+    txtCodigo.setText("");
+    txtNombre.setText("");
+    txtPrecioBase.setText("");
+    cmbTipo.setSelectedIndex(0);
+    cmbCapacidad.setSelectedIndex(0);
+    cmbEstado.setSelectedIndex(0);
+    spnHoraApertura.setValue(8);
+    spnMinutosApertura.setValue(0);
+    spnHoraCierre.setValue(23);
+    spnMinutosCierre.setValue(0);
+}
+
+    
+    private LocalTime leerApertura() {
+       LocalTime horaApertura= LocalTime.of((Integer)spnHoraApertura.getValue(),(Integer)spnMinutosApertura.getValue());
+    return horaApertura;
+}
+    
+    
+    private LocalTime leerCierre() {
+      LocalTime horaCierre=  LocalTime.of((Integer)spnHoraCierre.getValue(),(Integer) spnMinutosCierre.getValue());
+    return horaCierre;
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,21 +74,417 @@ public class pnlCanchas extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(0, 204, 204));
+        lblClientesTitulo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtPrecioBase = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cmbCapacidad = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        cmbTipo = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
+        spnMinutosApertura = new javax.swing.JSpinner();
+        spnHoraApertura = new javax.swing.JSpinner();
+        spnMinutosCierre = new javax.swing.JSpinner();
+        spnHoraCierre = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCanchas = new javax.swing.JTable();
+        btnAgregar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
-        );
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(null);
+
+        lblClientesTitulo.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
+        lblClientesTitulo.setForeground(new java.awt.Color(0, 51, 0));
+        lblClientesTitulo.setText("Canchas");
+        add(lblClientesTitulo);
+        lblClientesTitulo.setBounds(20, 20, 210, 62);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Tipo:");
+        add(jLabel3);
+        jLabel3.setBounds(30, 150, 50, 16);
+
+        txtPrecioBase.setBackground(new java.awt.Color(255, 255, 255));
+        txtPrecioBase.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPrecioBase.setForeground(new java.awt.Color(0, 0, 0));
+        txtPrecioBase.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(txtPrecioBase);
+        txtPrecioBase.setBounds(510, 150, 190, 22);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Cierre:");
+        add(jLabel2);
+        jLabel2.setBounds(520, 190, 90, 16);
+
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombre.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(txtNombre);
+        txtNombre.setBounds(420, 110, 360, 22);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Código:");
+        add(jLabel4);
+        jLabel4.setBounds(30, 110, 70, 16);
+
+        cmbCapacidad.setBackground(new java.awt.Color(255, 255, 255));
+        cmbCapacidad.setForeground(new java.awt.Color(0, 0, 0));
+        cmbCapacidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "14" }));
+        add(cmbCapacidad);
+        cmbCapacidad.setBounds(290, 150, 80, 22);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Precio Base: Q");
+        add(jLabel5);
+        jLabel5.setBounds(400, 150, 110, 16);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Nombre:");
+        add(jLabel6);
+        jLabel6.setBounds(340, 110, 70, 16);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Estado:");
+        add(jLabel7);
+        jLabel7.setBounds(30, 190, 70, 16);
+
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(txtCodigo);
+        txtCodigo.setBounds(90, 110, 190, 22);
+
+        cmbTipo.setBackground(new java.awt.Color(255, 255, 255));
+        cmbTipo.setForeground(new java.awt.Color(0, 0, 0));
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Futbol 5", "Futbol 7" }));
+        add(cmbTipo);
+        cmbTipo.setBounds(90, 150, 80, 22);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Capacidad:");
+        add(jLabel8);
+        jLabel8.setBounds(200, 150, 90, 16);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Apertura:");
+        add(jLabel9);
+        jLabel9.setBounds(270, 190, 90, 16);
+
+        cmbEstado.setBackground(new java.awt.Color(255, 255, 255));
+        cmbEstado.setForeground(new java.awt.Color(0, 0, 0));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "disponible", "inactiva", "mantenimiento" }));
+        add(cmbEstado);
+        cmbEstado.setBounds(90, 190, 150, 22);
+
+        spnMinutosApertura.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        add(spnMinutosApertura);
+        spnMinutosApertura.setBounds(420, 190, 64, 22);
+
+        spnHoraApertura.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+        add(spnHoraApertura);
+        spnHoraApertura.setBounds(350, 190, 64, 22);
+
+        spnMinutosCierre.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        add(spnMinutosCierre);
+        spnMinutosCierre.setBounds(650, 190, 64, 22);
+
+        spnHoraCierre.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+        add(spnHoraCierre);
+        spnHoraCierre.setBounds(580, 190, 64, 22);
+
+        tblCanchas.setBackground(new java.awt.Color(255, 255, 255));
+        tblCanchas.setForeground(new java.awt.Color(0, 0, 0));
+        tblCanchas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Código", "Nombre", "Tipo", "Capacidad", "Precio", "Estado", "Apertura", "Cierre"
+            }
+        ));
+        tblCanchas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCanchasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCanchas);
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(30, 310, 770, 290);
+
+        btnAgregar.setBackground(new java.awt.Color(0, 153, 51));
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregar.setText("Agregar");
+        btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAgregarMouseEntered(evt);
+            }
+        });
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
+        add(btnAgregar);
+        btnAgregar.setBounds(660, 250, 110, 30);
+
+        btnBuscar.setBackground(new java.awt.Color(0, 0, 204));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText(" Buscar");
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+        add(btnBuscar);
+        btnBuscar.setBounds(530, 250, 100, 30);
+
+        btnLimpiar.setBackground(new java.awt.Color(102, 0, 102));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
+        add(btnLimpiar);
+        btnLimpiar.setBounds(270, 250, 100, 30);
+
+        btnEditar.setBackground(new java.awt.Color(255, 153, 0));
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEditar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditar.setText("Editar");
+        btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarMouseClicked(evt);
+            }
+        });
+        btnEditar.addActionListener(this::btnEditarActionPerformed);
+        add(btnEditar);
+        btnEditar.setBounds(400, 250, 100, 30);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
+
+    }//GEN-LAST:event_btnAgregarMouseClicked
+
+    private void btnAgregarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseEntered
+
+    }//GEN-LAST:event_btnAgregarMouseEntered
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        String codigo = txtCodigo.getText().trim();
+        String nombre = txtNombre.getText().trim();
+        String precioTexto = txtPrecioBase.getText().trim();
+        if (codigo.isEmpty() || nombre.isEmpty() || precioTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Complete código, nombre y precio");
+        } else if (codigo.contains(",") || nombre.contains(",") || precioTexto.contains(",") ) {
+            JOptionPane.showMessageDialog(this, "No use comas en los campos");
+
+        } else {
+           try {
+               double precio = Double.parseDouble(precioTexto);
+               int capacidad = Integer.parseInt(cmbCapacidad.getSelectedItem().toString());
+               LocalTime apertura = leerApertura();
+               LocalTime cierre = leerCierre();
+                       
+               if(precio<=0){
+                   JOptionPane.showMessageDialog(null, "El precio debe ser mayor a 0");
+               }else if(!cierre.isAfter(apertura)){
+                   JOptionPane.showMessageDialog(null, "La hora de Apertura debe ser antes que la hora de Cierre");
+               }else{
+                   String tipo = cmbTipo.getSelectedItem().toString();
+                   
+                   Cancha nuevaCancha = new Cancha(codigo, nombre, cmbTipo.getSelectedItem().toString(), capacidad, precio, cmbEstado.getSelectedItem().toString(), apertura, cierre);
+                   String mensaje=gestionCanchas.agregarCancha(nuevaCancha);
+               JOptionPane.showMessageDialog(null, mensaje);
+               if (mensaje.equals("Cancha agregada correctamente")){
+                   limpiarCampos();
+                   refrescarTabla();
+               }
+               
+               }
+               
+               
+           }catch (NumberFormatException e){
+
+    JOptionPane.showMessageDialog(this, "El precio debe ser un número");
+    
+            }
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+
+    }//GEN-LAST:event_btnBuscarMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String codigo = txtCodigo.getText().trim();
+        String nombre = txtNombre.getText().trim();
+       String tipo=cmbTipo.getSelectedItem().toString();
+   
+
+        DefaultTableModel modelo = (DefaultTableModel) tblCanchas.getModel() ;   
+        modelo.setRowCount(0);
+        int encontrados = 0;
+
+        if (!codigo.isEmpty()) {
+            Cancha c= gestionCanchas.buscarCanchaporCodigo(codigo);
+  
+            if (c != null) {
+                agregarFila(modelo, c);
+                encontrados = 1;
+            }
+        } else if (!nombre.isEmpty()) {
+          Cancha[] listadoCanchas =gestionCanchas.buscarCanchasPorNombre(nombre);
+          for(int i=0;i<listadoCanchas.length;i++){
+              agregarFila (modelo,listadoCanchas[i]);
+                 
+            }
+          encontrados= listadoCanchas.length;
+        } else if (!tipo.isEmpty()) {
+            Cancha[] listadoCanchas = gestionCanchas.buscarCanchasPorTipo(tipo);
+     
+            for (int i = 0; i < listadoCanchas.length; i++) {
+                agregarFila(modelo, listadoCanchas[i]);
+            }
+            encontrados = listadoCanchas.length;
+        } else {
+            JOptionPane.showMessageDialog(this, "Escriba un código, nombre o tipo para buscar");
+            refrescarTabla();
+            return;
+        }
+
+        if (encontrados == 0) {
+            JOptionPane.showMessageDialog(this, "No se encontró ninguna cancha");
+            refrescarTabla();
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
+        limpiarCampos();
+        refrescarTabla();
+    }//GEN-LAST:event_btnLimpiarMouseClicked
+
+    private void btnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarMouseClicked
+
+    private void tblCanchasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCanchasMouseClicked
+        int fila = tblCanchas.getSelectedRow();
+    if (fila >= 0) {
+        String codigo = tblCanchas.getValueAt(fila, 0).toString();
+        Cancha c = gestionCanchas.buscarCanchaporCodigo(codigo);
+        if (c != null) {
+            txtCodigo.setText(c.getCodigo());
+            txtNombre.setText(c.getNombre());
+            txtPrecioBase.setText(String.valueOf(c.getPrecioBase()));
+            cmbTipo.setSelectedItem(c.getTipo());
+            cmbCapacidad.setSelectedItem(String.valueOf(c.getCapacidad()));
+            cmbEstado.setSelectedItem(c.getEstado());
+            spnHoraApertura.setValue(c.getHoraApertura().getHour());
+            spnMinutosApertura.setValue(c.getHoraApertura().getMinute());
+            spnHoraCierre.setValue(c.getHoraCierre().getHour());
+            spnMinutosCierre.setValue(c.getHoraCierre().getMinute());
+        }
+    }
+    }//GEN-LAST:event_tblCanchasMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       Cancha c = gestionCanchas.buscarCanchaporCodigo(txtCodigo.getText().trim());
+    String nombre = txtNombre.getText().trim();
+Cancha otra=gestionCanchas.buscarCanchaporCodigo(nombre);
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione una cancha de la tabla para editarla");
+    } else if (nombre.isEmpty() || nombre.contains(",")) {
+        JOptionPane.showMessageDialog(this, "Escriba un nombre válido, sin comas");
+    } else if (otra != null && otra != c) {
+        JOptionPane.showMessageDialog(this, "Ya existe otra cancha con ese nombre");
+    } else {
+        try {
+            double precio = Double.parseDouble(txtPrecioBase.getText().trim());
+            LocalTime apertura = leerApertura();
+            LocalTime cierre = leerCierre();
+
+            if (precio <= 0) {
+                JOptionPane.showMessageDialog(this, "El precio debe ser mayor a 0");
+            } else if (!cierre.isAfter(apertura)) {
+                JOptionPane.showMessageDialog(this, "La hora de cierre debe ser posterior a la de apertura");
+            } else {
+                c.setNombre(nombre);
+                c.setTipo(cmbTipo.getSelectedItem().toString());
+                c.setCapacidad(Integer.parseInt(cmbCapacidad.getSelectedItem().toString()));
+                c.setPrecioBase(precio);
+                c.setEstado(cmbEstado.getSelectedItem().toString());
+                c.setHoraApertura(apertura);
+                c.setHoraCierre(cierre);
+                JOptionPane.showMessageDialog(this, "Cancha actualizada correctamente");
+                limpiarCampos();
+                refrescarTabla();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El precio debe ser un número");
+        }
+    }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cmbCapacidad;
+    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblClientesTitulo;
+    private javax.swing.JSpinner spnHoraApertura;
+    private javax.swing.JSpinner spnHoraCierre;
+    private javax.swing.JSpinner spnMinutosApertura;
+    private javax.swing.JSpinner spnMinutosCierre;
+    private javax.swing.JTable tblCanchas;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecioBase;
     // End of variables declaration//GEN-END:variables
 }

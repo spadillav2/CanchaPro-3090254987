@@ -1,1 +1,1 @@
-modulo_tienda=false
+modulo_tienda=true

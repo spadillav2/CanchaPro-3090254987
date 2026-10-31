@@ -76,6 +76,9 @@ private void limpiarCampos() {
         btnBuscar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(832, 652));
+        setMinimumSize(new java.awt.Dimension(832, 652));
+        setPreferredSize(new java.awt.Dimension(832, 652));
         setLayout(null);
 
         tblClientes.setBackground(new java.awt.Color(255, 255, 255));

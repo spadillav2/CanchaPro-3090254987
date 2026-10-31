@@ -1,0 +1,3 @@
+CA01,La Bombonera,Futbol 5,10,150.0,disponible,08:00,23:00
+CA02,El Maracaná,Futbol 5,10,200.0,disponible,08:00,23:00
+CA03,El Monumental,Futbol 7,14,300.0,disponible,08:00,23:00

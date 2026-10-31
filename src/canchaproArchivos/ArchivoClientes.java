@@ -1,52 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package canchaproArchivos;
 
 import canchapro.codigo.Cliente;
 import canchapro.codigo.GestionClientes;
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 
-/**
- *
- * @author Padilla
- */
 public class ArchivoClientes {
-    
+
     public void guardar(GestionClientes gestion, String ruta) {
         try {
-            PrintWriter escritor = new PrintWriter(ruta);
+            FileWriter fw = new FileWriter(ruta);
+            BufferedWriter bw = new BufferedWriter(fw);
             for (int i = 0; i < gestion.getCantClientes(); i++) {
                 Cliente c = gestion.getCliente()[i];
                 String correo = c.getCorreo();
                 if (correo == null) {
                     correo = "";
                 }
-                escritor.println(c.getCodigo() + "," + c.getNombre() + "," + c.getTelefono() + "," + c.getFechaRegistro() + "," + correo);
+                bw.write(c.getCodigo() + "," + c.getNombre() + "," + c.getTelefono() + "," + c.getFechaRegistro() + "," + correo);
+                bw.newLine();
             }
-            escritor.close();
+            bw.close();
         } catch (IOException e) {
             System.out.println("Error al guardar clientes: " + e.getMessage());
         }
     }
 
-    public String cargar(GestionClientes gestion, String ruta) {
-        File archivo = new File(ruta);
-        if (!archivo.exists()) {
-            return "No existe " + ruta + ", se inicia sin clientes";
-        }
-
+    public String cargarArchivos(GestionClientes gestion, String ruta) {
         int cargados = 0;
         int errores = 0;
         try {
-            BufferedReader lector = new BufferedReader(new FileReader(archivo));
-            String linea = lector.readLine();
+            FileReader fr = new FileReader(ruta);
+            BufferedReader br = new BufferedReader(fr);
+            String linea = br.readLine();
             while (linea != null) {
                 if (!linea.trim().isEmpty()) {
                     try {
@@ -65,11 +55,11 @@ public class ArchivoClientes {
                         errores++;
                     }
                 }
-                linea = lector.readLine();
+                linea = br.readLine();
             }
-            lector.close();
+            br.close();
         } catch (IOException e) {
-            return "Error al leer el archivo: " + e.getMessage();
+            return "No se pudo leer " + ruta + ": " + e.getMessage();
         }
         return "Clientes cargados: " + cargados + ", lineas con error: " + errores;
     }

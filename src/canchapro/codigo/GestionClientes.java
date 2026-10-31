@@ -44,17 +44,7 @@ public class GestionClientes {
         return encontrado;
     }
     
-/*
-  public Cliente buscarClienteporNombre(String nombre) {
-    Cliente encontrado = null;
-    for (int i = 0; i < cantClientes; i++) {
-        if (cliente[i].getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-            encontrado = cliente[i];
-        }
-    }
-    return encontrado;
-}  
-  */
+
     
     
     public Cliente[] buscarClientesPorNombre(String nombre) {
@@ -66,10 +56,10 @@ public class GestionClientes {
         }
     }
 
-    // Array del tamaño exacto
+    
     Cliente[] resultado = new Cliente[contador];
 
-    // SEGUNDO CICLO: llenar el array
+ 
     int posicion = 0;
     for (int i = 0; i < cantClientes; i++) {
         if (cliente[i].getNombre().toLowerCase().contains(nombre.toLowerCase())) {
