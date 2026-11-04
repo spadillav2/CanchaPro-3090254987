@@ -25,7 +25,7 @@ public class ArchivoCanchas {
             BufferedWriter bw = new BufferedWriter(fw);
             for (int i = 0; i < gestion.getCantCancha(); i++) {
                 Cancha c = gestion.getCancha()[i];
-                bw.write(c.getCodigo() + "," + c.getNombre() + "," + c.getTipo() + "," + c.getCapacidad() + "," + c.getPrecioBase() + "," + c.getEstado() + "," + c.getHoraApertura() + "," + c.getHoraCierre());
+                bw.write(c.getCodigo() + "," + c.getNombre() + "," + c.getTipo() + "," + c.getCapacidad()  + "," + c.getEstado() + "," + c.getHoraApertura() + "," + c.getHoraCierre());
                 bw.newLine();
             }
             bw.close();
@@ -45,7 +45,7 @@ public class ArchivoCanchas {
                 if (!linea.trim().isEmpty()) {
                     try {
                         String[] datos = linea.split(",");
-                        Cancha c = new Cancha(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), Double.parseDouble(datos[4]), datos[5], LocalTime.parse(datos[6]), LocalTime.parse(datos[7]));
+                        Cancha c = new Cancha(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), datos[4], LocalTime.parse(datos[5]), LocalTime.parse(datos[6]));
                         String mensaje = gestion.agregarCancha(c);
                         if (mensaje.equals("Cancha agregada correctamente")) {
                             cargados++;

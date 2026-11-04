@@ -4,17 +4,36 @@
  */
 package canchapro.interfaces;
 
+import canchapro.codigo.Cliente;
+import canchapro.codigo.GestionClientes;
+import canchapro.codigo.GestionCanchas;
+import canchapro.codigo.GestionReservas;
+import javax.swing.JOptionPane;
+import canchapro.interfaces.pnlClientes;
+import canchapro.codigo.Tarifa;
 /**
  *
  * @author Padilla
  */
+
+
 public class pnlNuevaReserva extends javax.swing.JPanel {
 
     /**
      * Creates new form pnlNuevaReserva
      */
-    public pnlNuevaReserva() {
+    private GestionClientes gestionClientes;
+    private GestionCanchas gestionCanchas;
+    private Tarifa tarifa;
+    private Principal principal;
+    public pnlNuevaReserva(GestionClientes gClientes, GestionCanchas gCanchas, GestionReservas gReservas, Tarifa t, Principal p) {
         initComponents();
+        this.gestionClientes=gClientes;
+        this.gestionCanchas=gCanchas;
+        this.tarifa = t;
+    this.principal = p;
+
+    listarClientes();
     }
 
     /**
@@ -26,23 +45,752 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(255, 255, 102));
+        DlgConfirmacion = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnNo = new javax.swing.JButton();
+        btnSi = new javax.swing.JButton();
+        lblNuevaReservaTitulo = new javax.swing.JLabel();
+        txtCodigoReserva = new javax.swing.JTextField();
+        lblCodigoReserva = new javax.swing.JLabel();
+        pnlDatosCliente = new javax.swing.JPanel();
+        btnBuscar = new javax.swing.JButton();
+        txtCorreoCliente = new javax.swing.JTextField();
+        txtTelefonoCliente = new javax.swing.JTextField();
+        lblTelefonoCliente = new javax.swing.JLabel();
+        lblCodigoCliente = new javax.swing.JLabel();
+        txtCodigoCliente = new javax.swing.JTextField();
+        lblCorreoCliente = new javax.swing.JLabel();
+        lblNombreCliente = new javax.swing.JLabel();
+        lblDatosCliente = new javax.swing.JLabel();
+        btnAgregar = new javax.swing.JButton();
+        cmbNombreCliente = new javax.swing.JComboBox<>();
+        pnlHorario = new javax.swing.JPanel();
+        lblFechaReserva = new javax.swing.JLabel();
+        jdateFechaReserva = new com.toedter.calendar.JDateChooser();
+        lblDuracionReserva = new javax.swing.JLabel();
+        lblInicioReserva = new javax.swing.JLabel();
+        spnDuracionMinutos = new javax.swing.JSpinner();
+        lblFinReserva = new javax.swing.JLabel();
+        spnInicioHora = new javax.swing.JSpinner();
+        spnInicioMinutos = new javax.swing.JSpinner();
+        spnDuracionHora = new javax.swing.JSpinner();
+        lblDatosHorario = new javax.swing.JLabel();
+        txtFin = new javax.swing.JTextField();
+        btnDisponibilidad = new javax.swing.JButton();
+        pnlDatosCancha = new javax.swing.JPanel();
+        lblTipoCancha = new javax.swing.JLabel();
+        cmbTipo = new javax.swing.JComboBox<>();
+        cmbCapacidad = new javax.swing.JComboBox<>();
+        lblCodigoCancha = new javax.swing.JLabel();
+        lblNombreCancha = new javax.swing.JLabel();
+        cmbNombreCancha = new javax.swing.JComboBox<>();
+        lblCapacidadCancha = new javax.swing.JLabel();
+        lblDatosCancha = new javax.swing.JLabel();
+        lblTarifa = new javax.swing.JLabel();
+        txtTarifa = new javax.swing.JTextField();
+        txtCodigoCancha = new javax.swing.JTextField();
+        btnTarifa = new javax.swing.JButton();
+        pnlDatosServicios = new javax.swing.JPanel();
+        lblServicioAdicional = new javax.swing.JLabel();
+        cmbServiciosAdicionales = new javax.swing.JComboBox<>();
+        btnTotalServicios = new javax.swing.JTextField();
+        btnEliminar = new javax.swing.JButton();
+        lblTotalServicios = new javax.swing.JLabel();
+        rbnTienda = new javax.swing.JRadioButton();
+        btnDesgloseTienda = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        lblTotalReserva = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
+        btnCrearReserva = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblServicios = new javax.swing.JTable();
+        lblSaldo = new javax.swing.JLabel();
+        txtSaldo = new javax.swing.JTextField();
+        lblMetodo = new javax.swing.JLabel();
+        txtAnticipo = new javax.swing.JTextField();
+        btnLimpiar = new javax.swing.JButton();
+        pnlDatosCliente2 = new javax.swing.JPanel();
+        pnlHorario2 = new javax.swing.JPanel();
+        pnlDatosCancha2 = new javax.swing.JPanel();
+        pnlDatosServicios2 = new javax.swing.JPanel();
+        lblAnticipo = new javax.swing.JLabel();
+        cmbMetodoPago = new javax.swing.JComboBox<>();
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("¿Está seguro de que desea continuar?");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(40, 80, 270, 30);
+
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Será redigirido a \"Agregar Clientes\". ");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(50, 50, 270, 30);
+
+        btnNo.setBackground(new java.awt.Color(255, 51, 51));
+        btnNo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnNo.setForeground(new java.awt.Color(0, 0, 0));
+        btnNo.setText("No");
+        btnNo.addActionListener(this::btnNoActionPerformed);
+        jPanel1.add(btnNo);
+        btnNo.setBounds(190, 130, 60, 23);
+
+        btnSi.setBackground(new java.awt.Color(102, 255, 102));
+        btnSi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSi.setForeground(new java.awt.Color(0, 0, 0));
+        btnSi.setText("Sí");
+        btnSi.addActionListener(this::btnSiActionPerformed);
+        jPanel1.add(btnSi);
+        btnSi.setBounds(90, 130, 60, 23);
+
+        javax.swing.GroupLayout DlgConfirmacionLayout = new javax.swing.GroupLayout(DlgConfirmacion.getContentPane());
+        DlgConfirmacion.getContentPane().setLayout(DlgConfirmacionLayout);
+        DlgConfirmacionLayout.setHorizontalGroup(
+            DlgConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        DlgConfirmacionLayout.setVerticalGroup(
+            DlgConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(832, 652));
         setPreferredSize(new java.awt.Dimension(832, 652));
+        setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+        lblNuevaReservaTitulo.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
+        lblNuevaReservaTitulo.setForeground(new java.awt.Color(0, 51, 0));
+        lblNuevaReservaTitulo.setText("Nueva Reserva");
+        add(lblNuevaReservaTitulo);
+        lblNuevaReservaTitulo.setBounds(20, 10, 400, 62);
+
+        txtCodigoReserva.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigoReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCodigoReserva.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigoReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCodigoReserva.addActionListener(this::txtCodigoReservaActionPerformed);
+        add(txtCodigoReserva);
+        txtCodigoReserva.setBounds(590, 40, 190, 22);
+
+        lblCodigoReserva.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCodigoReserva.setForeground(new java.awt.Color(0, 0, 0));
+        lblCodigoReserva.setText("Código:");
+        add(lblCodigoReserva);
+        lblCodigoReserva.setBounds(520, 40, 70, 20);
+
+        pnlDatosCliente.setBackground(new java.awt.Color(204, 204, 204));
+        pnlDatosCliente.setLayout(null);
+
+        btnBuscar.setBackground(new java.awt.Color(0, 153, 153));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lupa.png"))); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+        pnlDatosCliente.add(btnBuscar);
+        btnBuscar.setBounds(640, 40, 110, 30);
+
+        txtCorreoCliente.setBackground(new java.awt.Color(255, 255, 255));
+        txtCorreoCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCorreoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        txtCorreoCliente.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosCliente.add(txtCorreoCliente);
+        txtCorreoCliente.setBounds(310, 50, 300, 22);
+
+        txtTelefonoCliente.setBackground(new java.awt.Color(255, 255, 255));
+        txtTelefonoCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTelefonoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        txtTelefonoCliente.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosCliente.add(txtTelefonoCliente);
+        txtTelefonoCliente.setBounds(90, 50, 140, 22);
+
+        lblTelefonoCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTelefonoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        lblTelefonoCliente.setText("Telefono:");
+        pnlDatosCliente.add(lblTelefonoCliente);
+        lblTelefonoCliente.setBounds(20, 50, 70, 16);
+
+        lblCodigoCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCodigoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        lblCodigoCliente.setText("Código:");
+        pnlDatosCliente.add(lblCodigoCliente);
+        lblCodigoCliente.setBounds(20, 30, 90, 16);
+
+        txtCodigoCliente.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigoCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCodigoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigoCliente.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosCliente.add(txtCodigoCliente);
+        txtCodigoCliente.setBounds(90, 20, 140, 22);
+
+        lblCorreoCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCorreoCliente.setForeground(new java.awt.Color(0, 0, 0));
+        lblCorreoCliente.setText("Correo:");
+        pnlDatosCliente.add(lblCorreoCliente);
+        lblCorreoCliente.setBounds(240, 50, 70, 16);
+
+        lblNombreCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblNombreCliente.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombreCliente.setText("Nombre:");
+        pnlDatosCliente.add(lblNombreCliente);
+        lblNombreCliente.setBounds(240, 20, 70, 16);
+
+        lblDatosCliente.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosCliente.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosCliente.setText("DATOS DEL CLIENTE");
+        pnlDatosCliente.add(lblDatosCliente);
+        lblDatosCliente.setBounds(10, 0, 190, 20);
+
+        btnAgregar.setBackground(new java.awt.Color(0, 102, 255));
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/add.png"))); // NOI18N
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
+        pnlDatosCliente.add(btnAgregar);
+        btnAgregar.setBounds(640, 3, 110, 27);
+
+        cmbNombreCliente.setBackground(new java.awt.Color(255, 255, 255));
+        cmbNombreCliente.setForeground(new java.awt.Color(0, 0, 0));
+        cmbNombreCliente.addActionListener(this::cmbNombreClienteActionPerformed);
+        pnlDatosCliente.add(cmbNombreCliente);
+        cmbNombreCliente.setBounds(310, 20, 300, 22);
+
+        add(pnlDatosCliente);
+        pnlDatosCliente.setBounds(50, 80, 760, 80);
+
+        pnlHorario.setBackground(new java.awt.Color(204, 204, 204));
+        pnlHorario.setLayout(null);
+
+        lblFechaReserva.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFechaReserva.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechaReserva.setText("Fecha:");
+        pnlHorario.add(lblFechaReserva);
+        lblFechaReserva.setBounds(110, 10, 70, 20);
+
+        jdateFechaReserva.setBackground(new java.awt.Color(255, 255, 255));
+        jdateFechaReserva.setForeground(new java.awt.Color(0, 0, 0));
+        pnlHorario.add(jdateFechaReserva);
+        jdateFechaReserva.setBounds(180, 10, 120, 20);
+
+        lblDuracionReserva.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblDuracionReserva.setForeground(new java.awt.Color(0, 0, 0));
+        lblDuracionReserva.setText("Duración:");
+        pnlHorario.add(lblDuracionReserva);
+        lblDuracionReserva.setBounds(330, 40, 80, 30);
+
+        lblInicioReserva.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblInicioReserva.setForeground(new java.awt.Color(0, 0, 0));
+        lblInicioReserva.setText("Inicio:");
+        pnlHorario.add(lblInicioReserva);
+        lblInicioReserva.setBounds(10, 40, 60, 16);
+
+        spnDuracionMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        pnlHorario.add(spnDuracionMinutos);
+        spnDuracionMinutos.setBounds(460, 40, 50, 22);
+
+        lblFinReserva.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFinReserva.setForeground(new java.awt.Color(0, 0, 0));
+        lblFinReserva.setText("Fin:");
+        pnlHorario.add(lblFinReserva);
+        lblFinReserva.setBounds(180, 40, 40, 30);
+
+        spnInicioHora.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+        pnlHorario.add(spnInicioHora);
+        spnInicioHora.setBounds(60, 40, 50, 22);
+
+        spnInicioMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        pnlHorario.add(spnInicioMinutos);
+        spnInicioMinutos.setBounds(120, 40, 50, 22);
+
+        spnDuracionHora.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
+        pnlHorario.add(spnDuracionHora);
+        spnDuracionHora.setBounds(400, 40, 50, 22);
+
+        lblDatosHorario.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario.setText("HORARIO");
+        pnlHorario.add(lblDatosHorario);
+        lblDatosHorario.setBounds(10, 0, 85, 20);
+
+        txtFin.setEditable(false);
+        txtFin.setBackground(new java.awt.Color(255, 255, 255));
+        txtFin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtFin.setForeground(new java.awt.Color(0, 0, 0));
+        txtFin.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtFin.addActionListener(this::txtFinActionPerformed);
+        pnlHorario.add(txtFin);
+        txtFin.setBounds(210, 40, 110, 22);
+
+        btnDisponibilidad.setBackground(new java.awt.Color(0, 153, 0));
+        btnDisponibilidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDisponibilidad.setForeground(new java.awt.Color(255, 255, 255));
+        btnDisponibilidad.setText("Consultar Disponibilidad");
+        pnlHorario.add(btnDisponibilidad);
+        btnDisponibilidad.setBounds(550, 20, 200, 30);
+
+        add(pnlHorario);
+        pnlHorario.setBounds(50, 170, 760, 80);
+
+        pnlDatosCancha.setBackground(new java.awt.Color(204, 204, 204));
+        pnlDatosCancha.setLayout(null);
+
+        lblTipoCancha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTipoCancha.setForeground(new java.awt.Color(0, 0, 0));
+        lblTipoCancha.setText("Tipo:");
+        pnlDatosCancha.add(lblTipoCancha);
+        lblTipoCancha.setBounds(10, 60, 50, 16);
+
+        cmbTipo.setBackground(new java.awt.Color(255, 255, 255));
+        cmbTipo.setForeground(new java.awt.Color(0, 0, 0));
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Futbol 5", "Futbol 7" }));
+        pnlDatosCancha.add(cmbTipo);
+        cmbTipo.setBounds(70, 60, 80, 22);
+
+        cmbCapacidad.setBackground(new java.awt.Color(255, 255, 255));
+        cmbCapacidad.setForeground(new java.awt.Color(0, 0, 0));
+        cmbCapacidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "14" }));
+        pnlDatosCancha.add(cmbCapacidad);
+        cmbCapacidad.setBounds(270, 60, 80, 22);
+
+        lblCodigoCancha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCodigoCancha.setForeground(new java.awt.Color(0, 0, 0));
+        lblCodigoCancha.setText("Código:");
+        pnlDatosCancha.add(lblCodigoCancha);
+        lblCodigoCancha.setBounds(10, 30, 70, 20);
+
+        lblNombreCancha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblNombreCancha.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombreCancha.setText("Nombre:");
+        pnlDatosCancha.add(lblNombreCancha);
+        lblNombreCancha.setBounds(200, 30, 70, 16);
+
+        cmbNombreCancha.setBackground(new java.awt.Color(255, 255, 255));
+        cmbNombreCancha.setForeground(new java.awt.Color(0, 0, 0));
+        cmbNombreCancha.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlDatosCancha.add(cmbNombreCancha);
+        cmbNombreCancha.setBounds(270, 30, 320, 22);
+
+        lblCapacidadCancha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCapacidadCancha.setForeground(new java.awt.Color(0, 0, 0));
+        lblCapacidadCancha.setText("Capacidad:");
+        pnlDatosCancha.add(lblCapacidadCancha);
+        lblCapacidadCancha.setBounds(180, 60, 90, 16);
+
+        lblDatosCancha.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosCancha.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosCancha.setText("CANCHA");
+        pnlDatosCancha.add(lblDatosCancha);
+        lblDatosCancha.setBounds(10, 0, 85, 20);
+
+        lblTarifa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTarifa.setForeground(new java.awt.Color(0, 0, 0));
+        lblTarifa.setText("Tarifa");
+        pnlDatosCancha.add(lblTarifa);
+        lblTarifa.setBounds(370, 60, 90, 16);
+
+        txtTarifa.setEditable(false);
+        txtTarifa.setBackground(new java.awt.Color(255, 255, 255));
+        txtTarifa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTarifa.setForeground(new java.awt.Color(0, 0, 0));
+        txtTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosCancha.add(txtTarifa);
+        txtTarifa.setBounds(430, 60, 120, 22);
+
+        txtCodigoCancha.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigoCancha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCodigoCancha.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigoCancha.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosCancha.add(txtCodigoCancha);
+        txtCodigoCancha.setBounds(70, 30, 120, 22);
+
+        btnTarifa.setBackground(new java.awt.Color(0, 153, 0));
+        btnTarifa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTarifa.setForeground(new java.awt.Color(255, 255, 255));
+        btnTarifa.setText("Calcular Tarifa");
+        pnlDatosCancha.add(btnTarifa);
+        btnTarifa.setBounds(610, 30, 140, 30);
+
+        add(pnlDatosCancha);
+        pnlDatosCancha.setBounds(50, 260, 760, 90);
+
+        pnlDatosServicios.setBackground(new java.awt.Color(204, 204, 204));
+        pnlDatosServicios.setLayout(null);
+
+        lblServicioAdicional.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblServicioAdicional.setForeground(new java.awt.Color(51, 51, 51));
+        lblServicioAdicional.setText("SERVICIO ADICIONAL");
+        pnlDatosServicios.add(lblServicioAdicional);
+        lblServicioAdicional.setBounds(10, 10, 200, 25);
+
+        cmbServiciosAdicionales.setBackground(new java.awt.Color(255, 255, 255));
+        cmbServiciosAdicionales.setForeground(new java.awt.Color(0, 0, 0));
+        cmbServiciosAdicionales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlDatosServicios.add(cmbServiciosAdicionales);
+        cmbServiciosAdicionales.setBounds(220, 20, 410, 22);
+
+        btnTotalServicios.setEditable(false);
+        btnTotalServicios.setBackground(new java.awt.Color(255, 255, 255));
+        btnTotalServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnTotalServicios.setForeground(new java.awt.Color(0, 0, 0));
+        btnTotalServicios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosServicios.add(btnTotalServicios);
+        btnTotalServicios.setBounds(510, 60, 120, 22);
+
+        btnEliminar.setBackground(new java.awt.Color(255, 153, 0));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        pnlDatosServicios.add(btnEliminar);
+        btnEliminar.setBounds(650, 50, 100, 30);
+
+        lblTotalServicios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotalServicios.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotalServicios.setText("Total Servicios:");
+        pnlDatosServicios.add(lblTotalServicios);
+        lblTotalServicios.setBounds(390, 60, 110, 16);
+
+        rbnTienda.setBackground(new java.awt.Color(255, 255, 255));
+        rbnTienda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        rbnTienda.setForeground(new java.awt.Color(0, 0, 0));
+        rbnTienda.setText("Añadir Total Tienda");
+        pnlDatosServicios.add(rbnTienda);
+        rbnTienda.setBounds(20, 50, 180, 25);
+
+        btnDesgloseTienda.setBackground(new java.awt.Color(255, 204, 0));
+        btnDesgloseTienda.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDesgloseTienda.setForeground(new java.awt.Color(0, 0, 0));
+        btnDesgloseTienda.setText("Ver desglose de Tienda");
+        pnlDatosServicios.add(btnDesgloseTienda);
+        btnDesgloseTienda.setBounds(210, 50, 160, 23);
+
+        btnAdd.setBackground(new java.awt.Color(255, 153, 0));
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setText("Añadir");
+        pnlDatosServicios.add(btnAdd);
+        btnAdd.setBounds(650, 10, 100, 30);
+
+        add(pnlDatosServicios);
+        pnlDatosServicios.setBounds(50, 360, 760, 90);
+
+        lblTotalReserva.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTotalReserva.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotalReserva.setText("Total:");
+        add(lblTotalReserva);
+        lblTotalReserva.setBounds(130, 560, 80, 40);
+
+        txtTotal.setEditable(false);
+        txtTotal.setBackground(new java.awt.Color(204, 204, 204));
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtTotal.setForeground(new java.awt.Color(0, 0, 0));
+        add(txtTotal);
+        txtTotal.setBounds(210, 560, 110, 40);
+
+        btnCrearReserva.setBackground(new java.awt.Color(0, 51, 0));
+        btnCrearReserva.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCrearReserva.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearReserva.setText("Crear Reserva");
+        add(btnCrearReserva);
+        btnCrearReserva.setBounds(620, 580, 160, 40);
+
+        tblServicios.setBackground(new java.awt.Color(255, 255, 255));
+        tblServicios.setForeground(new java.awt.Color(0, 0, 0));
+        tblServicios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Codigo", "Servicio", "Precio"
+            }
+        ));
+        jScrollPane1.setViewportView(tblServicios);
+        if (tblServicios.getColumnModel().getColumnCount() > 0) {
+            tblServicios.getColumnModel().getColumn(0).setResizable(false);
+            tblServicios.getColumnModel().getColumn(0).setPreferredWidth(150);
+            tblServicios.getColumnModel().getColumn(1).setResizable(false);
+            tblServicios.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tblServicios.getColumnModel().getColumn(2).setResizable(false);
+            tblServicios.getColumnModel().getColumn(2).setPreferredWidth(150);
+        }
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(40, 460, 760, 90);
+
+        lblSaldo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblSaldo.setForeground(new java.awt.Color(0, 0, 0));
+        lblSaldo.setText("Saldo:");
+        add(lblSaldo);
+        lblSaldo.setBounds(140, 620, 90, 20);
+
+        txtSaldo.setEditable(false);
+        txtSaldo.setBackground(new java.awt.Color(255, 255, 255));
+        txtSaldo.setForeground(new java.awt.Color(0, 0, 0));
+        add(txtSaldo);
+        txtSaldo.setBounds(210, 610, 110, 30);
+
+        lblMetodo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblMetodo.setForeground(new java.awt.Color(0, 0, 0));
+        lblMetodo.setText("Método:");
+        add(lblMetodo);
+        lblMetodo.setBounds(350, 610, 90, 20);
+
+        txtAnticipo.setBackground(new java.awt.Color(255, 255, 255));
+        txtAnticipo.setForeground(new java.awt.Color(0, 0, 0));
+        add(txtAnticipo);
+        txtAnticipo.setBounds(440, 570, 120, 30);
+
+        btnLimpiar.setBackground(new java.awt.Color(153, 255, 255));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
+        btnLimpiar.setText("Limpiar");
+        add(btnLimpiar);
+        btnLimpiar.setBounds(30, 610, 80, 30);
+
+        pnlDatosCliente2.setBackground(new java.awt.Color(0, 153, 153));
+
+        javax.swing.GroupLayout pnlDatosCliente2Layout = new javax.swing.GroupLayout(pnlDatosCliente2);
+        pnlDatosCliente2.setLayout(pnlDatosCliente2Layout);
+        pnlDatosCliente2Layout.setHorizontalGroup(
+            pnlDatosCliente2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+        pnlDatosCliente2Layout.setVerticalGroup(
+            pnlDatosCliente2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
         );
+
+        add(pnlDatosCliente2);
+        pnlDatosCliente2.setBounds(30, 80, 20, 80);
+
+        pnlHorario2.setBackground(new java.awt.Color(204, 204, 255));
+
+        javax.swing.GroupLayout pnlHorario2Layout = new javax.swing.GroupLayout(pnlHorario2);
+        pnlHorario2.setLayout(pnlHorario2Layout);
+        pnlHorario2Layout.setHorizontalGroup(
+            pnlHorario2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        pnlHorario2Layout.setVerticalGroup(
+            pnlHorario2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        add(pnlHorario2);
+        pnlHorario2.setBounds(30, 170, 20, 80);
+
+        pnlDatosCancha2.setBackground(new java.awt.Color(0, 153, 0));
+
+        javax.swing.GroupLayout pnlDatosCancha2Layout = new javax.swing.GroupLayout(pnlDatosCancha2);
+        pnlDatosCancha2.setLayout(pnlDatosCancha2Layout);
+        pnlDatosCancha2Layout.setHorizontalGroup(
+            pnlDatosCancha2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        pnlDatosCancha2Layout.setVerticalGroup(
+            pnlDatosCancha2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 90, Short.MAX_VALUE)
+        );
+
+        add(pnlDatosCancha2);
+        pnlDatosCancha2.setBounds(30, 260, 20, 90);
+
+        pnlDatosServicios2.setBackground(new java.awt.Color(255, 204, 0));
+
+        javax.swing.GroupLayout pnlDatosServicios2Layout = new javax.swing.GroupLayout(pnlDatosServicios2);
+        pnlDatosServicios2.setLayout(pnlDatosServicios2Layout);
+        pnlDatosServicios2Layout.setHorizontalGroup(
+            pnlDatosServicios2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        pnlDatosServicios2Layout.setVerticalGroup(
+            pnlDatosServicios2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 90, Short.MAX_VALUE)
+        );
+
+        add(pnlDatosServicios2);
+        pnlDatosServicios2.setBounds(30, 360, 20, 90);
+
+        lblAnticipo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblAnticipo.setForeground(new java.awt.Color(0, 0, 0));
+        lblAnticipo.setText("Anticipo:");
+        add(lblAnticipo);
+        lblAnticipo.setBounds(350, 570, 90, 20);
+
+        cmbMetodoPago.setBackground(new java.awt.Color(255, 255, 255));
+        cmbMetodoPago.setForeground(new java.awt.Color(0, 0, 0));
+        cmbMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Transferencia", "Tarjeta" }));
+        add(cmbMetodoPago);
+        cmbMetodoPago.setBounds(440, 610, 120, 22);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtCodigoReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoReservaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+   String codigo = txtCodigoCliente.getText().trim();
+    String telefono = txtTelefonoCliente.getText().trim();
+
+    if (codigo.isEmpty() && telefono.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Escriba un código o teléfono, o elija el nombre en la lista");
+    } else {
+        Cliente c;
+        if (!codigo.isEmpty()) {
+            c = gestionClientes.buscarClienteporCodigo(codigo);
+        } else {
+            c = gestionClientes.buscarClienteporTelefono(telefono);
+        }
+
+        if (c == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún cliente. Regístrelo en la pantalla Clientes");
+        } else {
+            cmbNombreCliente.setSelectedIndex(posicionDe(c));
+        }
+    }
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+int opcion = JOptionPane.showConfirmDialog(this, "Será redirigido a Clientes. ¿Desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
+if (opcion == JOptionPane.YES_OPTION) {
+    principal.irAClientes();
+} 
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void cmbNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNombreClienteActionPerformed
+int indice=cmbNombreCliente.getSelectedIndex();
+if (indice >= 0) {
+        mostrarCliente(indice);
+}
+    }//GEN-LAST:event_cmbNombreClienteActionPerformed
+
+    private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
+     DlgConfirmacion.setVisible(false);
+    }//GEN-LAST:event_btnNoActionPerformed
+
+    private void btnSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiActionPerformed
+    
+      
+    }//GEN-LAST:event_btnSiActionPerformed
+
+    private void txtFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFinActionPerformed
+private void mostrarCliente(int indice) {
+    Cliente c = gestionClientes.getCliente()[indice];
+    txtCodigoCliente.setText(c.getCodigo());
+    txtTelefonoCliente.setText(c.getTelefono());
+    if (c.getCorreo() == null) {
+        txtCorreoCliente.setText("");
+    } else {
+        txtCorreoCliente.setText(c.getCorreo());
+    }
+}
+
+private int posicionDe(Cliente buscado) {
+    for (int i = 0; i < gestionClientes.getCantClientes(); i++) {
+        if (gestionClientes.getCliente()[i] == buscado) {
+            return i;
+        }
+    }
+    return -1;
+}
+    
+    public void listarClientes(){
+        cmbNombreCliente.removeAllItems();
+        
+        for(int i=0;i<gestionClientes.getCantClientes();i++){
+         cmbNombreCliente.addItem(gestionClientes.getCliente()[i].toString());
+        }
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog DlgConfirmacion;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCrearReserva;
+    private javax.swing.JButton btnDesgloseTienda;
+    private javax.swing.JButton btnDisponibilidad;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnNo;
+    private javax.swing.JButton btnSi;
+    private javax.swing.JButton btnTarifa;
+    private javax.swing.JTextField btnTotalServicios;
+    private javax.swing.JComboBox<String> cmbCapacidad;
+    private javax.swing.JComboBox<String> cmbMetodoPago;
+    private javax.swing.JComboBox<String> cmbNombreCancha;
+    private javax.swing.JComboBox<String> cmbNombreCliente;
+    private javax.swing.JComboBox<String> cmbServiciosAdicionales;
+    private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdateFechaReserva;
+    private javax.swing.JLabel lblAnticipo;
+    private javax.swing.JLabel lblCapacidadCancha;
+    private javax.swing.JLabel lblCodigoCancha;
+    private javax.swing.JLabel lblCodigoCliente;
+    private javax.swing.JLabel lblCodigoReserva;
+    private javax.swing.JLabel lblCorreoCliente;
+    private javax.swing.JLabel lblDatosCancha;
+    private javax.swing.JLabel lblDatosCliente;
+    private javax.swing.JLabel lblDatosHorario;
+    private javax.swing.JLabel lblDuracionReserva;
+    private javax.swing.JLabel lblFechaReserva;
+    private javax.swing.JLabel lblFinReserva;
+    private javax.swing.JLabel lblInicioReserva;
+    private javax.swing.JLabel lblMetodo;
+    private javax.swing.JLabel lblNombreCancha;
+    private javax.swing.JLabel lblNombreCliente;
+    private javax.swing.JLabel lblNuevaReservaTitulo;
+    private javax.swing.JLabel lblSaldo;
+    private javax.swing.JLabel lblServicioAdicional;
+    private javax.swing.JLabel lblTarifa;
+    private javax.swing.JLabel lblTelefonoCliente;
+    private javax.swing.JLabel lblTipoCancha;
+    private javax.swing.JLabel lblTotalReserva;
+    private javax.swing.JLabel lblTotalServicios;
+    private javax.swing.JPanel pnlDatosCancha;
+    private javax.swing.JPanel pnlDatosCancha2;
+    private javax.swing.JPanel pnlDatosCliente;
+    private javax.swing.JPanel pnlDatosCliente2;
+    private javax.swing.JPanel pnlDatosServicios;
+    private javax.swing.JPanel pnlDatosServicios2;
+    private javax.swing.JPanel pnlHorario;
+    private javax.swing.JPanel pnlHorario2;
+    private javax.swing.JRadioButton rbnTienda;
+    private javax.swing.JSpinner spnDuracionHora;
+    private javax.swing.JSpinner spnDuracionMinutos;
+    private javax.swing.JSpinner spnInicioHora;
+    private javax.swing.JSpinner spnInicioMinutos;
+    private javax.swing.JTable tblServicios;
+    private javax.swing.JTextField txtAnticipo;
+    private javax.swing.JTextField txtCodigoCancha;
+    private javax.swing.JTextField txtCodigoCliente;
+    private javax.swing.JTextField txtCodigoReserva;
+    private javax.swing.JTextField txtCorreoCliente;
+    private javax.swing.JTextField txtFin;
+    private javax.swing.JTextField txtSaldo;
+    private javax.swing.JTextField txtTarifa;
+    private javax.swing.JTextField txtTelefonoCliente;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

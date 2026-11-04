@@ -9,6 +9,7 @@ import ModuloTienda.ConfiguracionTienda;
 import canchapro.codigo.GestionCanchas;
 import canchapro.codigo.GestionClientes;
 import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Tarifa;
 import canchaproArchivos.ArchivoCanchas;
 import canchaproArchivos.ArchivoClientes;
 import java.awt.Color;
@@ -24,7 +25,7 @@ private GestionCanchas gestionCanchas = new GestionCanchas();
 private GestionReservas gestionReservas = new GestionReservas();
 private javax.swing.JPanel panelContenido;
 private ArchivoCanchas archivoCanchas = new ArchivoCanchas();
-
+private Tarifa tarifa = new Tarifa();
 
 
 //MODULO DE TIENDA
@@ -463,7 +464,7 @@ lblConfiguracion.setForeground(Color.white);
     }//GEN-LAST:event_lblCanchasMouseExited
 
     private void lblNuevaReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNuevaReservaMouseClicked
-       mostrarPanel(new pnlNuevaReserva());
+      mostrarPanel(new pnlNuevaReserva(gestionClientes, gestionCanchas, gestionReservas, tarifa, this));
     }//GEN-LAST:event_lblNuevaReservaMouseClicked
 
     private void lblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblClientesMouseClicked
@@ -557,7 +558,9 @@ lblTienda.setForeground(Color.white);
         
     }
 
-
+public void irAClientes() {
+    mostrarPanel(new pnlClientes(gestionClientes));
+}
     
     private void actualizarMenuTienda() {
     lblTienda.setVisible(configuracion.isTiendaActiva());

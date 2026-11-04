@@ -6,7 +6,7 @@ package canchapro.interfaces;
 import canchapro.codigo.Cancha;
 import canchapro.codigo.GestionCanchas;
 import java.time.LocalTime;
-import java.util.HashSet;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -29,7 +29,7 @@ public class pnlCanchas extends javax.swing.JPanel {
     
     
     public void agregarFila(DefaultTableModel modelo, Cancha cancha){
-        modelo.addRow(new Object [] {cancha.getCodigo(),cancha.getNombre(),cancha.getTipo(),cancha.getCapacidad(),cancha.getPrecioBase(),cancha.getEstado(),cancha.getHoraApertura(),cancha.getHoraCierre()});
+        modelo.addRow(new Object [] {cancha.getCodigo(),cancha.getNombre(),cancha.getTipo(),cancha.getCapacidad(),cancha.getEstado(),cancha.getHoraApertura(),cancha.getHoraCierre()});
     }
     
     public void refrescarTabla(){
@@ -43,7 +43,7 @@ public class pnlCanchas extends javax.swing.JPanel {
     private void limpiarCampos() {
     txtCodigo.setText("");
     txtNombre.setText("");
-    txtPrecioBase.setText("");
+   
     cmbTipo.setSelectedIndex(0);
     cmbCapacidad.setSelectedIndex(0);
     cmbEstado.setSelectedIndex(0);
@@ -76,12 +76,10 @@ public class pnlCanchas extends javax.swing.JPanel {
 
         lblClientesTitulo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtPrecioBase = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         cmbCapacidad = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
@@ -115,18 +113,11 @@ public class pnlCanchas extends javax.swing.JPanel {
         add(jLabel3);
         jLabel3.setBounds(30, 150, 50, 16);
 
-        txtPrecioBase.setBackground(new java.awt.Color(255, 255, 255));
-        txtPrecioBase.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtPrecioBase.setForeground(new java.awt.Color(0, 0, 0));
-        txtPrecioBase.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        add(txtPrecioBase);
-        txtPrecioBase.setBounds(510, 150, 190, 22);
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Cierre:");
         add(jLabel2);
-        jLabel2.setBounds(520, 190, 90, 16);
+        jLabel2.setBounds(280, 190, 90, 16);
 
         txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -147,12 +138,6 @@ public class pnlCanchas extends javax.swing.JPanel {
         add(cmbCapacidad);
         cmbCapacidad.setBounds(290, 150, 80, 22);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Precio Base: Q");
-        add(jLabel5);
-        jLabel5.setBounds(400, 150, 110, 16);
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Nombre:");
@@ -163,7 +148,7 @@ public class pnlCanchas extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Estado:");
         add(jLabel7);
-        jLabel7.setBounds(30, 190, 70, 16);
+        jLabel7.setBounds(400, 150, 70, 16);
 
         txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -188,41 +173,41 @@ public class pnlCanchas extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Apertura:");
         add(jLabel9);
-        jLabel9.setBounds(270, 190, 90, 16);
+        jLabel9.setBounds(30, 190, 90, 16);
 
         cmbEstado.setBackground(new java.awt.Color(255, 255, 255));
         cmbEstado.setForeground(new java.awt.Color(0, 0, 0));
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "disponible", "inactiva", "mantenimiento" }));
         add(cmbEstado);
-        cmbEstado.setBounds(90, 190, 150, 22);
+        cmbEstado.setBounds(490, 150, 150, 22);
 
         spnMinutosApertura.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
         add(spnMinutosApertura);
-        spnMinutosApertura.setBounds(420, 190, 64, 22);
+        spnMinutosApertura.setBounds(180, 190, 64, 22);
 
         spnHoraApertura.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
         add(spnHoraApertura);
-        spnHoraApertura.setBounds(350, 190, 64, 22);
+        spnHoraApertura.setBounds(110, 190, 64, 22);
 
         spnMinutosCierre.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
         add(spnMinutosCierre);
-        spnMinutosCierre.setBounds(650, 190, 64, 22);
+        spnMinutosCierre.setBounds(410, 190, 64, 22);
 
         spnHoraCierre.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
         add(spnHoraCierre);
-        spnHoraCierre.setBounds(580, 190, 64, 22);
+        spnHoraCierre.setBounds(340, 190, 64, 22);
 
         tblCanchas.setBackground(new java.awt.Color(255, 255, 255));
         tblCanchas.setForeground(new java.awt.Color(0, 0, 0));
         tblCanchas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nombre", "Tipo", "Capacidad", "Precio", "Estado", "Apertura", "Cierre"
+                "Código", "Nombre", "Tipo", "Capacidad", "Estado", "Apertura", "Cierre"
             }
         ));
         tblCanchas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -305,27 +290,23 @@ public class pnlCanchas extends javax.swing.JPanel {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         String codigo = txtCodigo.getText().trim();
         String nombre = txtNombre.getText().trim();
-        String precioTexto = txtPrecioBase.getText().trim();
-        if (codigo.isEmpty() || nombre.isEmpty() || precioTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complete código, nombre y precio");
-        } else if (codigo.contains(",") || nombre.contains(",") || precioTexto.contains(",") ) {
+    
+       if (codigo.contains(",") || nombre.contains(",")  ) {
             JOptionPane.showMessageDialog(this, "No use comas en los campos");
 
         } else {
            try {
-               double precio = Double.parseDouble(precioTexto);
+          
                int capacidad = Integer.parseInt(cmbCapacidad.getSelectedItem().toString());
                LocalTime apertura = leerApertura();
                LocalTime cierre = leerCierre();
                        
-               if(precio<=0){
-                   JOptionPane.showMessageDialog(null, "El precio debe ser mayor a 0");
-               }else if(!cierre.isAfter(apertura)){
+               if(!cierre.isAfter(apertura)){
                    JOptionPane.showMessageDialog(null, "La hora de Apertura debe ser antes que la hora de Cierre");
                }else{
                    String tipo = cmbTipo.getSelectedItem().toString();
                    
-                   Cancha nuevaCancha = new Cancha(codigo, nombre, cmbTipo.getSelectedItem().toString(), capacidad, precio, cmbEstado.getSelectedItem().toString(), apertura, cierre);
+                   Cancha nuevaCancha = new Cancha(codigo, nombre, cmbTipo.getSelectedItem().toString(), capacidad, cmbEstado.getSelectedItem().toString(), apertura, cierre);
                    String mensaje=gestionCanchas.agregarCancha(nuevaCancha);
                JOptionPane.showMessageDialog(null, mensaje);
                if (mensaje.equals("Cancha agregada correctamente")){
@@ -408,7 +389,7 @@ public class pnlCanchas extends javax.swing.JPanel {
         if (c != null) {
             txtCodigo.setText(c.getCodigo());
             txtNombre.setText(c.getNombre());
-            txtPrecioBase.setText(String.valueOf(c.getPrecioBase()));
+      
             cmbTipo.setSelectedItem(c.getTipo());
             cmbCapacidad.setSelectedItem(String.valueOf(c.getCapacidad()));
             cmbEstado.setSelectedItem(c.getEstado());
@@ -433,19 +414,17 @@ Cancha otra=gestionCanchas.buscarCanchaporCodigo(nombre);
         JOptionPane.showMessageDialog(this, "Ya existe otra cancha con ese nombre");
     } else {
         try {
-            double precio = Double.parseDouble(txtPrecioBase.getText().trim());
+      
             LocalTime apertura = leerApertura();
             LocalTime cierre = leerCierre();
 
-            if (precio <= 0) {
-                JOptionPane.showMessageDialog(this, "El precio debe ser mayor a 0");
-            } else if (!cierre.isAfter(apertura)) {
+           if (!cierre.isAfter(apertura)) {
                 JOptionPane.showMessageDialog(this, "La hora de cierre debe ser posterior a la de apertura");
             } else {
                 c.setNombre(nombre);
                 c.setTipo(cmbTipo.getSelectedItem().toString());
                 c.setCapacidad(Integer.parseInt(cmbCapacidad.getSelectedItem().toString()));
-                c.setPrecioBase(precio);
+             
                 c.setEstado(cmbEstado.getSelectedItem().toString());
                 c.setHoraApertura(apertura);
                 c.setHoraCierre(cierre);
@@ -471,7 +450,6 @@ Cancha otra=gestionCanchas.buscarCanchaporCodigo(nombre);
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -485,6 +463,5 @@ Cancha otra=gestionCanchas.buscarCanchaporCodigo(nombre);
     private javax.swing.JTable tblCanchas;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPrecioBase;
     // End of variables declaration//GEN-END:variables
 }

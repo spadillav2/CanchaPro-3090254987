@@ -20,17 +20,16 @@ public class Cancha {
     private String nombre;
     private String tipo;
     private int capacidad;
-    private double precioBase;
     private String estado;
     private LocalTime horaApertura;
     private LocalTime horaCierre;
 
-    public Cancha(String codigo, String nombre, String tipo, int capacidad, double precioBase, String estado, LocalTime horaApertura, LocalTime horaCierre) {
+    public Cancha(String codigo, String nombre, String tipo, int capacidad, String estado, LocalTime horaApertura, LocalTime horaCierre) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.tipo = tipo;
         this.capacidad = capacidad;
-        this.precioBase = precioBase;
+      
         this.estado = estado;
         this.horaApertura = horaApertura;
         this.horaCierre = horaCierre;
@@ -52,10 +51,7 @@ public class Cancha {
         return capacidad;
     }
 
-    public double getPrecioBase() {
-        return precioBase;
-    }
-
+  
     public String getEstado() {
         return estado;
     }
@@ -84,9 +80,7 @@ public class Cancha {
         this.capacidad = capacidad;
     }
 
-    public void setPrecioBase(double precioBase) {
-        this.precioBase = precioBase;
-    }
+   
 
     public void setEstado(String estado) {
         this.estado = estado;
