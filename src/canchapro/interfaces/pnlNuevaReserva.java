@@ -3,14 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
-
+//imports
+import canchapro.codigo.Cancha;
 import canchapro.codigo.Cliente;
 import canchapro.codigo.GestionClientes;
 import canchapro.codigo.GestionCanchas;
 import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Reserva;
+import canchapro.codigo.ServicioAdicional;
 import javax.swing.JOptionPane;
 import canchapro.interfaces.pnlClientes;
 import canchapro.codigo.Tarifa;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Padilla
@@ -22,20 +29,58 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
     /**
      * Creates new form pnlNuevaReserva
      */
+    //Atributos del PanelNuevaReserva
+    
     private GestionClientes gestionClientes;
     private GestionCanchas gestionCanchas;
+    private GestionReservas gestionReservas;
     private Tarifa tarifa;
     private Principal principal;
+    private Cancha cancha;
+    
+    private Cancha[] disponibles = new Cancha[0];
+    private double precioCancha = 0;
+    private double totalServicios=0;
+    private double totalTienda=0; //Solo si el modulo tienda está activado
+    
+    
+     //Servicios Adicionales
+    private ServicioAdicional[] catalogo={
+     new ServicioAdicional("S01", "Balon", 20.0),
+    new ServicioAdicional("S02", "Arbitro", 50.0),
+    new ServicioAdicional("S03", "Chalecos", 15.0),
+    new ServicioAdicional("S04", "Iluminacion", 30.0),
+    new ServicioAdicional("S05", "Agua para jugadores", 10.0)
+};
+    private ServicioAdicional[] elegidos = new ServicioAdicional[10];
+    private int cantElegidos =0;
+    
+    
+    //Constructor
     public pnlNuevaReserva(GestionClientes gClientes, GestionCanchas gCanchas, GestionReservas gReservas, Tarifa t, Principal p) {
         initComponents();
         this.gestionClientes=gClientes;
         this.gestionCanchas=gCanchas;
+        this.gestionReservas= gReservas;
         this.tarifa = t;
     this.principal = p;
-
+    
+    //jdateFechaReserva.setMinSelectableDate(new java.util.Date()); // Probar despues si deja o no elegir fechas pasadas
+     rbnTienda.setVisible(false);
+    btnDesgloseTienda.setVisible(false);
+txtCodigoReserva.setEditable(false);
+txtCodigoCancha.setEditable(false); 
+cmbCapacidad.setEnabled(false);
     listarClientes();
+    listarServicios();
+    limpiarFormulario();
     }
 
+    
+ 
+    
+    
+    //
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,12 +90,6 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        DlgConfirmacion = new javax.swing.JDialog();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        btnNo = new javax.swing.JButton();
-        btnSi = new javax.swing.JButton();
         lblNuevaReservaTitulo = new javax.swing.JLabel();
         txtCodigoReserva = new javax.swing.JTextField();
         lblCodigoReserva = new javax.swing.JLabel();
@@ -91,16 +130,15 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         lblTarifa = new javax.swing.JLabel();
         txtTarifa = new javax.swing.JTextField();
         txtCodigoCancha = new javax.swing.JTextField();
-        btnTarifa = new javax.swing.JButton();
         pnlDatosServicios = new javax.swing.JPanel();
         lblServicioAdicional = new javax.swing.JLabel();
         cmbServiciosAdicionales = new javax.swing.JComboBox<>();
-        btnTotalServicios = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
         lblTotalServicios = new javax.swing.JLabel();
         rbnTienda = new javax.swing.JRadioButton();
         btnDesgloseTienda = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        txtTotalServicios = new javax.swing.JTextField();
         lblTotalReserva = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         btnCrearReserva = new javax.swing.JButton();
@@ -108,7 +146,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         tblServicios = new javax.swing.JTable();
         lblSaldo = new javax.swing.JLabel();
         txtSaldo = new javax.swing.JTextField();
-        lblMetodo = new javax.swing.JLabel();
+        lblAnticipoMinimo = new javax.swing.JLabel();
         txtAnticipo = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         pnlDatosCliente2 = new javax.swing.JPanel();
@@ -117,50 +155,8 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         pnlDatosServicios2 = new javax.swing.JPanel();
         lblAnticipo = new javax.swing.JLabel();
         cmbMetodoPago = new javax.swing.JComboBox<>();
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(null);
-
-        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("¿Está seguro de que desea continuar?");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(40, 80, 270, 30);
-
-        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Será redigirido a \"Agregar Clientes\". ");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(50, 50, 270, 30);
-
-        btnNo.setBackground(new java.awt.Color(255, 51, 51));
-        btnNo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnNo.setForeground(new java.awt.Color(0, 0, 0));
-        btnNo.setText("No");
-        btnNo.addActionListener(this::btnNoActionPerformed);
-        jPanel1.add(btnNo);
-        btnNo.setBounds(190, 130, 60, 23);
-
-        btnSi.setBackground(new java.awt.Color(102, 255, 102));
-        btnSi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnSi.setForeground(new java.awt.Color(0, 0, 0));
-        btnSi.setText("Sí");
-        btnSi.addActionListener(this::btnSiActionPerformed);
-        jPanel1.add(btnSi);
-        btnSi.setBounds(90, 130, 60, 23);
-
-        javax.swing.GroupLayout DlgConfirmacionLayout = new javax.swing.GroupLayout(DlgConfirmacion.getContentPane());
-        DlgConfirmacion.getContentPane().setLayout(DlgConfirmacionLayout);
-        DlgConfirmacionLayout.setHorizontalGroup(
-            DlgConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        DlgConfirmacionLayout.setVerticalGroup(
-            DlgConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        lblMetodo = new javax.swing.JLabel();
+        txtAnticipoMinimo = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(832, 652));
@@ -179,13 +175,13 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         txtCodigoReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtCodigoReserva.addActionListener(this::txtCodigoReservaActionPerformed);
         add(txtCodigoReserva);
-        txtCodigoReserva.setBounds(590, 40, 190, 22);
+        txtCodigoReserva.setBounds(490, 40, 190, 22);
 
         lblCodigoReserva.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCodigoReserva.setForeground(new java.awt.Color(0, 0, 0));
         lblCodigoReserva.setText("Código:");
         add(lblCodigoReserva);
-        lblCodigoReserva.setBounds(520, 40, 70, 20);
+        lblCodigoReserva.setBounds(430, 40, 70, 20);
 
         pnlDatosCliente.setBackground(new java.awt.Color(204, 204, 204));
         pnlDatosCliente.setLayout(null);
@@ -279,6 +275,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
 
         jdateFechaReserva.setBackground(new java.awt.Color(255, 255, 255));
         jdateFechaReserva.setForeground(new java.awt.Color(0, 0, 0));
+        jdateFechaReserva.addPropertyChangeListener(this::jdateFechaReservaPropertyChange);
         pnlHorario.add(jdateFechaReserva);
         jdateFechaReserva.setBounds(180, 10, 120, 20);
 
@@ -294,7 +291,8 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         pnlHorario.add(lblInicioReserva);
         lblInicioReserva.setBounds(10, 40, 60, 16);
 
-        spnDuracionMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        spnDuracionMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 15));
+        spnDuracionMinutos.addChangeListener(this::spnDuracionMinutosStateChanged);
         pnlHorario.add(spnDuracionMinutos);
         spnDuracionMinutos.setBounds(460, 40, 50, 22);
 
@@ -305,14 +303,17 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         lblFinReserva.setBounds(180, 40, 40, 30);
 
         spnInicioHora.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+        spnInicioHora.addChangeListener(this::spnInicioHoraStateChanged);
         pnlHorario.add(spnInicioHora);
         spnInicioHora.setBounds(60, 40, 50, 22);
 
-        spnInicioMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        spnInicioMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 15));
+        spnInicioMinutos.addChangeListener(this::spnInicioMinutosStateChanged);
         pnlHorario.add(spnInicioMinutos);
         spnInicioMinutos.setBounds(120, 40, 50, 22);
 
-        spnDuracionHora.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
+        spnDuracionHora.setModel(new javax.swing.SpinnerNumberModel(0, 0, 6, 1));
+        spnDuracionHora.addChangeListener(this::spnDuracionHoraStateChanged);
         pnlHorario.add(spnDuracionHora);
         spnDuracionHora.setBounds(400, 40, 50, 22);
 
@@ -335,6 +336,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         btnDisponibilidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDisponibilidad.setForeground(new java.awt.Color(255, 255, 255));
         btnDisponibilidad.setText("Consultar Disponibilidad");
+        btnDisponibilidad.addActionListener(this::btnDisponibilidadActionPerformed);
         pnlHorario.add(btnDisponibilidad);
         btnDisponibilidad.setBounds(550, 20, 200, 30);
 
@@ -353,6 +355,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         cmbTipo.setBackground(new java.awt.Color(255, 255, 255));
         cmbTipo.setForeground(new java.awt.Color(0, 0, 0));
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Futbol 5", "Futbol 7" }));
+        cmbTipo.addActionListener(this::cmbTipoActionPerformed);
         pnlDatosCancha.add(cmbTipo);
         cmbTipo.setBounds(70, 60, 80, 22);
 
@@ -376,7 +379,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
 
         cmbNombreCancha.setBackground(new java.awt.Color(255, 255, 255));
         cmbNombreCancha.setForeground(new java.awt.Color(0, 0, 0));
-        cmbNombreCancha.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbNombreCancha.addActionListener(this::cmbNombreCanchaActionPerformed);
         pnlDatosCancha.add(cmbNombreCancha);
         cmbNombreCancha.setBounds(270, 30, 320, 22);
 
@@ -392,19 +395,20 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         pnlDatosCancha.add(lblDatosCancha);
         lblDatosCancha.setBounds(10, 0, 85, 20);
 
-        lblTarifa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTarifa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTarifa.setForeground(new java.awt.Color(0, 0, 0));
-        lblTarifa.setText("Tarifa");
+        lblTarifa.setText("Tarifa :");
         pnlDatosCancha.add(lblTarifa);
-        lblTarifa.setBounds(370, 60, 90, 16);
+        lblTarifa.setBounds(660, 20, 90, 16);
 
         txtTarifa.setEditable(false);
         txtTarifa.setBackground(new java.awt.Color(255, 255, 255));
-        txtTarifa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTarifa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTarifa.setForeground(new java.awt.Color(0, 0, 0));
         txtTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtTarifa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pnlDatosCancha.add(txtTarifa);
-        txtTarifa.setBounds(430, 60, 120, 22);
+        txtTarifa.setBounds(630, 50, 120, 30);
 
         txtCodigoCancha.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoCancha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -412,13 +416,6 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         txtCodigoCancha.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlDatosCancha.add(txtCodigoCancha);
         txtCodigoCancha.setBounds(70, 30, 120, 22);
-
-        btnTarifa.setBackground(new java.awt.Color(0, 153, 0));
-        btnTarifa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnTarifa.setForeground(new java.awt.Color(255, 255, 255));
-        btnTarifa.setText("Calcular Tarifa");
-        pnlDatosCancha.add(btnTarifa);
-        btnTarifa.setBounds(610, 30, 140, 30);
 
         add(pnlDatosCancha);
         pnlDatosCancha.setBounds(50, 260, 760, 90);
@@ -434,22 +431,14 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
 
         cmbServiciosAdicionales.setBackground(new java.awt.Color(255, 255, 255));
         cmbServiciosAdicionales.setForeground(new java.awt.Color(0, 0, 0));
-        cmbServiciosAdicionales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pnlDatosServicios.add(cmbServiciosAdicionales);
         cmbServiciosAdicionales.setBounds(220, 20, 410, 22);
-
-        btnTotalServicios.setEditable(false);
-        btnTotalServicios.setBackground(new java.awt.Color(255, 255, 255));
-        btnTotalServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnTotalServicios.setForeground(new java.awt.Color(0, 0, 0));
-        btnTotalServicios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlDatosServicios.add(btnTotalServicios);
-        btnTotalServicios.setBounds(510, 60, 120, 22);
 
         btnEliminar.setBackground(new java.awt.Color(255, 153, 0));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         pnlDatosServicios.add(btnEliminar);
         btnEliminar.setBounds(650, 50, 100, 30);
 
@@ -463,6 +452,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         rbnTienda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         rbnTienda.setForeground(new java.awt.Color(0, 0, 0));
         rbnTienda.setText("Añadir Total Tienda");
+        rbnTienda.addActionListener(this::rbnTiendaActionPerformed);
         pnlDatosServicios.add(rbnTienda);
         rbnTienda.setBounds(20, 50, 180, 25);
 
@@ -477,8 +467,17 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setText("Añadir");
+        btnAdd.addActionListener(this::btnAddActionPerformed);
         pnlDatosServicios.add(btnAdd);
         btnAdd.setBounds(650, 10, 100, 30);
+
+        txtTotalServicios.setEditable(false);
+        txtTotalServicios.setBackground(new java.awt.Color(255, 255, 255));
+        txtTotalServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTotalServicios.setForeground(new java.awt.Color(0, 0, 0));
+        txtTotalServicios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDatosServicios.add(txtTotalServicios);
+        txtTotalServicios.setBounds(510, 60, 120, 22);
 
         add(pnlDatosServicios);
         pnlDatosServicios.setBounds(50, 360, 760, 90);
@@ -487,14 +486,14 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         lblTotalReserva.setForeground(new java.awt.Color(0, 0, 0));
         lblTotalReserva.setText("Total:");
         add(lblTotalReserva);
-        lblTotalReserva.setBounds(130, 560, 80, 40);
+        lblTotalReserva.setBounds(30, 560, 80, 40);
 
         txtTotal.setEditable(false);
         txtTotal.setBackground(new java.awt.Color(204, 204, 204));
         txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtTotal.setForeground(new java.awt.Color(0, 0, 0));
         add(txtTotal);
-        txtTotal.setBounds(210, 560, 110, 40);
+        txtTotal.setBounds(110, 560, 110, 40);
 
         btnCrearReserva.setBackground(new java.awt.Color(0, 51, 0));
         btnCrearReserva.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -515,7 +514,15 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
             new String [] {
                 "Codigo", "Servicio", "Precio"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblServicios);
         if (tblServicios.getColumnModel().getColumnCount() > 0) {
             tblServicios.getColumnModel().getColumn(0).setResizable(false);
@@ -533,31 +540,36 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         lblSaldo.setForeground(new java.awt.Color(0, 0, 0));
         lblSaldo.setText("Saldo:");
         add(lblSaldo);
-        lblSaldo.setBounds(140, 620, 90, 20);
+        lblSaldo.setBounds(40, 610, 90, 20);
 
         txtSaldo.setEditable(false);
         txtSaldo.setBackground(new java.awt.Color(255, 255, 255));
         txtSaldo.setForeground(new java.awt.Color(0, 0, 0));
         add(txtSaldo);
-        txtSaldo.setBounds(210, 610, 110, 30);
+        txtSaldo.setBounds(110, 610, 110, 30);
 
-        lblMetodo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblMetodo.setForeground(new java.awt.Color(0, 0, 0));
-        lblMetodo.setText("Método:");
-        add(lblMetodo);
-        lblMetodo.setBounds(350, 610, 90, 20);
+        lblAnticipoMinimo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAnticipoMinimo.setForeground(new java.awt.Color(51, 51, 51));
+        lblAnticipoMinimo.setText("Anticipo mínimo:");
+        add(lblAnticipoMinimo);
+        lblAnticipoMinimo.setBounds(240, 610, 120, 20);
 
         txtAnticipo.setBackground(new java.awt.Color(255, 255, 255));
         txtAnticipo.setForeground(new java.awt.Color(0, 0, 0));
+        txtAnticipo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAnticipoKeyReleased(evt);
+            }
+        });
         add(txtAnticipo);
-        txtAnticipo.setBounds(440, 570, 120, 30);
+        txtAnticipo.setBounds(330, 570, 120, 30);
 
         btnLimpiar.setBackground(new java.awt.Color(153, 255, 255));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
         btnLimpiar.setText("Limpiar");
         add(btnLimpiar);
-        btnLimpiar.setBounds(30, 610, 80, 30);
+        btnLimpiar.setBounds(730, 30, 80, 30);
 
         pnlDatosCliente2.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -627,13 +639,27 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         lblAnticipo.setForeground(new java.awt.Color(0, 0, 0));
         lblAnticipo.setText("Anticipo:");
         add(lblAnticipo);
-        lblAnticipo.setBounds(350, 570, 90, 20);
+        lblAnticipo.setBounds(240, 570, 90, 20);
 
         cmbMetodoPago.setBackground(new java.awt.Color(255, 255, 255));
         cmbMetodoPago.setForeground(new java.awt.Color(0, 0, 0));
         cmbMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Transferencia", "Tarjeta" }));
         add(cmbMetodoPago);
-        cmbMetodoPago.setBounds(440, 610, 120, 22);
+        cmbMetodoPago.setBounds(470, 600, 120, 22);
+
+        lblMetodo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblMetodo.setForeground(new java.awt.Color(0, 0, 0));
+        lblMetodo.setText("Método de pago:");
+        add(lblMetodo);
+        lblMetodo.setBounds(470, 570, 120, 20);
+
+        txtAnticipoMinimo.setEditable(false);
+        txtAnticipoMinimo.setBackground(new java.awt.Color(255, 255, 255));
+        txtAnticipoMinimo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAnticipoMinimo.setForeground(new java.awt.Color(51, 51, 51));
+        txtAnticipoMinimo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(txtAnticipoMinimo);
+        txtAnticipoMinimo.setBounds(360, 610, 70, 22);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoReservaActionPerformed
@@ -677,19 +703,127 @@ if (indice >= 0) {
 }
     }//GEN-LAST:event_cmbNombreClienteActionPerformed
 
-    private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
-     DlgConfirmacion.setVisible(false);
-    }//GEN-LAST:event_btnNoActionPerformed
-
-    private void btnSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiActionPerformed
-    
-      
-    }//GEN-LAST:event_btnSiActionPerformed
-
     private void txtFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFinActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFinActionPerformed
-private void mostrarCliente(int indice) {
+
+    private void spnInicioHoraStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnInicioHoraStateChanged
+        cambioHorario();
+    }//GEN-LAST:event_spnInicioHoraStateChanged
+
+    private void spnInicioMinutosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnInicioMinutosStateChanged
+        cambioHorario();
+    }//GEN-LAST:event_spnInicioMinutosStateChanged
+
+    private void spnDuracionHoraStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnDuracionHoraStateChanged
+        cambioHorario();
+    }//GEN-LAST:event_spnDuracionHoraStateChanged
+
+    private void spnDuracionMinutosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnDuracionMinutosStateChanged
+        cambioHorario();
+    }//GEN-LAST:event_spnDuracionMinutosStateChanged
+
+    private void jdateFechaReservaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jdateFechaReservaPropertyChange
+   if (evt.getPropertyName().equals("date")){
+        reiniciarCancha();
+    }
+    }//GEN-LAST:event_jdateFechaReservaPropertyChange
+
+    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
+        reiniciarCancha();
+    }//GEN-LAST:event_cmbTipoActionPerformed
+
+    private void txtAnticipoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnticipoKeyReleased
+        actualizarTotales();
+    }//GEN-LAST:event_txtAnticipoKeyReleased
+
+    private void rbnTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnTiendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbnTiendaActionPerformed
+
+    private void btnDisponibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponibilidadActionPerformed
+       LocalDate fecha = leerFecha();
+    int minutos = leerDuracionReserva();
+    LocalTime inicio = leerInicioReserva();
+
+    reiniciarCancha();
+    if (fecha == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione una fecha");
+    } else if (minutos <= 0) {
+        JOptionPane.showMessageDialog(this, "La duración debe ser mayor a 0");
+    } else if (!inicio.plusMinutes(minutos).isAfter(inicio)) {
+        JOptionPane.showMessageDialog(this, "La reserva no puede pasar de la medianoche");
+    //}else if(inicio.isAfter(cancha.getHoraCierre())){
+      //  JOptionPane.showMessageDialog(this, "La hora de Inicio debe ser antes de la hora de Cierre (23:00)");
+    } else {
+        String tipo = cmbTipo.getSelectedItem().toString();
+        disponibles = gestionReservas.canchasDisponibles(gestionCanchas, fecha, inicio, minutos, tipo);
+        if (disponibles.length == 0) {
+            JOptionPane.showMessageDialog(this, "No hay canchas disponibles en ese horario");
+        } else {
+            for (int i = 0; i < disponibles.length; i++) {
+                cmbNombreCancha.addItem(disponibles[i].getNombre());
+            }
+        }
+    }
+    }//GEN-LAST:event_btnDisponibilidadActionPerformed
+
+    private void cmbNombreCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNombreCanchaActionPerformed
+       int indiceCancha = cmbNombreCancha.getSelectedIndex();
+       if (indiceCancha >=0 && indiceCancha < disponibles.length){
+           Cancha c = disponibles[indiceCancha];
+           txtCodigoCancha.setText(c.getCodigo());
+           cmbCapacidad.setSelectedItem(String.valueOf(c.getCapacidad()));
+           precioCancha = tarifa.calcularPrecioTotal(leerFecha(), leerInicioReserva(),leerDuracionReserva());
+           txtTarifa.setText(String.format("%.2f",precioCancha));
+           actualizarTotales();
+       }
+    }//GEN-LAST:event_cmbNombreCanchaActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+      int indiceServicios = cmbServiciosAdicionales.getSelectedIndex();
+     if(indiceServicios >=0){
+         ServicioAdicional s = catalogo[indiceServicios];
+         boolean repetido=false;
+         
+         for (int i=0; i< cantElegidos;i++){
+             if (elegidos[i].getCodigo().equals(s.getCodigo())){
+                 repetido=true;
+             }
+         }
+             if (repetido){
+                 JOptionPane.showMessageDialog(this, "Este servicio ya está en la lista");
+             } else if (cantElegidos >= elegidos.length){
+                 JOptionPane.showMessageDialog(this, "Ya no puede agregar más servicios");
+             }else{
+                 elegidos[cantElegidos]= s;
+                 cantElegidos ++;
+                 refrescarServicios();
+             
+         }
+     }
+      
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+     int filaAEliminar = tblServicios.getSelectedRow();
+     if (filaAEliminar <0 || filaAEliminar >=cantElegidos){
+         JOptionPane.showMessageDialog(this, "Selecciona la fila que desea eliminar en la tabla");
+     } else {
+         for (int i = filaAEliminar; i<cantElegidos-1;i++){
+             elegidos[i] = elegidos[i+1];
+         }
+         elegidos[cantElegidos-1] = null;
+         cantElegidos --;
+         refrescarServicios();
+     }
+     
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    
+    
+     //Apartado de Clientes
+    private void mostrarCliente(int indice) {
     Cliente c = gestionClientes.getCliente()[indice];
     txtCodigoCliente.setText(c.getCodigo());
     txtTelefonoCliente.setText(c.getTelefono());
@@ -708,19 +842,127 @@ private int posicionDe(Cliente buscado) {
     }
     return -1;
 }
-    
+   
     public void listarClientes(){
         cmbNombreCliente.removeAllItems();
         
         for(int i=0;i<gestionClientes.getCantClientes();i++){
-         cmbNombreCliente.addItem(gestionClientes.getCliente()[i].toString());
+         cmbNombreCliente.addItem(gestionClientes.getCliente()[i].getNombre());
         }
     }
     
+    //APARTADO DE HORARIO
+    private LocalDate leerFecha(){
+        java.util.Date fecha = jdateFechaReserva.getDate() ;
+        if (fecha==null){
+            return null;
+        }
+        LocalDate fechaReserva= fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        return fechaReserva;
+    }
     
+    private LocalTime leerInicioReserva (){
+        LocalTime horaInicioReserva= LocalTime.of((Integer) spnInicioHora.getValue(), (Integer)spnInicioMinutos.getValue() );
+        return horaInicioReserva;
+    }
+    
+private int leerDuracionReserva(){
+int duracionReserva= ((Integer) spnDuracionHora.getValue() * 60)+ (Integer) spnDuracionMinutos.getValue();
+return duracionReserva;
+}
 
+private void calcularFin(){
+    int duracion=leerDuracionReserva();
+    if (duracion>0){
+    String horaFin = leerInicioReserva().plusMinutes(duracion).toString();
+        txtFin.setText(horaFin);
+    }
+    else {
+  txtFin.setText(" ");
+    }
+}
+
+private void cambioHorario(){
+    calcularFin();
+    reiniciarCancha();
+}
+
+private void reiniciarCancha(){
+    cmbNombreCancha.removeAllItems();
+    disponibles = new Cancha[0];
+    txtCodigoCancha.setText(" ");
+    txtTarifa.setText(" ");
+    precioCancha=0;
+    actualizarTotales();
+}
+
+
+//SERVICIOS
+
+private void listarServicios(){
+cmbServiciosAdicionales.removeAllItems();
+for (int i=0; i<catalogo.length;i++){
+    cmbServiciosAdicionales.addItem(catalogo[i].getNombre()+" - Q."+ catalogo[i].getPrecio());
+}
+}
+
+private void refrescarServicios() {
+    DefaultTableModel modelo = (DefaultTableModel) tblServicios.getModel();
+    modelo.setRowCount(0);
+    totalServicios = 0;
+    for (int i = 0; i < cantElegidos; i++) {
+        modelo.addRow(new Object[]{elegidos[i].getCodigo(), elegidos[i].getNombre(), elegidos[i].getPrecio()});
+        totalServicios = totalServicios + elegidos[i].getPrecio();
+    }
+    txtTotalServicios.setText(String.format("%.2f", totalServicios));
+    actualizarTotales();
+}
+
+
+
+//TOTALES Y ANTICIPO E LA CANCHA
+
+private double leerAnticipo() {
+    try {
+        return Double.parseDouble(txtAnticipo.getText().trim());
+    } catch (NumberFormatException e) {
+        return 0;
+    }
+}
+
+private void actualizarTotales() {
+    double total = precioCancha + totalServicios + totalTienda;
+    txtTotal.setText(String.format("%.2f", total));
+    txtSaldo.setText(String.format("%.2f", total - leerAnticipo()));
+    txtAnticipoMinimo.setText("Mínimo: Q" + String.format("%.2f", total * Reserva.PORCENTAJE_ANTICIPO_MINIMO));
+}
+//LIMPIAR FORMULARIO
+
+private void limpiarFormulario() {
+    cmbNombreCliente.setSelectedIndex(-1);
+    txtCodigoCliente.setText("");
+    txtTelefonoCliente.setText("");
+    txtCorreoCliente.setText("");
+
+    jdateFechaReserva.setDate(null);
+    spnInicioHora.setValue(8);
+    spnInicioMinutos.setValue(0);
+    spnDuracionHora.setValue(1);
+    spnDuracionMinutos.setValue(0);
+    cmbTipo.setSelectedIndex(0);
+
+    cantElegidos = 0;
+    for (int i = 0; i < elegidos.length; i++) {
+        elegidos[i] = null;
+    }
+   refrescarServicios();
+
+    txtAnticipo.setText("");
+    cmbMetodoPago.setSelectedIndex(0);
+   // txtCodigoReserva.setText(generarCodigo());
+    cambioHorario();
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDialog DlgConfirmacion;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
@@ -729,22 +971,16 @@ private int posicionDe(Cliente buscado) {
     private javax.swing.JButton btnDisponibilidad;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnNo;
-    private javax.swing.JButton btnSi;
-    private javax.swing.JButton btnTarifa;
-    private javax.swing.JTextField btnTotalServicios;
     private javax.swing.JComboBox<String> cmbCapacidad;
     private javax.swing.JComboBox<String> cmbMetodoPago;
     private javax.swing.JComboBox<String> cmbNombreCancha;
     private javax.swing.JComboBox<String> cmbNombreCliente;
     private javax.swing.JComboBox<String> cmbServiciosAdicionales;
     private javax.swing.JComboBox<String> cmbTipo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JDateChooser jdateFechaReserva;
     private javax.swing.JLabel lblAnticipo;
+    private javax.swing.JLabel lblAnticipoMinimo;
     private javax.swing.JLabel lblCapacidadCancha;
     private javax.swing.JLabel lblCodigoCancha;
     private javax.swing.JLabel lblCodigoCliente;
@@ -783,6 +1019,7 @@ private int posicionDe(Cliente buscado) {
     private javax.swing.JSpinner spnInicioMinutos;
     private javax.swing.JTable tblServicios;
     private javax.swing.JTextField txtAnticipo;
+    private javax.swing.JTextField txtAnticipoMinimo;
     private javax.swing.JTextField txtCodigoCancha;
     private javax.swing.JTextField txtCodigoCliente;
     private javax.swing.JTextField txtCodigoReserva;
@@ -792,5 +1029,6 @@ private int posicionDe(Cliente buscado) {
     private javax.swing.JTextField txtTarifa;
     private javax.swing.JTextField txtTelefonoCliente;
     private javax.swing.JTextField txtTotal;
+    private javax.swing.JTextField txtTotalServicios;
     // End of variables declaration//GEN-END:variables
 }

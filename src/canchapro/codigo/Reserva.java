@@ -14,14 +14,15 @@ public class Reserva {
 private String motivoCancelacion;
 private String operadorCancelacion;
     
-    
+    //Constantes
     public static final String PENDIENTE = "pendiente";
     public static final String CONFIRMADA = "confirmada";
     public static final String EN_CURSO ="en_curso";
     public static final String FINALIZADA = "finalizada";
     public static final String CANCELADA = "cancelada";
+    public static final double PORCENTAJE_ANTICIPO_MINIMO= 0.25;
     
-    
+    //Atributos de una Reserva
     private String codigo;
     private Cliente cliente;
     private Cancha cancha;
@@ -34,6 +35,8 @@ private String operadorCancelacion;
     private Pago[] pago;
     private int cantidadPagos;
 
+    
+    //Constructor
     public Reserva(String codigo, Cliente cliente, Cancha cancha, LocalDate fecha, LocalTime horaInicio, int duracion) {
         this.codigo = codigo;
         this.cliente = cliente;
@@ -48,6 +51,7 @@ private String operadorCancelacion;
       this.cantidadPagos=0;
     }
 
+    //Getters
     public String getCodigo() {
         return codigo;
     }
@@ -106,13 +110,17 @@ private String operadorCancelacion;
         return operadorCancelacion;
     }
 
+    public static double getPorcentajeAnticipoMinimo() {
+        return PORCENTAJE_ANTICIPO_MINIMO;
+    }
+
     
     
     
     
     
     
-    
+    //Setters
     
     
     public void setCodigo(String codigo) {
@@ -145,27 +153,24 @@ private String operadorCancelacion;
         this.estado = estado;
     }
 
-
+//CAmbio de método toString
+    @Override
+public String toString(){
+    return codigo + " - "+ cliente.getNombre()+" - " + cancha.getNombre()+" - "+ fecha + " - "+ horaInicio + " - "+estado;
+}
     
     
-    
-    
+    //Calculo de Hora
     
     public LocalTime calcularHoraFin(){
-        return horaInicio.plusHours(duracion);
+        return horaInicio.plusMinutes(duracion);
     }
     
     
     
-    public boolean agregarServicio(ServicioAdicional s){
-        if (cantidadServicios >= servicios.length ){
-            return false;
-        }
-        servicios [cantidadServicios]= s;
-        cantidadServicios ++;
-        return true;
-    }
     
+    
+    //Calcular Totales
     public double calcularTotalServicios(){
         double total=0;
         for (int i =0; i<cantidadServicios; i++){
@@ -183,14 +188,11 @@ public double calcularTotalPagado(){
     return total;
 }
     
-@Override
-public String toString(){
-    return codigo + " - "+ cliente.getNombre()+" - " + cancha.getNombre()+" - "+ fecha + " - "+ horaInicio + " - "+estado;
-}
+
 
 
 public double calcularPrecioCancha(Tarifa tarifa) {
-    double total = tarifa.calcularPrecioHoraCancha(fecha, horaInicio) * duracion;
+    double total = tarifa.calcularPrecioTotal(fecha, horaInicio,duracion);
     return total;
 }
 
@@ -213,6 +215,7 @@ public double calcularSaldo(Tarifa tarifa){
     return saldo;
 }
 
+//Resgistros
 
 public String registrarPago(Pago p, Tarifa tarifa) {
     if (estado.equals(CANCELADA)) {
@@ -235,6 +238,26 @@ public String registrarPago(Pago p, Tarifa tarifa) {
 
 
 
+
+
+
+//Funcionamiento correcto
+
+public boolean seTraslapaCon(LocalDate fechaNueva, LocalTime inicioNueva, int duracionNueva) {
+    boolean traslape = false;
+    LocalTime finNueva = inicioNueva.plusMinutes(duracionNueva);
+
+    if (estado.equals(CANCELADA)) {
+        traslape = false;
+    } else if (!fecha.equals(fechaNueva)) {
+        traslape = false;
+    } else if (inicioNueva.isBefore(calcularHoraFin()) && finNueva.isAfter(horaInicio)) {
+        traslape = true;
+    }
+    return traslape;
+}
+
+
 public boolean cancelar(String motivo, String operador) {
     if (estado.equals(FINALIZADA) || estado.equals(CANCELADA)) {
         return false;
@@ -248,18 +271,13 @@ public boolean cancelar(String motivo, String operador) {
 
 
 
-
-public boolean seTraslapaCon(LocalDate fechaNueva, LocalTime inicioNueva, int duracionNueva) {
-    boolean traslape = false;
-    LocalTime finNueva = inicioNueva.plusHours(duracionNueva);
-
-    if (estado.equals(CANCELADA)) {
-        traslape = false;
-    } else if (!fecha.equals(fechaNueva)) {
-        traslape = false;
-    } else if (inicioNueva.isBefore(calcularHoraFin()) && finNueva.isAfter(horaInicio)) {
-        traslape = true;
+//Servicios Adicionales
+public boolean agregarServicio(ServicioAdicional s){
+        if (cantidadServicios >= servicios.length ){
+            return false;
+        }
+        servicios [cantidadServicios]= s;
+        cantidadServicios ++;
+        return true;
     }
-    return traslape;
-}
 }

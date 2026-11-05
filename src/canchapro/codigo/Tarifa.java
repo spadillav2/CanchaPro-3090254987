@@ -60,4 +60,14 @@ public class Tarifa {
         }
         return precioHoraCancha;
     }
+
+
+
+public double calcularPrecioTotal (LocalDate fecha, LocalTime horaInicio, int duracionMinutos){
+   double precioHoraCancha=calcularPrecioHoraCancha(fecha, horaInicio);
+    double precioTotal = (precioHoraCancha * duracionMinutos )/ 60.0;
+    return precioTotal;
+}
+
+
 }

@@ -12,56 +12,12 @@ import java.time.LocalTime;
  * @author Padilla
  */
 public class GestionReservas {
-    
+    //Atributos de Gestion Reservas
     private Reserva[] reserva = new Reserva [1000];
     private int cantReservas = 0;
     
-    public boolean canchaLibre (Cancha cancha, LocalDate fecha,LocalTime horaInicio, int duracion ){
-        boolean canchaLibre = true;
-        if (!cancha.estaDisponible()) {
-        canchaLibre= false;
-    }
-    for (int i = 0; i < cantReservas; i++) {
-     if (reserva[i].getCancha().getCodigo().equals(cancha.getCodigo())
-        && reserva[i].seTraslapaCon(fecha, horaInicio, duracion)) {
-    canchaLibre = false;
-}
-    }
-        return canchaLibre;
-    }
-    
-    public Reserva buscarReservaPorCodigo(String codigo) {
-    Reserva encontrada = null;
-    for (int i = 0; i < cantReservas; i++) {
-        if (reserva[i].getCodigo().equals(codigo)) {
-            encontrada = reserva[i];
-        }
-    }
-    return encontrada;
-}
-    
-    
-    
-    
-    
-   public String agregarReserva(Reserva r) {
-    if (cantReservas >= reserva.length) {
-        return "Se ha excedido la cantidad de reservas";
-    }
-    if (buscarReservaPorCodigo(r.getCodigo()) != null) {
-        return "Ya existe una reserva con ese codigo";
-    }
-    if (canchaLibre(r.getCancha(), r.getFecha(), r.getHoraInicio(), r.getDuracion()) == false) {
-        return "Cancha no disponible";
-    }
-    reserva[cantReservas] = r;
-    cantReservas++;
-    return "Reserva agregada correctamente";
-}
-    
-   
-   
-  public Cancha[] canchasDisponibles(GestionCanchas canchas, LocalDate fecha, LocalTime inicio, int duracion, String tipo) {
+    //Verficar si la cancha está libre
+     public Cancha[] canchasDisponibles(GestionCanchas canchas, LocalDate fecha, LocalTime inicio, int duracion, String tipo) {
 
     // PRIMER CICLO: contar cuántas canchas cumplen
     int contador = 0;
@@ -86,8 +42,81 @@ public class GestionReservas {
     }
     return resultado;
 }
-  
-  
-  
+    
+    
+    
+    
+    
+    // Evitar traslapes entre reservas 
+    public boolean canchaLibre (Cancha cancha, LocalDate fecha,LocalTime horaInicio, int duracion ){
+        boolean canchaLibre = true;
+        LocalTime fin= horaInicio.plusMinutes(duracion);
+        if (!cancha.estaDisponible()) {
+        canchaLibre= false;
+        // Si la hora de inicio de la cancha es antes de la hora de Apertura, o la reserva termina después de la hora de Cierre, o la reserva termina después de que inicia otra, la cancha no está disponible.
+     if(horaInicio.isBefore(cancha.getHoraApertura())|| fin.isAfter(cancha.getHoraCierre())|| fin.isAfter(horaInicio)){
+         canchaLibre=false;
+     }
+        
+        
+    }
+    for (int i = 0; i < cantReservas; i++) {
+     if (reserva[i].getCancha().getCodigo().equals(cancha.getCodigo())
+        && reserva[i].seTraslapaCon(fecha, horaInicio, duracion)) {
+    canchaLibre = false;
+}
+    }
+        return canchaLibre;
+    }
+    
+    
+    
+    //Getters
+
+    public Reserva[] getReserva() {
+        return reserva;
+    }
+
+    public int getCantReservas() {
+        return cantReservas;
+    }
+    
+    
+    
+    //Buscadore de Reservas
+    
+    public Reserva buscarReservaPorCodigo(String codigo) {
+    Reserva encontrada = null;
+    for (int i = 0; i < cantReservas; i++) {
+        if (reserva[i].getCodigo().equals(codigo)) {
+            encontrada = reserva[i];
+        }
+    }
+    return encontrada;
+}
+    
+    
+    
+    
+    
+    
+    //Agregar Reserva
+   public String agregarReserva(Reserva r) {
+    if (cantReservas >= reserva.length) {
+        return "Se ha excedido la cantidad de reservas";
+    }
+    if (buscarReservaPorCodigo(r.getCodigo()) != null) {
+        return "Ya existe una reserva con ese codigo";
+    }
+    if (canchaLibre(r.getCancha(), r.getFecha(), r.getHoraInicio(), r.getDuracion()) == false) {
+        return "Cancha no disponible";
+    }
+    reserva[cantReservas] = r;
+    cantReservas++;
+    return "Reserva agregada correctamente";
+}
+    
+   
+    
   
 }
