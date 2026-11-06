@@ -9,6 +9,7 @@ import canchapro.codigo.Cliente;
 import canchapro.codigo.GestionClientes;
 import canchapro.codigo.GestionCanchas;
 import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Pago;
 import canchapro.codigo.Reserva;
 import canchapro.codigo.ServicioAdicional;
 import javax.swing.JOptionPane;
@@ -169,6 +170,7 @@ cmbCapacidad.setEnabled(false);
         add(lblNuevaReservaTitulo);
         lblNuevaReservaTitulo.setBounds(20, 10, 400, 62);
 
+        txtCodigoReserva.setEditable(false);
         txtCodigoReserva.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigoReserva.setForeground(new java.awt.Color(0, 0, 0));
@@ -482,9 +484,9 @@ cmbCapacidad.setEnabled(false);
         add(pnlDatosServicios);
         pnlDatosServicios.setBounds(50, 360, 760, 90);
 
-        lblTotalReserva.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTotalReserva.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblTotalReserva.setForeground(new java.awt.Color(0, 0, 0));
-        lblTotalReserva.setText("Total:");
+        lblTotalReserva.setText("Total: Q.");
         add(lblTotalReserva);
         lblTotalReserva.setBounds(30, 560, 80, 40);
 
@@ -499,6 +501,7 @@ cmbCapacidad.setEnabled(false);
         btnCrearReserva.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCrearReserva.setForeground(new java.awt.Color(255, 255, 255));
         btnCrearReserva.setText("Crear Reserva");
+        btnCrearReserva.addActionListener(this::btnCrearReservaActionPerformed);
         add(btnCrearReserva);
         btnCrearReserva.setBounds(620, 580, 160, 40);
 
@@ -538,13 +541,14 @@ cmbCapacidad.setEnabled(false);
 
         lblSaldo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblSaldo.setForeground(new java.awt.Color(0, 0, 0));
-        lblSaldo.setText("Saldo:");
+        lblSaldo.setText("Saldo: Q.");
         add(lblSaldo);
-        lblSaldo.setBounds(40, 610, 90, 20);
+        lblSaldo.setBounds(30, 610, 90, 20);
 
         txtSaldo.setEditable(false);
         txtSaldo.setBackground(new java.awt.Color(255, 255, 255));
         txtSaldo.setForeground(new java.awt.Color(0, 0, 0));
+        txtSaldo.setBorder(null);
         add(txtSaldo);
         txtSaldo.setBounds(110, 610, 110, 30);
 
@@ -568,6 +572,7 @@ cmbCapacidad.setEnabled(false);
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         add(btnLimpiar);
         btnLimpiar.setBounds(730, 30, 80, 30);
 
@@ -657,7 +662,7 @@ cmbCapacidad.setEnabled(false);
         txtAnticipoMinimo.setBackground(new java.awt.Color(255, 255, 255));
         txtAnticipoMinimo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtAnticipoMinimo.setForeground(new java.awt.Color(51, 51, 51));
-        txtAnticipoMinimo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtAnticipoMinimo.setBorder(null);
         add(txtAnticipoMinimo);
         txtAnticipoMinimo.setBounds(360, 610, 70, 22);
     }// </editor-fold>//GEN-END:initComponents
@@ -742,30 +747,40 @@ if (indice >= 0) {
     }//GEN-LAST:event_rbnTiendaActionPerformed
 
     private void btnDisponibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponibilidadActionPerformed
-       LocalDate fecha = leerFecha();
+                                                            
+    LocalDate fecha = leerFecha();
     int minutos = leerDuracionReserva();
     LocalTime inicio = leerInicioReserva();
 
     reiniciarCancha();
+    cmbNombreCancha.removeAllItems(); // Limpiar resultados de búsquedas anteriores
+
     if (fecha == null) {
         JOptionPane.showMessageDialog(this, "Seleccione una fecha");
     } else if (minutos <= 0) {
         JOptionPane.showMessageDialog(this, "La duración debe ser mayor a 0");
-    } else if (!inicio.plusMinutes(minutos).isAfter(inicio)) {
-        JOptionPane.showMessageDialog(this, "La reserva no puede pasar de la medianoche");
-    //}else if(inicio.isAfter(cancha.getHoraCierre())){
-      //  JOptionPane.showMessageDialog(this, "La hora de Inicio debe ser antes de la hora de Cierre (23:00)");
     } else {
-        String tipo = cmbTipo.getSelectedItem().toString();
-        disponibles = gestionReservas.canchasDisponibles(gestionCanchas, fecha, inicio, minutos, tipo);
-        if (disponibles.length == 0) {
-            JOptionPane.showMessageDialog(this, "No hay canchas disponibles en ese horario");
+        LocalTime fin = inicio.plusMinutes(minutos);
+
+        
+        if (fin.isBefore(inicio)) {
+            JOptionPane.showMessageDialog(this, "La reserva no puede pasar de la medianoche");
         } else {
-            for (int i = 0; i < disponibles.length; i++) {
-                cmbNombreCancha.addItem(disponibles[i].getNombre());
+            String tipo = cmbTipo.getSelectedItem().toString();
+            
+            
+            disponibles = gestionReservas.canchasDisponibles(gestionCanchas, fecha, inicio, minutos, tipo);
+
+            if (disponibles == null || disponibles.length == 0) {
+                JOptionPane.showMessageDialog(this, "No se encontraron canchas disponibles en ese horario");
+            } else {
+                for (int i = 0; i < disponibles.length; i++) {
+                    cmbNombreCancha.addItem(disponibles[i].getNombre());
+                }
             }
         }
     }
+
     }//GEN-LAST:event_btnDisponibilidadActionPerformed
 
     private void cmbNombreCanchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNombreCanchaActionPerformed
@@ -820,7 +835,83 @@ if (indice >= 0) {
      
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+       limpiarFormulario();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCrearReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearReservaActionPerformed
+      int indiceCliente = cmbNombreCliente.getSelectedIndex();
+      int indiceCancha =cmbNombreCancha.getSelectedIndex();
+      LocalDate fecha = leerFecha();
+      int duracion = leerDuracionReserva();
+      
+      
+      if (indiceCliente<0){
+          JOptionPane.showMessageDialog(this, "Seleccione o agregue un nuevo cliente");
+      } else if (indiceCancha<0){
+          JOptionPane.showMessageDialog(this, "Seleccione una cancha.");
+      } else if (fecha ==null && duracion <0){
+          JOptionPane.showMessageDialog(this, "Elija un fecha y una duracion");
+      } else {
+      crearReserva(indiceCliente,indiceCancha,fecha,duracion);
+      }
+      
+           
+    }//GEN-LAST:event_btnCrearReservaActionPerformed
+
     
+    private void crearReserva (int indiceCliente, int indiceCancha, LocalDate fecha, int duracion){
+        Cliente cliente = gestionClientes.getCliente()[indiceCliente];
+        Cancha cancha = disponibles[indiceCancha];
+        
+        Reserva r = new Reserva(txtCodigoReserva.getText(), cliente,cancha,fecha,leerInicioReserva(),duracion);
+        for (int i = 0; i < cantElegidos; i++) {
+        r.agregarServicio(elegidos[i]);
+    }
+        
+       double total = r.calcularTotal(tarifa);
+       double pagoMinimo = total * Reserva.getPorcentajeAnticipoMinimo();
+       
+       try{
+           double anticipo = Double.parseDouble( txtAnticipo.getText().trim());
+           
+           if ( anticipo <pagoMinimo ){
+               JOptionPane.showMessageDialog(this, "El anticipo mínimo es Q" + String.format("%.2f", pagoMinimo));
+           } else {
+               String metodo = cmbMetodoPago.getSelectedItem().toString().toLowerCase();
+               Pago pago = new Pago(r.getCodigo() + "-P1", LocalDateTime.now(), anticipo, metodo);
+               String mensajePago = r.registrarPago(pago, tarifa);
+               
+               
+               if (!mensajePago.equals("Pago Aceptado")) {
+                JOptionPane.showMessageDialog(this, mensajePago);
+            } else {
+                r.setEstado(Reserva.CONFIRMADA);
+                String mensaje = gestionReservas.agregarReserva(r);
+               
+               if (mensaje.equals("Reserva agregada correctamente")) {
+                    JOptionPane.showMessageDialog(this, "Reserva " + r.getCodigo() + " creada\n"
+                            + "Cliente: " + cliente.getNombre() + "\n"
+                            + "Cancha: " + cancha.getNombre() + "\n"
+                            + fecha + " de " + r.getHoraInicio() + " a " + r.calcularHoraFin() + "\n"
+                            + "Total: Q" + String.format("%.2f", total) + "\n"
+                            + "Anticipo: Q" + String.format("%.2f", anticipo) + "\n"
+                            + "Saldo: Q" + String.format("%.2f", r.calcularSaldo(tarifa)));
+                    
+                    limpiarFormulario();
+               
+                          }else {
+                    JOptionPane.showMessageDialog(this, mensaje);
+               }
+           
+           
+               } 
+       }
+       }catch (NumberFormatException e){
+   JOptionPane.showMessageDialog(this, "\nDebe pagar el minimo de Anticipo para poder reservar." +"\n Se encontro el siguiente error:"+ e);
+           
+    }
+    }
     
      //Apartado de Clientes
     private void mostrarCliente(int indice) {
@@ -934,8 +1025,16 @@ private void actualizarTotales() {
     double total = precioCancha + totalServicios + totalTienda;
     txtTotal.setText(String.format("%.2f", total));
     txtSaldo.setText(String.format("%.2f", total - leerAnticipo()));
-    txtAnticipoMinimo.setText("Mínimo: Q" + String.format("%.2f", total * Reserva.PORCENTAJE_ANTICIPO_MINIMO));
+    txtAnticipoMinimo.setText("Q. "+String.format("%.2f", total * Reserva.PORCENTAJE_ANTICIPO_MINIMO));
 }
+
+
+
+
+
+
+
+
 //LIMPIAR FORMULARIO
 
 private void limpiarFormulario() {
@@ -959,7 +1058,7 @@ private void limpiarFormulario() {
 
     txtAnticipo.setText("");
     cmbMetodoPago.setSelectedIndex(0);
-   // txtCodigoReserva.setText(generarCodigo());
+   txtCodigoReserva.setText(gestionReservas.generarCodigo());
     cambioHorario();
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,5 +1,4 @@
-CL1,Marco Antonio Balvino Padilla Gómez,40094004,2026-10-27,tonopadilla18@gmail.com
-CL2,Sandra Guadalupe Padilla Valencia,42099834,2026-10-27,lupepadilla006@gmail.com
-CL3,Sandra Yaneth Valencia Morales,42098996,2026-10-27,
-CL4,Jessica Carolina Padilla Valencia,54876484,2026-10-27,
-CL5,Daniela Beatriz Maldonado Juarez,1548559,2026-10-27,
+CL1,Sandra Guadalupe Padilla Valencia,42099834,2026-11-05,spadillav2@gmail.com
+CL2,Glendy Sucely Sanchez Gomez,54126879,2026-11-05,
+CL3,Jessica Carolina Padilla Valencia,849521675,2026-11-05,jesspadilla1@gmail.com
+CL4,Emily Daniela Muñoz,9584468,2026-11-05,

@@ -48,26 +48,38 @@ public class GestionReservas {
     
     
     // Evitar traslapes entre reservas 
-    public boolean canchaLibre (Cancha cancha, LocalDate fecha,LocalTime horaInicio, int duracion ){
-        boolean canchaLibre = true;
-        LocalTime fin= horaInicio.plusMinutes(duracion);
-        if (!cancha.estaDisponible()) {
-        canchaLibre= false;
-        // Si la hora de inicio de la cancha es antes de la hora de Apertura, o la reserva termina después de la hora de Cierre, o la reserva termina después de que inicia otra, la cancha no está disponible.
-     if(horaInicio.isBefore(cancha.getHoraApertura())|| fin.isAfter(cancha.getHoraCierre())|| fin.isAfter(horaInicio)){
-         canchaLibre=false;
-     }
-        
-        
+
+public boolean canchaLibre(Cancha cancha, LocalDate fecha, LocalTime horaInicio, int duracion) {
+    //  Verificar si la cancha está activa/disponible en el sistema (mantenimiento, etc.)
+    if (!cancha.estaDisponible()) {
+        return false;
     }
+
+    LocalTime fin = horaInicio.plusMinutes(duracion);
+
+    // 2. Validar que la reserva no pase de medianoche (si da la vuelta en el reloj, fin es menor que horaInicio)
+    if (fin.isBefore(horaInicio)) {
+        return false;
+    }
+
+    // 3. Validar horarios de apertura y cierre de la cancha
+   
+    if (horaInicio.isBefore(cancha.getHoraApertura()) 
+            || !horaInicio.isBefore(cancha.getHoraCierre()) 
+            || fin.isAfter(cancha.getHoraCierre())) {
+        return false;
+    }
+
+    // 4. Verificar que no haya traslapes con otras reservas existentes
     for (int i = 0; i < cantReservas; i++) {
-     if (reserva[i].getCancha().getCodigo().equals(cancha.getCodigo())
-        && reserva[i].seTraslapaCon(fecha, horaInicio, duracion)) {
-    canchaLibre = false;
+        if (reserva[i].getCancha().getCodigo().equals(cancha.getCodigo())
+                && reserva[i].seTraslapaCon(fecha, horaInicio, duracion)) {
+            return false;
+        }
+    }
+
+    return true;
 }
-    }
-        return canchaLibre;
-    }
     
     
     
@@ -83,7 +95,7 @@ public class GestionReservas {
     
     
     
-    //Buscadore de Reservas
+    //Buscadores de Reservas
     
     public Reserva buscarReservaPorCodigo(String codigo) {
     Reserva encontrada = null;
@@ -116,7 +128,14 @@ public class GestionReservas {
     return "Reserva agregada correctamente";
 }
     
-   
+   public String generarCodigo(){
+    int numero= getCantReservas() +1;
+    while (buscarReservaPorCodigo("R"+numero) != null){
+        numero++;
+    }
+    String codigoReserva = "R"+numero;
+    return codigoReserva;
+}
     
   
 }

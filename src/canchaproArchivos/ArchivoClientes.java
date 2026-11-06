@@ -30,11 +30,11 @@ public class ArchivoClientes {
         }
     }
 
-    public String cargarArchivos(GestionClientes gestion, String ruta) {
+    public String cargarArchivos(GestionClientes gestion, String rutaClientes) {
         int cargados = 0;
         int errores = 0;
         try {
-            FileReader fr = new FileReader(ruta);
+            FileReader fr = new FileReader(rutaClientes);
             BufferedReader br = new BufferedReader(fr);
             String linea = br.readLine();
             while (linea != null) {
@@ -59,7 +59,7 @@ public class ArchivoClientes {
             }
             br.close();
         } catch (IOException e) {
-            return "No se pudo leer " + ruta + ": " + e.getMessage();
+            return "No se pudo leer " + rutaClientes + ": " + e.getMessage();
         }
         return "Clientes cargados: " + cargados + ", lineas con error: " + errores;
     }

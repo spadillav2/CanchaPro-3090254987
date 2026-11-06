@@ -22,6 +22,7 @@ public class pnlClientes extends javax.swing.JPanel {
     public pnlClientes(GestionClientes gestion) {
         initComponents();
         this.gestionClientes=gestion;
+        limpiarCampos();
         refrescarTabla();
     }
 
@@ -43,10 +44,12 @@ public class pnlClientes extends javax.swing.JPanel {
     
 
 private void limpiarCampos() {
-    txtCodigoCliente.setText("");
+   
     txtNombreCliente.setText("");
     txtTelefonoCliente.setText("");
     txtCorreoCliente.setText("");
+    
+    txtCodigoCliente.setText(gestionClientes.generarCodigo());
 }
     
     
@@ -142,6 +145,7 @@ private void limpiarCampos() {
         add(txtCorreoCliente);
         txtCorreoCliente.setBounds(420, 150, 360, 22);
 
+        txtCodigoCliente.setEditable(false);
         txtCodigoCliente.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigoCliente.setForeground(new java.awt.Color(0, 0, 0));
@@ -173,6 +177,7 @@ private void limpiarCampos() {
                 btnLimpiarMouseClicked(evt);
             }
         });
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         add(btnLimpiar);
         btnLimpiar.setBounds(650, 560, 100, 30);
 
@@ -221,8 +226,7 @@ private void limpiarCampos() {
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
-      limpiarCampos();
-    refrescarTabla();
+   
     }//GEN-LAST:event_btnLimpiarMouseClicked
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -289,6 +293,11 @@ private void limpiarCampos() {
     }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+     limpiarCampos();
+    refrescarTabla();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -25,6 +25,7 @@ private GestionCanchas gestionCanchas = new GestionCanchas();
 private GestionReservas gestionReservas = new GestionReservas();
 private javax.swing.JPanel panelContenido;
 private ArchivoCanchas archivoCanchas = new ArchivoCanchas();
+private ArchivoClientes archivoClientes = new ArchivoClientes();
 private Tarifa tarifa = new Tarifa();
 
 
@@ -34,7 +35,7 @@ private static final String CODIGO_TIENDA = "3090254987";
 private ConfiguracionTienda configuracion = new ConfiguracionTienda();
 private static final String RUTA_CONFIG = "configuracion.txt";
 
-private ArchivoClientes archivoClientes = new ArchivoClientes();
+
     /**
      * Creates new form Principal
      */
@@ -45,6 +46,7 @@ public Principal() {
     panelContenido = new javax.swing.JPanel(new java.awt.BorderLayout());
    jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
     System.out.println(archivoClientes.cargarArchivos(gestionClientes, "clientes.txt"));
+     System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, "canchas.txt"));
     mostrarPanel(new PnlInicio());
     
     configuracion.cargar(RUTA_CONFIG);

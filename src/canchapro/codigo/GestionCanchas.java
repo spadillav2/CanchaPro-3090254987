@@ -13,6 +13,7 @@ public class GestionCanchas {
     private Cancha[] cancha = new Cancha[1000];
     private int cantCancha=0;
 
+    //GETTERS
     public Cancha[] getCancha() {
         return cancha;
     }
@@ -21,6 +22,8 @@ public class GestionCanchas {
         return cantCancha;
     }
     
+    
+    //BUSCADORES
     public Cancha buscarCanchaporCodigo(String codigo){
     Cancha encontrada = null;
     for (int i= 0; i<cantCancha; i++){
@@ -96,7 +99,19 @@ public Cancha[] buscarCanchasPorTipo(String tipo) {
     
     
     
+    //AGREGAR CANCHAS
+
+public String generarCodigo(){
+    int numero= getCantCancha()+1;
     
+    while (buscarCanchaporCodigo("CA"+numero)!=null){
+        numero++;
+    }
+    String codigoCancha = "CA"+numero;
+    return codigoCancha;
+}
+
+
     
     public String agregarCancha(Cancha chachacha){
         

@@ -12,6 +12,8 @@ public class GestionClientes {
     private Cliente[ ]  cliente = new Cliente [1000];
     private int cantClientes =0;
 
+    
+    //GETTERS
     public Cliente[] getCliente() {
         return cliente;
     }
@@ -23,7 +25,7 @@ public class GestionClientes {
     
  
     
-    
+    ///BUSCADORES
     
     public Cliente buscarClienteporCodigo( String codigo){
      Cliente encontrado = null;
@@ -71,6 +73,17 @@ public class GestionClientes {
 }
   
   
+    //AGREGAR CLIENTES
+    
+    public String generarCodigo(){
+        int numero= getCantClientes()+1;
+        while (buscarClienteporCodigo("CL"+numero)!=null){
+            numero++;
+        }
+        String codigoCliente = "CL"+numero;
+        return codigoCliente;
+    }
+    
     
     public String agregarCliente(Cliente c){
         if (cantClientes >= cliente.length){

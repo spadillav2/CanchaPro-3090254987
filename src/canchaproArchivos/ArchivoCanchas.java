@@ -34,18 +34,18 @@ public class ArchivoCanchas {
         }
     }
 
-    public String cargarCanchas(GestionCanchas gestion, String ruta) {
+    public String cargarCanchas(GestionCanchas gestion, String rutaCancha) {
         int cargados = 0;
         int errores = 0;
         try {
-            FileReader fr = new FileReader(ruta);
+            FileReader fr = new FileReader(rutaCancha);
             BufferedReader br = new BufferedReader(fr);
             String linea = br.readLine();
             while (linea != null) {
                 if (!linea.trim().isEmpty()) {
                     try {
                         String[] datos = linea.split(",");
-                        Cancha c = new Cancha(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), datos[4], LocalTime.parse(datos[5]), LocalTime.parse(datos[6]));
+                        Cancha c = new Cancha(datos[0], datos[1],datos[2],Integer.parseInt(datos[3]), datos[4],LocalTime.parse(datos[5]), LocalTime.parse(datos[6]));
                         String mensaje = gestion.agregarCancha(c);
                         if (mensaje.equals("Cancha agregada correctamente")) {
                             cargados++;
@@ -60,7 +60,7 @@ public class ArchivoCanchas {
             }
             br.close();
         } catch (IOException e) {
-            return "No se pudo leer " + ruta + ": " + e.getMessage();
+            return "No se pudo leer " + rutaCancha + ": " + e.getMessage();
         }
         return "Canchas cargadas: " + cargados + ", lineas con error: " + errores;
     }

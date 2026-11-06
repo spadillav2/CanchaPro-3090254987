@@ -41,7 +41,7 @@ public class pnlCanchas extends javax.swing.JPanel {
     }
     
     private void limpiarCampos() {
-    txtCodigo.setText("");
+   
     txtNombre.setText("");
    
     cmbTipo.setSelectedIndex(0);
@@ -51,6 +51,8 @@ public class pnlCanchas extends javax.swing.JPanel {
     spnMinutosApertura.setValue(0);
     spnHoraCierre.setValue(23);
     spnMinutosCierre.setValue(0);
+    
+      txtCodigo.setText(gestionCanchas.generarCodigo());
 }
 
     
@@ -150,16 +152,19 @@ public class pnlCanchas extends javax.swing.JPanel {
         add(jLabel7);
         jLabel7.setBounds(400, 150, 70, 16);
 
+        txtCodigo.setEditable(false);
         txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
         txtCodigo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCodigo.addActionListener(this::txtCodigoActionPerformed);
         add(txtCodigo);
         txtCodigo.setBounds(90, 110, 190, 22);
 
         cmbTipo.setBackground(new java.awt.Color(255, 255, 255));
         cmbTipo.setForeground(new java.awt.Color(0, 0, 0));
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Futbol 5", "Futbol 7" }));
+        cmbTipo.addActionListener(this::cmbTipoActionPerformed);
         add(cmbTipo);
         cmbTipo.setBounds(90, 150, 80, 22);
 
@@ -261,6 +266,7 @@ public class pnlCanchas extends javax.swing.JPanel {
                 btnLimpiarMouseClicked(evt);
             }
         });
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         add(btnLimpiar);
         btnLimpiar.setBounds(270, 250, 100, 30);
 
@@ -373,8 +379,7 @@ public class pnlCanchas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
-        limpiarCampos();
-        refrescarTabla();
+    
     }//GEN-LAST:event_btnLimpiarMouseClicked
 
     private void btnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarMouseClicked
@@ -437,6 +442,29 @@ Cancha otra=gestionCanchas.buscarCanchaporCodigo(nombre);
         }
     }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+     
+            limpiarCampos();
+        refrescarTabla();
+        
+        
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
+        int tipo = cmbTipo.getSelectedIndex();
+     
+     if (tipo==0){
+         cmbCapacidad.setSelectedIndex(0);
+     }
+     else{
+         cmbCapacidad.setSelectedIndex(1);
+     }
+    }//GEN-LAST:event_cmbTipoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
