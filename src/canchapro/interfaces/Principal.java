@@ -12,6 +12,7 @@ import canchapro.codigo.GestionReservas;
 import canchapro.codigo.Tarifa;
 import canchaproArchivos.ArchivoCanchas;
 import canchaproArchivos.ArchivoClientes;
+import canchaproArchivos.ArchivoReservas;
 import java.awt.Color;
 /**
  *
@@ -36,6 +37,12 @@ private ConfiguracionTienda configuracion = new ConfiguracionTienda();
 private static final String RUTA_CONFIG = "configuracion.txt";
 
 
+
+
+//RESERVAS
+
+private ArchivoReservas archivoReservas = new ArchivoReservas();
+
     /**
      * Creates new form Principal
      */
@@ -47,6 +54,8 @@ public Principal() {
    jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
     System.out.println(archivoClientes.cargarArchivos(gestionClientes, "clientes.txt"));
      System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, "canchas.txt"));
+     System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, "reservas.txt", "servicios_reservas.txt", "pagos.txt"));
+     
     mostrarPanel(new PnlInicio());
     
     configuracion.cargar(RUTA_CONFIG);
@@ -371,6 +380,9 @@ btnGuardarArchivos.setFocusable(false);
     private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
      archivoClientes.guardar(gestionClientes, "clientes.txt");
      archivoCanchas.guardarCanchas(gestionCanchas, "canchas.txt");
+     archivoReservas.guardarReservas(gestionReservas, "reservas.txt", "servicios_reservs.txt", "pagos.txt");
+     
+     
 configuracion.guardar(RUTA_CONFIG);
     javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
     }//GEN-LAST:event_btnGuardarArchivosActionPerformed

@@ -138,4 +138,14 @@ public boolean canchaLibre(Cancha cancha, LocalDate fecha, LocalTime horaInicio,
 }
     
   
+   
+   public boolean restaurarReserva(Reserva r) {
+    if (cantReservas >= reserva.length || buscarReservaPorCodigo(r.getCodigo()) != null) {
+        return false;
+    }
+    reserva[cantReservas] = r;
+    cantReservas++;
+    return true;
+}
+   
 }

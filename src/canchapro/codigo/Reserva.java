@@ -280,4 +280,20 @@ public boolean agregarServicio(ServicioAdicional s){
         cantidadServicios ++;
         return true;
     }
+public void restaurarCancelacion(LocalDate fecha, String motivo, String operador) {
+    this.fechaCancelacion = fecha;
+    this.motivoCancelacion = motivo;
+    this.operadorCancelacion = operador;
 }
+
+public void restaurarPago(Pago p) {
+    if (cantidadPagos < pago.length) {
+        pago[cantidadPagos] = p;
+        cantidadPagos++;
+    }
+}
+
+}
+
+
+
