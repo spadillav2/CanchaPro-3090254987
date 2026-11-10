@@ -69,7 +69,7 @@ DlgModuloTienda.setSize(500, 400);
 
 lblLogo2.setFocusable(true);
 btnGuardarArchivos.setFocusable(false);
- 
+ gestionReservas.actualizarEstados();
 }
 
     /**
@@ -378,7 +378,8 @@ btnGuardarArchivos.setFocusable(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
-     archivoClientes.guardar(gestionClientes, "clientes.txt");
+gestionReservas.actualizarEstados();
+        archivoClientes.guardar(gestionClientes, "clientes.txt");
      archivoCanchas.guardarCanchas(gestionCanchas, "canchas.txt");
      archivoReservas.guardarReservas(gestionReservas, "reservas.txt", "servicios_reservs.txt", "pagos.txt");
      
@@ -494,7 +495,7 @@ mostrarPanel(new pnlCanchas(gestionCanchas));
     }//GEN-LAST:event_lblCanchasMouseClicked
 
     private void lblPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPagosMouseClicked
-        mostrarPanel(new pnlPagos());
+       mostrarPanel(new pnlPagos(gestionReservas, tarifa));
     }//GEN-LAST:event_lblPagosMouseClicked
 
     private void lblReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportesMouseClicked

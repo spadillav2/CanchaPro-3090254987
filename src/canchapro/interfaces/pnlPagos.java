@@ -4,18 +4,87 @@
  */
 package canchapro.interfaces;
 
+import javax.swing.JTable;
+import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Pago;
+import canchapro.codigo.Reserva;
+import canchapro.codigo.Tarifa;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Padilla
  */
 public class pnlPagos extends javax.swing.JPanel {
+private GestionReservas gestionReservas;
+private Tarifa tarifa;
+private Reserva reservaElegida = null;
+private int pagoElegido = -1;
+
+
+    
+private void refrescarReservas() {
+    DefaultTableModel modelo = (DefaultTableModel) tblReservas.getModel();
+   
+    modelo.setRowCount(0);
+    for (int i = 0; i < gestionReservas.getCantReservas(); i++) {
+        Reserva r = gestionReservas.getReserva()[i];
+        modelo.addRow(new Object[]{
+            r.getCodigo(),
+            r.getCliente().getNombre(),
+            r.getCancha().getNombre(),
+            r.getFecha(),
+            r.getHoraInicio(),
+            r.getEstado(),
+            String.format("%.2f", r.calcularTotal(tarifa)),
+            String.format("%.2f", r.calcularTotalPagado()),
+            String.format("%.2f", r.calcularSaldo(tarifa))
+        });
+    }
+}
+
+private void mostrarDetalle() {
+    DefaultTableModel modelo = (DefaultTableModel) tblPagos.getModel();
+    modelo.setRowCount(0);
+
+    if (reservaElegida == null) {
+        txtTotal.setText("");
+        txtPagado.setText("");
+        txtSaldo.setText("");
+    } else {
+        for (int i = 0; i < reservaElegida.getCantidadPagos(); i++) {
+            Pago p = reservaElegida.getPago()[i];
+            String fechaHora = p.getFechaHoraPago().toString().substring(0, 16).replace("T", " ");
+            modelo.addRow(new Object[]{p.getCodigo(), fechaHora, p.getMonto(), p.getMetodo(), p.getObservacion()});
+        }
+        txtTotal.setText(String.format("%.2f", reservaElegida.calcularTotal(tarifa)));
+        txtPagado.setText(String.format("%.2f", reservaElegida.calcularTotalPagado()));
+        txtSaldo.setText(String.format("%.2f", reservaElegida.calcularSaldo(tarifa)));
+    }
+}
+
+private void actualizarPantalla() {
+    refrescarReservas();
+    mostrarDetalle();
+}
+
+
 
     /**
      * Creates new form pnlPagos
      */
-    public pnlPagos() {
-        initComponents();
-    }
+    public pnlPagos(GestionReservas gestionReservas, Tarifa t) {
+  initComponents();
+    this.gestionReservas = gestionReservas;
+    this.tarifa = t;
+    gestionReservas.actualizarEstados();
+    tblReservas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+    refrescarReservas();
+    mostrarDetalle();
+    
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,21 +95,479 @@ public class pnlPagos extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(204, 255, 204));
+        lblPagos = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblReservas = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        lblReservas = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblPagos = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        lblTotal = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
+        lblCodigo2 = new javax.swing.JLabel();
+        txtPagado = new javax.swing.JTextField();
+        lblSaldo = new javax.swing.JLabel();
+        txtSaldo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtMonto = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        cmbMetodo = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        txtObservacion = new javax.swing.JTextField();
+        btnAbonar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        btnModificarAbono = new javax.swing.JButton();
+        btnEliminarAbono = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
+        txtOperador = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(null);
+
+        lblPagos.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
+        lblPagos.setForeground(new java.awt.Color(0, 51, 0));
+        lblPagos.setText("Pagos");
+        add(lblPagos);
+        lblPagos.setBounds(20, 10, 210, 62);
+
+        tblReservas.setBackground(new java.awt.Color(255, 255, 255));
+        tblReservas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Cliente", "Cancha", "Fecha", "Inicio", "Estado", "Total", "Pagado", "Saldo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblReservas.getTableHeader().setReorderingAllowed(false);
+        tblReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblReservasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblReservas);
+        if (tblReservas.getColumnModel().getColumnCount() > 0) {
+            tblReservas.getColumnModel().getColumn(0).setMinWidth(50);
+            tblReservas.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblReservas.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblReservas.getColumnModel().getColumn(1).setMinWidth(200);
+            tblReservas.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblReservas.getColumnModel().getColumn(1).setMaxWidth(200);
+            tblReservas.getColumnModel().getColumn(2).setMinWidth(130);
+            tblReservas.getColumnModel().getColumn(2).setPreferredWidth(130);
+            tblReservas.getColumnModel().getColumn(2).setMaxWidth(130);
+            tblReservas.getColumnModel().getColumn(3).setMinWidth(100);
+            tblReservas.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblReservas.getColumnModel().getColumn(3).setMaxWidth(100);
+            tblReservas.getColumnModel().getColumn(4).setMinWidth(75);
+            tblReservas.getColumnModel().getColumn(4).setPreferredWidth(75);
+            tblReservas.getColumnModel().getColumn(4).setMaxWidth(75);
+            tblReservas.getColumnModel().getColumn(5).setMinWidth(100);
+            tblReservas.getColumnModel().getColumn(5).setPreferredWidth(100);
+            tblReservas.getColumnModel().getColumn(5).setMaxWidth(100);
+            tblReservas.getColumnModel().getColumn(6).setMinWidth(50);
+            tblReservas.getColumnModel().getColumn(6).setPreferredWidth(75);
+            tblReservas.getColumnModel().getColumn(6).setMaxWidth(50);
+            tblReservas.getColumnModel().getColumn(7).setMinWidth(75);
+            tblReservas.getColumnModel().getColumn(7).setPreferredWidth(75);
+            tblReservas.getColumnModel().getColumn(7).setMaxWidth(75);
+            tblReservas.getColumnModel().getColumn(8).setMinWidth(75);
+            tblReservas.getColumnModel().getColumn(8).setPreferredWidth(75);
+            tblReservas.getColumnModel().getColumn(8).setMaxWidth(75);
+        }
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(20, 100, 780, 120);
+
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel1.setText("Pagos");
+        add(jLabel1);
+        jLabel1.setBounds(20, 220, 140, 30);
+
+        lblReservas.setFont(new java.awt.Font("Trebuchet MS", 2, 14)); // NOI18N
+        lblReservas.setForeground(new java.awt.Color(51, 51, 51));
+        lblReservas.setText("Reservas");
+        add(lblReservas);
+        lblReservas.setBounds(20, 80, 140, 20);
+
+        tblPagos.setBackground(new java.awt.Color(255, 255, 255));
+        tblPagos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Fecha y Hora", "Monto", "Método", "Observación"
+            }
+        ));
+        tblPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPagosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblPagos);
+
+        add(jScrollPane2);
+        jScrollPane2.setBounds(20, 250, 780, 130);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setMaximumSize(new java.awt.Dimension(780, 100));
+        jPanel1.setLayout(null);
+
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotal.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotal.setText("Total:");
+        jPanel1.add(lblTotal);
+        lblTotal.setBounds(60, 40, 70, 16);
+
+        txtTotal.setEditable(false);
+        txtTotal.setBackground(new java.awt.Color(255, 255, 255));
+        txtTotal.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(txtTotal);
+        txtTotal.setBounds(110, 40, 100, 20);
+
+        lblCodigo2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCodigo2.setForeground(new java.awt.Color(0, 0, 0));
+        lblCodigo2.setText("Pagado:");
+        jPanel1.add(lblCodigo2);
+        lblCodigo2.setBounds(230, 40, 70, 16);
+
+        txtPagado.setEditable(false);
+        txtPagado.setBackground(new java.awt.Color(255, 255, 255));
+        txtPagado.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(txtPagado);
+        txtPagado.setBounds(300, 40, 100, 20);
+
+        lblSaldo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSaldo.setForeground(new java.awt.Color(0, 0, 0));
+        lblSaldo.setText("Saldo:");
+        jPanel1.add(lblSaldo);
+        lblSaldo.setBounds(430, 40, 70, 16);
+
+        txtSaldo.setEditable(false);
+        txtSaldo.setBackground(new java.awt.Color(255, 255, 255));
+        txtSaldo.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(txtSaldo);
+        txtSaldo.setBounds(490, 40, 100, 20);
+
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel3.setText("Resumen");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(40, 0, 140, 30);
+
+        jPanel4.setBackground(new java.awt.Color(153, 51, 255));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
         );
+
+        jPanel1.add(jPanel4);
+        jPanel4.setBounds(0, 0, 20, 80);
+
+        add(jPanel1);
+        jPanel1.setBounds(20, 510, 780, 80);
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setLayout(null);
+
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 3, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Abonos");
+        jPanel2.add(jLabel2);
+        jLabel2.setBounds(30, 0, 140, 30);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Observación:");
+        jPanel2.add(jLabel4);
+        jLabel4.setBounds(370, 30, 90, 16);
+
+        txtMonto.setBackground(new java.awt.Color(255, 255, 255));
+        txtMonto.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel2.add(txtMonto);
+        txtMonto.setBounds(100, 30, 80, 22);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Monto:");
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(50, 30, 60, 16);
+
+        cmbMetodo.setBackground(new java.awt.Color(255, 255, 255));
+        cmbMetodo.setForeground(new java.awt.Color(0, 0, 0));
+        cmbMetodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Transferencia", "Tarjeta" }));
+        jPanel2.add(cmbMetodo);
+        cmbMetodo.setBounds(250, 30, 105, 22);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Método:");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(190, 30, 60, 16);
+
+        txtObservacion.setBackground(new java.awt.Color(255, 255, 255));
+        txtObservacion.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel2.add(txtObservacion);
+        txtObservacion.setBounds(450, 30, 310, 20);
+
+        btnAbonar.setBackground(new java.awt.Color(0, 153, 0));
+        btnAbonar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAbonar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAbonar.setText("Abonar");
+        btnAbonar.addActionListener(this::btnAbonarActionPerformed);
+        jPanel2.add(btnAbonar);
+        btnAbonar.setBounds(660, 60, 100, 27);
+
+        jPanel3.setBackground(new java.awt.Color(0, 153, 51));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPanel3);
+        jPanel3.setBounds(0, 0, 20, 100);
+
+        btnModificarAbono.setBackground(new java.awt.Color(51, 0, 204));
+        btnModificarAbono.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnModificarAbono.setForeground(new java.awt.Color(255, 255, 255));
+        btnModificarAbono.setText("Modificar");
+        btnModificarAbono.addActionListener(this::btnModificarAbonoActionPerformed);
+        jPanel2.add(btnModificarAbono);
+        btnModificarAbono.setBounds(160, 60, 100, 25);
+
+        btnEliminarAbono.setBackground(new java.awt.Color(204, 0, 0));
+        btnEliminarAbono.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnEliminarAbono.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarAbono.setText("Eliminar");
+        btnEliminarAbono.addActionListener(this::btnEliminarAbonoActionPerformed);
+        jPanel2.add(btnEliminarAbono);
+        btnEliminarAbono.setBounds(40, 60, 100, 25);
+
+        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel8.setText("Seleccione un pago de la tabla para modificarlo o eliminarlo");
+        jPanel2.add(jLabel8);
+        jLabel8.setBounds(310, 70, 340, 16);
+
+        add(jPanel2);
+        jPanel2.setBounds(20, 390, 780, 100);
+
+        btnCancelar.setBackground(new java.awt.Color(204, 0, 0));
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        add(btnCancelar);
+        btnCancelar.setBounds(720, 600, 90, 30);
+
+        txtOperador.setBackground(new java.awt.Color(255, 255, 255));
+        add(txtOperador);
+        txtOperador.setBounds(540, 610, 150, 20);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Cajero:");
+        add(jLabel7);
+        jLabel7.setBounds(480, 610, 70, 20);
+
+        jLabel10.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel10.setText("Seleccione una reserva de la tabla para realizar el pago.");
+        add(jLabel10);
+        jLabel10.setBounds(470, 80, 340, 16);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbonarActionPerformed
+        if (reservaElegida == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione una reserva de la tabla");
+    } else {
+        try {
+            double monto = Double.parseDouble(txtMonto.getText().trim());
+            String metodo = cmbMetodo.getSelectedItem().toString().toLowerCase();
+            String codigoPago = reservaElegida.getCodigo() + "-P" + (reservaElegida.getCantidadPagos() + 1);
+
+            Pago pago = new Pago(codigoPago, LocalDateTime.now(), monto, metodo);
+            String observacion = txtObservacion.getText().trim();
+            if (!observacion.isEmpty()) {
+                pago.setObservacion(observacion);
+            }
+
+            String mensaje = reservaElegida.registrarPago(pago, tarifa);
+            JOptionPane.showMessageDialog(this, mensaje);
+            if (mensaje.equals("Pago Aceptado")) {
+                txtMonto.setText("");
+                txtObservacion.setText("");
+                actualizarPantalla();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El monto debe ser un número");
+        }
+    }
+    }//GEN-LAST:event_btnAbonarActionPerformed
+
+    private void tblReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReservasMouseClicked
+      tblReservas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        int fila = tblReservas.getSelectedRow();
+    if (fila >= 0) {
+        String codigo = tblReservas.getValueAt(fila, 0).toString();
+        reservaElegida = gestionReservas.buscarReservaPorCodigo(codigo);
+        mostrarDetalle();
+    }
+    }//GEN-LAST:event_tblReservasMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+      String operador = txtOperador.getText().trim();
+
+    if (reservaElegida == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione una reserva de la tabla");
+    } else if (operador.isEmpty() || operador.contains(",")) {
+        JOptionPane.showMessageDialog(this, "Escriba el operador responsable, sin comas");
+    } else {
+        String motivo = JOptionPane.showInputDialog(this, "Motivo de la cancelación:");
+        if (motivo != null) {
+            if (motivo.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe escribir el motivo");
+            } else if (reservaElegida.cancelar(motivo.trim().replace(",", " "), operador)) {
+                JOptionPane.showMessageDialog(this, "Reserva cancelada. Se conserva en el historial");
+                actualizarPantalla();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se puede cancelar una reserva " + reservaElegida.getEstado());
+            }
+        }
+    }
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void tblPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPagosMouseClicked
+
+        int fila = tblPagos.getSelectedRow();
+    if (reservaElegida != null && fila >= 0 && fila < reservaElegida.getCantidadPagos()) {
+        pagoElegido = fila;
+        Pago p = reservaElegida.getPago()[fila];
+        txtMonto.setText(String.valueOf(p.getMonto()));
+        String metodo = p.getMetodo();
+        cmbMetodo.setSelectedItem(metodo.substring(0, 1).toUpperCase() + metodo.substring(1));
+        if (p.getObservacion() == null) {
+            txtObservacion.setText("");
+        } else {
+            txtObservacion.setText(p.getObservacion());
+        }
+    }
+    }//GEN-LAST:event_tblPagosMouseClicked
+
+    private void btnEliminarAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarAbonoActionPerformed
+     if (reservaElegida == null || pagoElegido < 0) {
+        JOptionPane.showMessageDialog(this, "Seleccione un pago de la tabla de pagos");
+    } else {
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Eliminar el pago seleccionado?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            String mensaje = reservaElegida.eliminarPago(pagoElegido, tarifa);
+            JOptionPane.showMessageDialog(this, mensaje);
+            if (mensaje.equals("Pago eliminado")) {
+                limpiarAbono();
+                actualizarPantalla();
+            }
+        }
+    }
+    }//GEN-LAST:event_btnEliminarAbonoActionPerformed
+
+    private void btnModificarAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarAbonoActionPerformed
+      if (reservaElegida == null || pagoElegido < 0) {
+        JOptionPane.showMessageDialog(this, "Seleccione un pago de la tabla de pagos");
+    } else {
+        try {
+            double monto = Double.parseDouble(txtMonto.getText().trim());
+            String metodo = cmbMetodo.getSelectedItem().toString().toLowerCase();
+            String mensaje = reservaElegida.modificarPago(pagoElegido, monto, metodo, txtObservacion.getText().trim(), tarifa);
+            JOptionPane.showMessageDialog(this, mensaje);
+            if (mensaje.equals("Pago modificado")) {
+                limpiarAbono();
+                actualizarPantalla();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El monto debe ser un número");
+        }
+    }
+    }//GEN-LAST:event_btnModificarAbonoActionPerformed
+
+    private void limpiarAbono() {
+    txtMonto.setText("");
+    txtObservacion.setText("");
+    pagoElegido = -1;
+    tblPagos.clearSelection();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbonar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminarAbono;
+    private javax.swing.JButton btnModificarAbono;
+    private javax.swing.JComboBox<String> cmbMetodo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCodigo2;
+    private javax.swing.JLabel lblPagos;
+    private javax.swing.JLabel lblReservas;
+    private javax.swing.JLabel lblSaldo;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTable tblPagos;
+    private javax.swing.JTable tblReservas;
+    private javax.swing.JTextField txtMonto;
+    private javax.swing.JTextField txtObservacion;
+    private javax.swing.JTextField txtOperador;
+    private javax.swing.JTextField txtPagado;
+    private javax.swing.JTextField txtSaldo;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

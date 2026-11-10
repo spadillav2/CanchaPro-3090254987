@@ -1,1 +1,5 @@
-R1,S01,Balon,20.0
+R2,S01,Balon,20.0
+R3,S02,Arbitro,50.0
+R3,S04,Iluminacion,30.0
+R3,S01,Balon,20.0
+R4,S03,Chalecos,15.0

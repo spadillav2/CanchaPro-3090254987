@@ -3,18 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
-
+import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Pago;
+import canchapro.codigo.Reserva;
 /**
  *
  * @author Padilla
  */
 public class pnlReportes extends javax.swing.JPanel {
-
+private GestionReservas gestionReservas;
     /**
      * Creates new form pnlReportes
      */
     public pnlReportes() {
+ 
+        
         initComponents();
+               this.gestionReservas = gestionReservas;
+        gestionReservas.actualizarEstados();
     }
 
     /**

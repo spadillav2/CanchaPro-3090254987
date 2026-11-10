@@ -15,6 +15,7 @@ public class ArchivoClientes {
         try {
             FileWriter fw = new FileWriter(ruta);
             BufferedWriter bw = new BufferedWriter(fw);
+            
             for (int i = 0; i < gestion.getCantClientes(); i++) {
                 Cliente c = gestion.getCliente()[i];
                 String correo = c.getCorreo();
@@ -36,6 +37,7 @@ public class ArchivoClientes {
         try {
             FileReader fr = new FileReader(rutaClientes);
             BufferedReader br = new BufferedReader(fr);
+            
             String linea = br.readLine();
             while (linea != null) {
                 if (!linea.trim().isEmpty()) {

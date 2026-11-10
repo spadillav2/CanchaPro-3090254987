@@ -4,6 +4,7 @@
  */
 package canchapro.codigo;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 /**
  *
@@ -236,7 +237,55 @@ public String registrarPago(Pago p, Tarifa tarifa) {
 }
 
 
+public String modificarPago(int posicion, double nuevoMonto, String nuevoMetodo, String nuevaObservacion, Tarifa tarifa) {
+    if (estado.equals(CANCELADA)) {
+        return "La reserva está cancelada";
+    }
+    if (posicion < 0 || posicion >= cantidadPagos) {
+        return "Seleccione un pago";
+    }
+    if (nuevoMonto <= 0) {
+        return "El monto debe ser mayor a 0";
+    }
 
+    double pagadoDespues = calcularTotalPagado() - pago[posicion].getMonto() + nuevoMonto;
+    if (pagadoDespues > calcularTotal(tarifa)) {
+        return "El monto supera el saldo pendiente";
+    }
+    if (pagadoDespues < calcularTotal(tarifa) * PORCENTAJE_ANTICIPO_MINIMO) {
+        return "La reserva no puede quedar con menos del anticipo mínimo";
+    }
+
+    pago[posicion].setMonto(nuevoMonto);
+    pago[posicion].setMetodo(nuevoMetodo);
+    if (nuevaObservacion.isEmpty()) {
+        pago[posicion].setObservacion(null);
+    } else {
+        pago[posicion].setObservacion(nuevaObservacion);
+    }
+    return "Pago modificado";
+}
+
+public String eliminarPago(int posicion, Tarifa tarifa) {
+    if (estado.equals(CANCELADA)) {
+        return "La reserva está cancelada";
+    }
+    if (posicion < 0 || posicion >= cantidadPagos) {
+        return "Seleccione un pago";
+    }
+
+    double pagadoDespues = calcularTotalPagado() - pago[posicion].getMonto();
+    if (pagadoDespues < calcularTotal(tarifa) * PORCENTAJE_ANTICIPO_MINIMO) {
+        return "La reserva no puede quedar con menos del anticipo mínimo";
+    }
+
+    for (int i = posicion; i < cantidadPagos - 1; i++) {
+        pago[i] = pago[i + 1];
+    }
+    pago[cantidadPagos - 1] = null;
+    cantidadPagos--;
+    return "Pago eliminado";
+}
 
 
 
@@ -292,6 +341,22 @@ public void restaurarPago(Pago p) {
         cantidadPagos++;
     }
 }
+
+
+//Cambiar estado de reserva
+  public void actualizarEstado() {
+    LocalDateTime inicio = LocalDateTime.of(fecha, horaInicio);
+    LocalDateTime fin = LocalDateTime.of(fecha, calcularHoraFin());
+    LocalDateTime ahora = LocalDateTime.now();
+
+    if (estado.equals(CONFIRMADA) && !ahora.isBefore(inicio)) {
+        estado = EN_CURSO;
+    }
+    if (estado.equals(EN_CURSO) && !ahora.isBefore(fin)) {
+        estado = FINALIZADA;
+    }
+}
+
 
 }
 

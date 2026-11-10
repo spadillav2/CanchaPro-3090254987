@@ -148,4 +148,11 @@ public boolean canchaLibre(Cancha cancha, LocalDate fecha, LocalTime horaInicio,
     return true;
 }
    
+   
+   public void actualizarEstados() {
+    for (int i = 0; i < cantReservas; i++) {
+        reserva[i].actualizarEstado();
+    }
+}
+   
 }

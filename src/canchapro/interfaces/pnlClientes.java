@@ -68,7 +68,7 @@ private void limpiarCampos() {
         lblClientesTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtCorreoCliente = new javax.swing.JTextField();
         txtCodigoCliente = new javax.swing.JTextField();
@@ -126,11 +126,11 @@ private void limpiarCampos() {
         add(jLabel2);
         jLabel2.setBounds(340, 110, 70, 16);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Código:");
-        add(jLabel3);
-        jLabel3.setBounds(30, 110, 70, 16);
+        lblCodigo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        lblCodigo.setText("Código:");
+        add(lblCodigo);
+        lblCodigo.setBounds(30, 110, 70, 16);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -306,10 +306,10 @@ private void limpiarCampos() {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblClientesTitulo;
+    private javax.swing.JLabel lblCodigo;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtCodigoCliente;
     private javax.swing.JTextField txtCorreoCliente;
