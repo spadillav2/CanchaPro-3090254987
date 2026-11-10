@@ -3,20 +3,87 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
-
+import canchapro.codigo.Cancha;
+import canchapro.codigo.GestionCanchas;
+import canchapro.codigo.GestionReservas;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Padilla
  */
 public class pnlDisponibilidad extends javax.swing.JPanel {
+private GestionCanchas gestionCanchas;
+private GestionReservas gestionReservas;
 
     /**
      * Creates new form pnlDisponibilidad
      */
-    public pnlDisponibilidad() {
+    public pnlDisponibilidad(GestionCanchas gca, GestionReservas gr) {
         initComponents();
+         this.gestionCanchas = gca;
+    this.gestionReservas = gr;
+    tblDisponibilidad.setRowHeight(24);
+    tblDisponibilidad.setDefaultEditor(Object.class, null);
+    jdateFecha.setDate(new java.util.Date());
+    consultar();
     }
 
+    
+    private LocalDate leerFecha() {
+    java.util.Date fecha = jdateFecha.getDate();
+    if (fecha == null) {
+        return null;
+    }
+    return fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+}
+
+private String estadoCelda(Cancha c, LocalDate fecha, LocalTime hora) {
+    LocalTime fin = hora.plusHours(1);
+
+    if (!c.estaDisponible()) {
+        return c.getEstado();
+    }
+    if (hora.isBefore(c.getHoraApertura()) || fin.isAfter(c.getHoraCierre()) || !fin.isAfter(hora)) {
+        return "Cerrada";
+    }
+    if (gestionReservas.canchaLibre(c, fecha, hora, 60)) {
+        return "Libre";
+    }
+    return "Ocupada";
+}
+
+private void consultar() {
+    LocalDate fecha = leerFecha();
+    int cantidad = gestionCanchas.getCantCancha();
+
+    if (fecha == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione una fecha");
+    } else if (cantidad == 0) {
+        JOptionPane.showMessageDialog(this, "No hay canchas registradas");
+    } else {
+        String[] columnas = new String[cantidad + 1];
+        columnas[0] = "Hora";
+        for (int i = 0; i < cantidad; i++) {
+            columnas[i + 1] = gestionCanchas.getCancha()[i].getNombre();
+        }
+
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+        for (int h = 8; h <= 22; h++) {
+            LocalTime hora = LocalTime.of(h, 0);
+            Object[] fila = new Object[cantidad + 1];
+            fila[0] = hora + " - " + hora.plusHours(1);
+            for (int i = 0; i < cantidad; i++) {
+                fila[i + 1] = estadoCelda(gestionCanchas.getCancha()[i], fecha, hora);
+            }
+            modelo.addRow(fila);
+        }
+        tblDisponibilidad.setModel(modelo);
+    }
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,22 +93,77 @@ public class pnlDisponibilidad extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(51, 0, 255));
-        setForeground(new java.awt.Color(0, 0, 255));
+        lblDisponibilidadTitulo = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
+        jdateFecha = new com.toedter.calendar.JDateChooser();
+        lblLeyenda = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblDisponibilidad = new javax.swing.JTable();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
-        );
+        setBackground(new java.awt.Color(255, 255, 255));
+        setForeground(new java.awt.Color(0, 0, 255));
+        setLayout(null);
+
+        lblDisponibilidadTitulo.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
+        lblDisponibilidadTitulo.setForeground(new java.awt.Color(0, 51, 0));
+        lblDisponibilidadTitulo.setText("Disponibilidad");
+        add(lblDisponibilidadTitulo);
+        lblDisponibilidadTitulo.setBounds(20, 20, 410, 62);
+
+        lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(0, 0, 0));
+        lblFecha.setText("Fecha:");
+        add(lblFecha);
+        lblFecha.setBounds(30, 110, 70, 16);
+
+        jdateFecha.setBackground(new java.awt.Color(255, 255, 255));
+        jdateFecha.setForeground(new java.awt.Color(0, 0, 0));
+        jdateFecha.addPropertyChangeListener(this::jdateFechaPropertyChange);
+        add(jdateFecha);
+        jdateFecha.setBounds(80, 110, 100, 22);
+
+        lblLeyenda.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblLeyenda.setForeground(new java.awt.Color(0, 0, 0));
+        lblLeyenda.setText("Libre, Ocupada, Cerrada, o estado de la cancha (mantenimiento, inactiva)");
+        add(lblLeyenda);
+        lblLeyenda.setBounds(340, 120, 470, 16);
+
+        tblDisponibilidad.setBackground(new java.awt.Color(255, 255, 255));
+        tblDisponibilidad.setForeground(new java.awt.Color(0, 0, 0));
+        tblDisponibilidad.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblDisponibilidad);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
+        add(jScrollPane2);
+        jScrollPane2.setBounds(60, 180, 720, 430);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jdateFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jdateFechaPropertyChange
+       if (evt.getPropertyName().equals("date") && gestionCanchas != null) {
+        consultar();
+    }
+    }//GEN-LAST:event_jdateFechaPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private com.toedter.calendar.JDateChooser jdateFecha;
+    private javax.swing.JLabel lblDisponibilidadTitulo;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblLeyenda;
+    private javax.swing.JTable tblDisponibilidad;
     // End of variables declaration//GEN-END:variables
 }

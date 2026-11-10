@@ -77,6 +77,7 @@ private void limpiarCampos() {
         btnLimpiar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(832, 652));
@@ -96,7 +97,20 @@ private void limpiarCampos() {
             new String [] {
                 "Código", "Nombre", "Telefono", "Correo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblClientes);
         if (tblClientes.getColumnModel().getColumnCount() > 0) {
             tblClientes.getColumnModel().getColumn(0).setPreferredWidth(125);
@@ -211,6 +225,20 @@ private void limpiarCampos() {
         btnBuscar.addActionListener(this::btnBuscarActionPerformed);
         add(btnBuscar);
         btnBuscar.setBounds(540, 200, 100, 30);
+
+        btnEditar.setBackground(new java.awt.Color(255, 153, 0));
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEditar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditar.setText("Editar");
+        btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarMouseClicked(evt);
+            }
+        });
+        btnEditar.addActionListener(this::btnEditarActionPerformed);
+        add(btnEditar);
+        btnEditar.setBounds(420, 200, 100, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
@@ -299,10 +327,64 @@ private void limpiarCampos() {
     refrescarTabla();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void btnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+     
+    Cliente c = gestionClientes.buscarClienteporCodigo(txtCodigoCliente.getText().trim());
+    String nombre = txtNombreCliente.getText().trim();
+    String telefono = txtTelefonoCliente.getText().trim();
+    String correo = txtCorreoCliente.getText().trim();
+    Cliente otro = gestionClientes.buscarClienteporTelefono(telefono);
+
+    if (c == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione un cliente de la tabla para editarlo");
+    } else if (nombre.isEmpty() || telefono.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Complete nombre y teléfono");
+    } else if (nombre.contains(",") || telefono.contains(",") || correo.contains(",")) {
+        JOptionPane.showMessageDialog(this, "No use comas en los campos");
+    } else if (otro != null && otro != c) {
+        JOptionPane.showMessageDialog(this, "Ese teléfono ya pertenece a otro cliente");
+    } else {
+        c.setNombre(nombre);
+        c.setTelefono(telefono);
+        if (correo.isEmpty()) {
+            c.setCorreo(null);
+        } else {
+            c.setCorreo(correo);
+        }
+        JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
+        limpiarCampos();
+        refrescarTabla();
+    }
+
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+     int fila = tblClientes.getSelectedRow();
+    if (fila >= 0) {
+        String codigo = tblClientes.getValueAt(fila, 0).toString();
+        Cliente c = gestionClientes.buscarClienteporCodigo(codigo);
+        if (c != null) {
+            txtCodigoCliente.setText(c.getCodigo());
+            txtNombreCliente.setText(c.getNombre());
+            txtTelefonoCliente.setText(c.getTelefono());
+            if (c.getCorreo() == null) {
+                txtCorreoCliente.setText("");
+            } else {
+                txtCorreoCliente.setText(c.getCorreo());
+            }
+        }
+    }
+    }//GEN-LAST:event_tblClientesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

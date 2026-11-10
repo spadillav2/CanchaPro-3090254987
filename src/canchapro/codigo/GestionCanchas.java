@@ -113,23 +113,23 @@ public String generarCodigo(){
 
 
     
-    public String agregarCancha(Cancha chachacha){
+    public String agregarCancha(Cancha c){
         
         if (cantCancha>= cancha.length){
             return "Se ha excedido de la cantidad de canchas que puede añadir";
         }
-        if (buscarCanchaporCodigo(chachacha.getCodigo()) !=null){
+        if (buscarCanchaporCodigo(c.getCodigo()) !=null){
             return "Ya existe una cancha con ese codigo";
         }
         
-        if (buscarCanchaporNombre(chachacha.getNombre())!=null){
+        if (buscarCanchaporNombre(c.getNombre())!=null){
             return "Ya existe una cancha con ese nombre";
         }
         
         
         
         
-        cancha[cantCancha]=chachacha;
+        cancha[cantCancha]=c;
         cantCancha ++;
         return "Cancha agregada correctamente";
     }

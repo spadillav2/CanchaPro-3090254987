@@ -155,4 +155,41 @@ public boolean canchaLibre(Cancha cancha, LocalDate fecha, LocalTime horaInicio,
     }
 }
    
+   
+   //Metodos para generar los reportes después
+   
+   public int contarReservasDelDia(LocalDate dia) {
+    int contador = 0;
+    for (int i = 0; i < cantReservas; i++) {
+        if (reserva[i].getFecha().equals(dia) && !reserva[i].getEstado().equals(Reserva.CANCELADA)) {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+public int contarPorEstado(String estado) {
+    int contador = 0;
+    for (int i = 0; i < cantReservas; i++) {
+        if (reserva[i].getEstado().equals(estado)) {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+public double ingresosDelDia(LocalDate dia) {
+    double total = 0;
+    for (int i = 0; i < cantReservas; i++) {
+        Reserva r = reserva[i];
+        for (int j = 0; j < r.getCantidadPagos(); j++) {
+            Pago p = r.getPago()[j];
+            if (p.getFechaHoraPago().toLocalDate().equals(dia)) {
+                total = total + p.getMonto();
+            }
+        }
+    }
+    return total;
+}
+   
 }

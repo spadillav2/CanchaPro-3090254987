@@ -487,7 +487,7 @@ lblConfiguracion.setForeground(Color.white);
     }//GEN-LAST:event_lblClientesMouseClicked
 
     private void lblDisponibilidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDisponibilidadMouseClicked
-       mostrarPanel(new pnlDisponibilidad());
+      mostrarPanel(new pnlDisponibilidad(gestionCanchas, gestionReservas));
     }//GEN-LAST:event_lblDisponibilidadMouseClicked
 
     private void lblCanchasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanchasMouseClicked
