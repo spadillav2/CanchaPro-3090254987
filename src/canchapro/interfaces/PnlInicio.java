@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
+import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Reserva;
+import java.time.LocalDate;
 
 /**
  *
@@ -13,8 +16,16 @@ public class PnlInicio extends javax.swing.JPanel {
     /**
      * Creates new form PnlInicio
      */
-    public PnlInicio() {
+    public PnlInicio(GestionReservas gr) {
         initComponents();
+    gr.actualizarEstados();
+    LocalDate hoy = LocalDate.now();
+
+    lblFechaHoy.setText("Resumen de hoy: " + hoy);
+    lblReservasHoy.setText(String.valueOf(gr.contarReservasDelDia(hoy)));
+    lblEnCurso.setText(String.valueOf(gr.contarPorEstado(Reserva.EN_CURSO)));
+    lblPendientes.setText(String.valueOf(gr.contarPorEstado(Reserva.PENDIENTE)));
+    lblIngresosHoy.setText("Q" + String.format("%.2f", gr.ingresosDelDia(hoy)));
     }
 
     /**
@@ -27,6 +38,24 @@ public class PnlInicio extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        lblIngresosHoy = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        lblReservasHoy = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        lblEnCurso = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        lblPendientes = new javax.swing.JLabel();
+        lblFechaHoy = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(832, 652));
@@ -37,10 +66,122 @@ public class PnlInicio extends javax.swing.JPanel {
         jLabel1.setText("La10");
         add(jLabel1);
         jLabel1.setBounds(20, 20, 114, 62);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setLayout(null);
+
+        jPanel8.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel1.add(jPanel8);
+        jPanel8.setBounds(0, 0, 30, 140);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Ingresos de hoy");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(60, 10, 210, 30);
+
+        lblIngresosHoy.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        lblIngresosHoy.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(lblIngresosHoy);
+        lblIngresosHoy.setBounds(50, 40, 220, 90);
+
+        add(jPanel1);
+        jPanel1.setBounds(470, 350, 280, 140);
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setLayout(null);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Reservas de hoy");
+        jPanel2.add(jLabel3);
+        jLabel3.setBounds(60, 10, 210, 30);
+
+        jPanel5.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel2.add(jPanel5);
+        jPanel5.setBounds(0, 0, 30, 140);
+
+        lblReservasHoy.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        lblReservasHoy.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel2.add(lblReservasHoy);
+        lblReservasHoy.setBounds(70, 50, 180, 90);
+
+        add(jPanel2);
+        jPanel2.setBounds(90, 150, 280, 140);
+
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setLayout(null);
+
+        jPanel7.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel3.add(jPanel7);
+        jPanel7.setBounds(0, 0, 30, 140);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("En Curso");
+        jPanel3.add(jLabel4);
+        jLabel4.setBounds(80, 10, 210, 30);
+
+        lblEnCurso.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        lblEnCurso.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel3.add(lblEnCurso);
+        lblEnCurso.setBounds(60, 50, 180, 90);
+
+        add(jPanel3);
+        jPanel3.setBounds(470, 150, 280, 140);
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel4.setLayout(null);
+
+        jPanel6.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel4.add(jPanel6);
+        jPanel6.setBounds(0, 0, 30, 140);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Pendientes");
+        jPanel4.add(jLabel5);
+        jLabel5.setBounds(70, 10, 210, 30);
+
+        lblPendientes.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        lblPendientes.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel4.add(lblPendientes);
+        lblPendientes.setBounds(50, 40, 180, 90);
+
+        add(jPanel4);
+        jPanel4.setBounds(90, 350, 280, 140);
+
+        lblFechaHoy.setBackground(new java.awt.Color(0, 0, 0));
+        lblFechaHoy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        add(lblFechaHoy);
+        lblFechaHoy.setBounds(480, 40, 300, 70);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/balon.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        add(jLabel2);
+        jLabel2.setBounds(30, 90, 820, 560);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JLabel lblEnCurso;
+    private javax.swing.JLabel lblFechaHoy;
+    private javax.swing.JLabel lblIngresosHoy;
+    private javax.swing.JLabel lblPendientes;
+    private javax.swing.JLabel lblReservasHoy;
     // End of variables declaration//GEN-END:variables
 }

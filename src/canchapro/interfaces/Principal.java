@@ -56,7 +56,7 @@ public Principal() {
      System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, "canchas.txt"));
      System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, "reservas.txt", "servicios_reservas.txt", "pagos.txt"));
      
-    mostrarPanel(new PnlInicio());
+    mostrarPanel(new PnlInicio(gestionReservas));
     
     configuracion.cargar(RUTA_CONFIG);
 lblTienda.setVisible(configuracion.isTiendaActiva());
@@ -94,7 +94,6 @@ btnGuardarArchivos.setFocusable(false);
         lblClientes = new javax.swing.JLabel();
         lblPagos = new javax.swing.JLabel();
         lblReportes = new javax.swing.JLabel();
-        lblConfiguracion = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblLogo2 = new javax.swing.JLabel();
         btnGuardarArchivos = new javax.swing.JButton();
@@ -259,24 +258,6 @@ btnGuardarArchivos.setFocusable(false);
         jPanel2.add(lblReportes);
         lblReportes.setBounds(50, 420, 64, 29);
 
-        lblConfiguracion.setFont(new java.awt.Font("Sans Serif Collection", 1, 14)); // NOI18N
-        lblConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
-        lblConfiguracion.setText("Configuración");
-        lblConfiguracion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblConfiguracion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblConfiguracionMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblConfiguracionMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblConfiguracionMouseExited(evt);
-            }
-        });
-        jPanel2.add(lblConfiguracion);
-        lblConfiguracion.setBounds(50, 470, 101, 29);
-
         lblLogo.setMaximumSize(new java.awt.Dimension(1099, 1201));
         lblLogo.setMinimumSize(new java.awt.Dimension(1099, 1201));
         jPanel2.add(lblLogo);
@@ -359,7 +340,7 @@ btnGuardarArchivos.setFocusable(false);
             }
         });
         jPanel2.add(lblTienda);
-        lblTienda.setBounds(50, 510, 101, 29);
+        lblTienda.setBounds(50, 470, 101, 29);
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 660));
 
@@ -393,7 +374,7 @@ lblLogo2.requestFocusInWindow();
     }//GEN-LAST:event_lblLogo2MouseClicked
 
     private void lblInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseClicked
-       mostrarPanel(new PnlInicio());
+       mostrarPanel(new PnlInicio(gestionReservas));
     }//GEN-LAST:event_lblInicioMouseClicked
 
     private void lblInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblInicioFocusGained
@@ -445,11 +426,6 @@ lblPagos.setForeground(Color.gray);
 lblReportes.setForeground(Color.gray);
     }//GEN-LAST:event_lblReportesMouseEntered
 
-    private void lblConfiguracionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseEntered
-
-lblConfiguracion.setForeground(Color.gray);
-    }//GEN-LAST:event_lblConfiguracionMouseEntered
-
     private void lblDisponibilidadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDisponibilidadMouseExited
               lblDisponibilidad.setBackground(Color.green);
 lblDisponibilidad.setForeground(Color.white);
@@ -464,11 +440,6 @@ lblClientes.setForeground(Color.white);
             lblReportes.setBackground(Color.green);
 lblReportes.setForeground(Color.white);
     }//GEN-LAST:event_lblReportesMouseExited
-
-    private void lblConfiguracionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseExited
-            lblConfiguracion.setBackground(Color.green);
-lblConfiguracion.setForeground(Color.white);
-    }//GEN-LAST:event_lblConfiguracionMouseExited
 
     private void lblCanchasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCanchasMouseEntered
       lblCanchas.setForeground(Color.gray);
@@ -499,12 +470,8 @@ mostrarPanel(new pnlCanchas(gestionCanchas));
     }//GEN-LAST:event_lblPagosMouseClicked
 
     private void lblReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportesMouseClicked
-     mostrarPanel(new pnlReportes());
+   mostrarPanel(new pnlReportes(gestionReservas, gestionCanchas, gestionClientes, tarifa));
     }//GEN-LAST:event_lblReportesMouseClicked
-
-    private void lblConfiguracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseClicked
-      mostrarPanel(new pnlConfiguracion());
-    }//GEN-LAST:event_lblConfiguracionMouseClicked
 
     private void lblLogo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblLogo2KeyTyped
      detectarTeclas(evt.getKeyChar());
@@ -580,7 +547,7 @@ public void irAClientes() {
     private void actualizarMenuTienda() {
     lblTienda.setVisible(configuracion.isTiendaActiva());
     if (!configuracion.isTiendaActiva()) {
-        mostrarPanel(new PnlInicio());
+        mostrarPanel(new PnlInicio(gestionReservas));
     }
 }
    
@@ -597,7 +564,6 @@ public void irAClientes() {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblCanchas;
     private javax.swing.JLabel lblClientes;
-    private javax.swing.JLabel lblConfiguracion;
     private javax.swing.JLabel lblDisponibilidad;
     private javax.swing.JLabel lblInicio;
     private javax.swing.JLabel lblLogo;

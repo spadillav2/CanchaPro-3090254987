@@ -3,26 +3,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
+import canchapro.codigo.GestionCanchas;
+import canchapro.codigo.GestionClientes;
 import canchapro.codigo.GestionReservas;
-import canchapro.codigo.Pago;
-import canchapro.codigo.Reserva;
+import canchapro.codigo.Reportes;
+import canchapro.codigo.Tarifa;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+
+
+
 /**
  *
  * @author Padilla
  */
 public class pnlReportes extends javax.swing.JPanel {
+private GestionCanchas gestionCanchas;
 private GestionReservas gestionReservas;
+private Reportes reportes;
     /**
      * Creates new form pnlReportes
      */
-    public pnlReportes() {
+    public pnlReportes(GestionReservas gr,GestionCanchas gca , GestionClientes gc,Tarifa t) {
  
-        
-        initComponents();
-               this.gestionReservas = gestionReservas;
-        gestionReservas.actualizarEstados();
+ initComponents();
+    this.gestionCanchas = gca;
+    this.gestionReservas = gr;
+    this.reportes = new Reportes(gr, gca, gc, t);
+    txtResultado.setEditable(false);
+    cargarCanchas();
     }
 
+   private void cargarCanchas() {
+    cmbCancha.removeAllItems();
+    cmbCancha.addItem("Todas");
+    for (int i = 0; i < gestionCanchas.getCantCancha(); i++) {
+        cmbCancha.addItem(gestionCanchas.getCancha()[i].getNombre());
+    }
+}
+
+private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
+    java.util.Date fecha = selector.getDate();
+    if (fecha == null) {
+        return null;
+    }
+    return fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+} 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,21 +60,192 @@ private GestionReservas gestionReservas;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(204, 204, 255));
+        lblReportesTitulo = new javax.swing.JLabel();
+        cmbReporte = new javax.swing.JComboBox<>();
+        lblDatosHorario = new javax.swing.JLabel();
+        lblDatosHorario1 = new javax.swing.JLabel();
+        lblDatosHorario2 = new javax.swing.JLabel();
+        jdateDesde = new com.toedter.calendar.JDateChooser();
+        jdateHasta = new com.toedter.calendar.JDateChooser();
+        lblDatosHorario3 = new javax.swing.JLabel();
+        cmbCancha = new javax.swing.JComboBox<>();
+        lblDatosHorario4 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
+        btnGenerar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtResultado = new javax.swing.JTextField();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
-        );
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(null);
+
+        lblReportesTitulo.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
+        lblReportesTitulo.setForeground(new java.awt.Color(0, 51, 0));
+        lblReportesTitulo.setText("Reportes");
+        add(lblReportesTitulo);
+        lblReportesTitulo.setBounds(20, 10, 400, 62);
+
+        cmbReporte.setBackground(new java.awt.Color(255, 255, 255));
+        cmbReporte.setForeground(new java.awt.Color(0, 0, 0));
+        cmbReporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reservas por fecha", "Reservas por cancha", "Ingresos por período", "Pagos pendientes", "Reservas canceladas", "Cancha más utilizada", "Horarios de mayor demanda", "Clientes con mayor cantidad de reservas" }));
+        add(cmbReporte);
+        cmbReporte.setBounds(420, 60, 360, 30);
+
+        lblDatosHorario.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario.setText("Estado:");
+        add(lblDatosHorario);
+        lblDatosHorario.setBounds(60, 150, 70, 20);
+
+        lblDatosHorario1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario1.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario1.setText("Escoja el reporte que desea generar");
+        add(lblDatosHorario1);
+        lblDatosHorario1.setBounds(530, 30, 270, 20);
+
+        lblDatosHorario2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario2.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario2.setText("Desde:");
+        add(lblDatosHorario2);
+        lblDatosHorario2.setBounds(60, 110, 70, 20);
+        add(jdateDesde);
+        jdateDesde.setBounds(130, 110, 120, 22);
+        add(jdateHasta);
+        jdateHasta.setBounds(320, 110, 120, 22);
+
+        lblDatosHorario3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario3.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario3.setText("Hasta:");
+        add(lblDatosHorario3);
+        lblDatosHorario3.setBounds(260, 110, 70, 20);
+
+        cmbCancha.setBackground(new java.awt.Color(255, 255, 255));
+        cmbCancha.setForeground(new java.awt.Color(0, 0, 0));
+        cmbCancha.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        add(cmbCancha);
+        cmbCancha.setBounds(520, 110, 260, 22);
+
+        lblDatosHorario4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario4.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario4.setText("Cancha:");
+        add(lblDatosHorario4);
+        lblDatosHorario4.setBounds(450, 110, 70, 20);
+
+        cmbEstado.setBackground(new java.awt.Color(255, 255, 255));
+        cmbEstado.setForeground(new java.awt.Color(0, 0, 0));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "todos", "pendiente", "confirmada", "en_curso", "finalizada", "cancelada" }));
+        add(cmbEstado);
+        cmbEstado.setBounds(130, 150, 150, 22);
+
+        btnGenerar.setBackground(new java.awt.Color(0, 102, 0));
+        btnGenerar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGenerar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerar.setText("Generar");
+        btnGenerar.addActionListener(this::btnGenerarActionPerformed);
+        add(btnGenerar);
+        btnGenerar.setBounds(670, 150, 110, 30);
+
+        btnLimpiar.setBackground(new java.awt.Color(102, 0, 102));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+        add(btnLimpiar);
+        btnLimpiar.setBounds(550, 150, 100, 30);
+
+        txtResultado.setBackground(new java.awt.Color(255, 255, 255));
+        txtResultado.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        txtResultado.setForeground(new java.awt.Color(0, 0, 0));
+        txtResultado.addActionListener(this::txtResultadoActionPerformed);
+        jScrollPane1.setViewportView(txtResultado);
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(60, 220, 710, 380);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
+
+    }//GEN-LAST:event_btnLimpiarMouseClicked
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+      jdateDesde.setDate(null);
+    jdateHasta.setDate(null);
+    cmbCancha.setSelectedIndex(0);
+    cmbEstado.setSelectedIndex(0);
+    cmbReporte.setSelectedIndex(0);
+    txtResultado.setText("");
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void txtResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResultadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtResultadoActionPerformed
+
+    private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
+      LocalDate desde = leerFecha(jdateDesde);
+    LocalDate hasta = leerFecha(jdateHasta);
+
+    String codigoCancha = null;
+    if (cmbCancha.getSelectedIndex() > 0) {
+        codigoCancha = gestionCanchas.getCancha()[cmbCancha.getSelectedIndex() - 1].getCodigo();
+    }
+    String estado = null;
+    if (cmbEstado.getSelectedIndex() > 0) {
+        estado = cmbEstado.getSelectedItem().toString();
+    }
+
+    if (desde != null && hasta != null && hasta.isBefore(desde)) {
+        JOptionPane.showMessageDialog(this, "La fecha final no puede ser anterior a la inicial");
+    } else {
+        gestionReservas.actualizarEstados();
+        reportes.setFiltros(desde, hasta, codigoCancha, estado);
+
+        int opcion = cmbReporte.getSelectedIndex();
+        String texto = "";
+        if (opcion == 0) {
+            texto = reportes.reservasPorFecha();
+        } else if (opcion == 1) {
+            texto = reportes.reservasPorCancha();
+        } else if (opcion == 2) {
+            texto = reportes.ingresosPorPeriodo();
+        } else if (opcion == 3) {
+            texto = reportes.pagosPendientes();
+        } else if (opcion == 4) {
+            texto = reportes.reservasCanceladas();
+        } else if (opcion == 5) {
+            texto = reportes.canchaMasUtilizada();
+        } else if (opcion == 6) {
+            texto = reportes.horariosDeMayorDemanda();
+        } else {
+            texto = reportes.clientesConMasReservas();
+        }
+        txtResultado.setText(texto);
+        txtResultado.setCaretPosition(0);
+    }
+    }//GEN-LAST:event_btnGenerarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cmbCancha;
+    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JComboBox<String> cmbReporte;
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdateDesde;
+    private com.toedter.calendar.JDateChooser jdateHasta;
+    private javax.swing.JLabel lblDatosHorario;
+    private javax.swing.JLabel lblDatosHorario1;
+    private javax.swing.JLabel lblDatosHorario2;
+    private javax.swing.JLabel lblDatosHorario3;
+    private javax.swing.JLabel lblDatosHorario4;
+    private javax.swing.JLabel lblReportesTitulo;
+    private javax.swing.JTextField txtResultado;
     // End of variables declaration//GEN-END:variables
 }
