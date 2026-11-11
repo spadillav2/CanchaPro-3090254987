@@ -5,6 +5,8 @@
 package canchapro.interfaces;
 
 import ModuloTienda.ConfiguracionTienda;
+import ModuloTienda.GestionProductos;
+import ModuloTienda.GestionVentas;
 
 import canchapro.codigo.GestionCanchas;
 import canchapro.codigo.GestionClientes;
@@ -12,7 +14,9 @@ import canchapro.codigo.GestionReservas;
 import canchapro.codigo.Tarifa;
 import canchaproArchivos.ArchivoCanchas;
 import canchaproArchivos.ArchivoClientes;
+import canchaproArchivos.ArchivoProductos;
 import canchaproArchivos.ArchivoReservas;
+import canchaproArchivos.ArchivoVentas;
 import java.awt.Color;
 /**
  *
@@ -35,7 +39,13 @@ private String teclasEscritas = "";
 private static final String CODIGO_TIENDA = "3090254987";
 private ConfiguracionTienda configuracion = new ConfiguracionTienda();
 private static final String RUTA_CONFIG = "configuracion.txt";
-
+private GestionProductos gestionProductos = new GestionProductos();
+private GestionVentas gestionVentas = new GestionVentas();
+private ArchivoProductos archivoProductos = new ArchivoProductos();
+private ArchivoVentas archivoVentas = new ArchivoVentas();
+private static final String RUTA_PRODUCTOS = "productos.txt";
+private static final String RUTA_VENTAS = "ventas.txt";
+private static final String RUTA_DETALLES = "detalle_ventas.txt";
 
 
 
@@ -52,7 +62,7 @@ public Principal() {
 
     panelContenido = new javax.swing.JPanel(new java.awt.BorderLayout());
    jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
-    System.out.println(archivoClientes.cargarArchivos(gestionClientes, "clientes.txt"));
+    System.out.println(archivoClientes.cargarClientes(gestionClientes, "clientes.txt"));
      System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, "canchas.txt"));
      System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, "reservas.txt", "servicios_reservas.txt", "pagos.txt"));
      
@@ -62,7 +72,8 @@ public Principal() {
 lblTienda.setVisible(configuracion.isTiendaActiva());
 
  chkTienda.setSelected(configuracion.isTiendaActiva());
- 
+ archivoProductos.guardarProductos(gestionProductos, RUTA_PRODUCTOS);
+archivoVentas.guardarVentas(gestionVentas, RUTA_VENTAS, RUTA_DETALLES);
  
  DlgModuloTienda.setModal(true);
 DlgModuloTienda.setSize(500, 400);
@@ -85,8 +96,11 @@ btnGuardarArchivos.setFocusable(false);
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         chkTienda = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblDisponibilidad = new javax.swing.JLabel();
@@ -123,19 +137,35 @@ btnGuardarArchivos.setFocusable(false);
         jPanel3.add(chkTienda);
         chkTienda.setBounds(170, 300, 160, 30);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/shop (1).jpg"))); // NOI18N
-        jLabel2.setAutoscrolls(true);
-        jLabel2.setMaximumSize(new java.awt.Dimension(200, 140));
-        jLabel2.setMinimumSize(new java.awt.Dimension(200, 140));
-        jLabel2.setPreferredSize(new java.awt.Dimension(200, 140));
-        jLabel2.setRequestFocusEnabled(false);
-        jPanel3.add(jLabel2);
-        jLabel2.setBounds(170, 140, 160, 140);
-
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Bienvenido al módulo tienda! Aqui podrá activarlo o desactivarlo.");
         jPanel3.add(jLabel3);
         jLabel3.setBounds(60, 100, 360, 16);
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoTienda.png"))); // NOI18N
+        jPanel3.add(jLabel4);
+        jLabel4.setBounds(250, 150, 90, 100);
+
+        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel10.setFont(new java.awt.Font("Perpetua Titling MT", 1, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("Shop");
+        jPanel3.add(jLabel10);
+        jLabel10.setBounds(180, 200, 90, 60);
+
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setFont(new java.awt.Font("Perpetua Titling MT", 1, 38)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("10");
+        jPanel3.add(jLabel9);
+        jLabel9.setBounds(210, 170, 80, 70);
+
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Perpetua Titling MT", 1, 24)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("La");
+        jPanel3.add(jLabel11);
+        jLabel11.setBounds(170, 180, 80, 50);
 
         javax.swing.GroupLayout DlgModuloTiendaLayout = new javax.swing.GroupLayout(DlgModuloTienda.getContentPane());
         DlgModuloTienda.getContentPane().setLayout(DlgModuloTiendaLayout);
@@ -360,7 +390,7 @@ btnGuardarArchivos.setFocusable(false);
 
     private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
 gestionReservas.actualizarEstados();
-        archivoClientes.guardar(gestionClientes, "clientes.txt");
+        archivoClientes.guardarClientes(gestionClientes, "clientes.txt");
      archivoCanchas.guardarCanchas(gestionCanchas, "canchas.txt");
      archivoReservas.guardarReservas(gestionReservas, "reservas.txt", "servicios_reservs.txt", "pagos.txt");
      
@@ -493,7 +523,7 @@ mostrarPanel(new pnlCanchas(gestionCanchas));
     }//GEN-LAST:event_chkTiendaActionPerformed
 
     private void lblTiendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseClicked
-        // TODO add your handling code here:
+       mostrarPanel(new pnlTienda(gestionProductos, gestionVentas, gestionReservas));
     }//GEN-LAST:event_lblTiendaMouseClicked
 
     private void lblTiendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseEntered
@@ -557,8 +587,11 @@ public void irAClientes() {
     private javax.swing.JButton btnGuardarArchivos;
     private javax.swing.JCheckBox chkTienda;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

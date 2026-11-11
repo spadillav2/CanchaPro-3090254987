@@ -436,7 +436,7 @@ cmbCapacidad.setEnabled(false);
         pnlDatosServicios.add(cmbServiciosAdicionales);
         cmbServiciosAdicionales.setBounds(220, 20, 410, 22);
 
-        btnEliminar.setBackground(new java.awt.Color(255, 153, 0));
+        btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
@@ -568,9 +568,9 @@ cmbCapacidad.setEnabled(false);
         add(txtAnticipo);
         txtAnticipo.setBounds(330, 570, 120, 30);
 
-        btnLimpiar.setBackground(new java.awt.Color(153, 255, 255));
+        btnLimpiar.setBackground(new java.awt.Color(204, 0, 204));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         add(btnLimpiar);

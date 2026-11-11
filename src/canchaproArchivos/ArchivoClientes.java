@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class ArchivoClientes {
 
-    public void guardar(GestionClientes gestion, String ruta) {
+    public void guardarClientes(GestionClientes gestion, String ruta) {
         try {
             FileWriter fw = new FileWriter(ruta);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -31,7 +31,7 @@ public class ArchivoClientes {
         }
     }
 
-    public String cargarArchivos(GestionClientes gestion, String rutaClientes) {
+    public String cargarClientes(GestionClientes gestion, String rutaClientes) {
         int cargados = 0;
         int errores = 0;
         try {

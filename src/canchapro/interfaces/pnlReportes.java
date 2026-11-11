@@ -77,6 +77,8 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         txtResultado = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(832, 652));
+        setMinimumSize(new java.awt.Dimension(832, 652));
         setLayout(null);
 
         lblReportesTitulo.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 48)); // NOI18N
