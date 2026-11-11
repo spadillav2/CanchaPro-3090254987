@@ -21,7 +21,7 @@ private String operadorCancelacion;
     public static final String EN_CURSO ="en_curso";
     public static final String FINALIZADA = "finalizada";
     public static final String CANCELADA = "cancelada";
-    public static final double PORCENTAJE_ANTICIPO_MINIMO= 0.25;
+  
     
     //Atributos de una Reserva
     private String codigo;
@@ -111,9 +111,7 @@ private String operadorCancelacion;
         return operadorCancelacion;
     }
 
-    public static double getPorcentajeAnticipoMinimo() {
-        return PORCENTAJE_ANTICIPO_MINIMO;
-    }
+   
 
     
     
@@ -252,7 +250,7 @@ public String modificarPago(int posicion, double nuevoMonto, String nuevoMetodo,
     if (pagadoDespues > calcularTotal(tarifa)) {
         return "El monto supera el saldo pendiente";
     }
-    if (pagadoDespues < calcularTotal(tarifa) * PORCENTAJE_ANTICIPO_MINIMO) {
+    if (pagadoDespues < calcularTotal(tarifa) * tarifa.getPorcentajeAnticipoMinimo()) {
         return "La reserva no puede quedar con menos del anticipo mínimo";
     }
 
@@ -275,7 +273,7 @@ public String eliminarPago(int posicion, Tarifa tarifa) {
     }
 
     double pagadoDespues = calcularTotalPagado() - pago[posicion].getMonto();
-    if (pagadoDespues < calcularTotal(tarifa) * PORCENTAJE_ANTICIPO_MINIMO) {
+    if (pagadoDespues < calcularTotal(tarifa) * tarifa.getPorcentajeAnticipoMinimo()) {
         return "La reserva no puede quedar con menos del anticipo mínimo";
     }
 

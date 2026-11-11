@@ -11,7 +11,7 @@ import java.time.LocalTime;
  * @author Padilla
  */
 public class Tarifa {
- 
+ private double porcentajeAnticipoMinimo = 0.25;
     private double LunesViernesMatutino = 150.00; 
     private double LunesViernesVespertino = 225.00;
     private double FinesdeSemana = 250.00;
@@ -24,10 +24,18 @@ public class Tarifa {
         return LunesViernesVespertino;
     }
 
-    public double getFinesdeSemana() {
+    public double getFinesDeSemana() {
         return FinesdeSemana;
     }
 
+    public double getPorcentajeAnticipoMinimo() {
+        return porcentajeAnticipoMinimo;
+    }
+
+    
+    
+    
+    
     public void setLunesViernesMatutino(double LunesViernesMatutino) {
         this.LunesViernesMatutino = LunesViernesMatutino;
     }
@@ -36,8 +44,12 @@ public class Tarifa {
         this.LunesViernesVespertino = LunesViernesVespertino;
     }
 
-    public void setFinesdeSemana(double FinesdeSemana) {
+    public void setFinesDeSemana(double FinesdeSemana) {
         this.FinesdeSemana = FinesdeSemana;
+    }
+
+    public void setPorcentajeAnticipoMinimo(double porcentajeAnticipoMinimo) {
+        this.porcentajeAnticipoMinimo = porcentajeAnticipoMinimo;
     }
     
     

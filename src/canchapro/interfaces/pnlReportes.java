@@ -10,7 +10,7 @@ import canchapro.codigo.Reportes;
 import canchapro.codigo.Tarifa;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -30,7 +30,7 @@ private Reportes reportes;
     this.gestionCanchas = gca;
     this.gestionReservas = gr;
     this.reportes = new Reportes(gr, gca, gc, t);
-    txtResultado.setEditable(false);
+  tblReporte.setDefaultEditor(Object.class, null);
     cargarCanchas();
     }
 
@@ -69,12 +69,14 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         jdateHasta = new com.toedter.calendar.JDateChooser();
         lblDatosHorario3 = new javax.swing.JLabel();
         cmbCancha = new javax.swing.JComboBox<>();
-        lblDatosHorario4 = new javax.swing.JLabel();
+        lblFiltros = new javax.swing.JLabel();
         cmbEstado = new javax.swing.JComboBox<>();
         btnGenerar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtResultado = new javax.swing.JTextField();
+        tblReporteScrollPane = new javax.swing.JScrollPane();
+        tblReporte = new javax.swing.JTable();
+        lblDatosHorario5 = new javax.swing.JLabel();
+        lblResumen = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(832, 652));
@@ -127,11 +129,11 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         add(cmbCancha);
         cmbCancha.setBounds(520, 110, 260, 22);
 
-        lblDatosHorario4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        lblDatosHorario4.setForeground(new java.awt.Color(51, 51, 51));
-        lblDatosHorario4.setText("Cancha:");
-        add(lblDatosHorario4);
-        lblDatosHorario4.setBounds(450, 110, 70, 20);
+        lblFiltros.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblFiltros.setForeground(new java.awt.Color(51, 51, 51));
+        lblFiltros.setText("Cancha:");
+        add(lblFiltros);
+        lblFiltros.setBounds(290, 590, 70, 20);
 
         cmbEstado.setBackground(new java.awt.Color(255, 255, 255));
         cmbEstado.setForeground(new java.awt.Color(0, 0, 0));
@@ -161,14 +163,33 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         add(btnLimpiar);
         btnLimpiar.setBounds(550, 150, 100, 30);
 
-        txtResultado.setBackground(new java.awt.Color(255, 255, 255));
-        txtResultado.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
-        txtResultado.setForeground(new java.awt.Color(0, 0, 0));
-        txtResultado.addActionListener(this::txtResultadoActionPerformed);
-        jScrollPane1.setViewportView(txtResultado);
+        tblReporte.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblReporteScrollPane.setViewportView(tblReporte);
 
-        add(jScrollPane1);
-        jScrollPane1.setBounds(60, 220, 710, 380);
+        add(tblReporteScrollPane);
+        tblReporteScrollPane.setBounds(60, 220, 710, 350);
+
+        lblDatosHorario5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblDatosHorario5.setForeground(new java.awt.Color(51, 51, 51));
+        lblDatosHorario5.setText("Cancha:");
+        add(lblDatosHorario5);
+        lblDatosHorario5.setBounds(450, 110, 70, 20);
+
+        lblResumen.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblResumen.setForeground(new java.awt.Color(51, 51, 51));
+        lblResumen.setText("Cancha:");
+        add(lblResumen);
+        lblResumen.setBounds(60, 590, 70, 20);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
@@ -177,17 +198,15 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
-      jdateDesde.setDate(null);
+   jdateDesde.setDate(null);
     jdateHasta.setDate(null);
     cmbCancha.setSelectedIndex(0);
     cmbEstado.setSelectedIndex(0);
     cmbReporte.setSelectedIndex(0);
-    txtResultado.setText("");
+    tblReporte.setModel(new DefaultTableModel());
+    lblFiltros.setText("");
+    lblResumen.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void txtResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResultadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtResultadoActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
       LocalDate desde = leerFecha(jdateDesde);
@@ -208,28 +227,30 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         gestionReservas.actualizarEstados();
         reportes.setFiltros(desde, hasta, codigoCancha, estado);
 
-        int opcion = cmbReporte.getSelectedIndex();
-        String texto = "";
+       int opcion = cmbReporte.getSelectedIndex();
+        DefaultTableModel modelo;
         if (opcion == 0) {
-            texto = reportes.reservasPorFecha();
+            modelo = reportes.reservasPorFecha();
         } else if (opcion == 1) {
-            texto = reportes.reservasPorCancha();
+            modelo = reportes.reservasPorCancha();
         } else if (opcion == 2) {
-            texto = reportes.ingresosPorPeriodo();
+            modelo = reportes.ingresosPorPeriodo();
         } else if (opcion == 3) {
-            texto = reportes.pagosPendientes();
+            modelo = reportes.pagosPendientes();
         } else if (opcion == 4) {
-            texto = reportes.reservasCanceladas();
+            modelo = reportes.reservasCanceladas();
         } else if (opcion == 5) {
-            texto = reportes.canchaMasUtilizada();
+            modelo = reportes.canchaMasUtilizada();
         } else if (opcion == 6) {
-            texto = reportes.horariosDeMayorDemanda();
+            modelo = reportes.horariosDeMayorDemanda();
         } else {
-            texto = reportes.clientesConMasReservas();
+            modelo = reportes.clientesConMasReservas();
         }
-        txtResultado.setText(texto);
-        txtResultado.setCaretPosition(0);
+        tblReporte.setModel(modelo);
+        lblFiltros.setText(reportes.descripcionFiltros());
+        lblResumen.setText(reportes.getResumen());
     }
+
     }//GEN-LAST:event_btnGenerarActionPerformed
 
 
@@ -239,15 +260,17 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
     private javax.swing.JComboBox<String> cmbCancha;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmbReporte;
-    private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JDateChooser jdateDesde;
     private com.toedter.calendar.JDateChooser jdateHasta;
     private javax.swing.JLabel lblDatosHorario;
     private javax.swing.JLabel lblDatosHorario1;
     private javax.swing.JLabel lblDatosHorario2;
     private javax.swing.JLabel lblDatosHorario3;
-    private javax.swing.JLabel lblDatosHorario4;
+    private javax.swing.JLabel lblDatosHorario5;
+    private javax.swing.JLabel lblFiltros;
     private javax.swing.JLabel lblReportesTitulo;
-    private javax.swing.JTextField txtResultado;
+    private javax.swing.JLabel lblResumen;
+    private javax.swing.JTable tblReporte;
+    private javax.swing.JScrollPane tblReporteScrollPane;
     // End of variables declaration//GEN-END:variables
 }

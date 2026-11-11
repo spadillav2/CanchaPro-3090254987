@@ -9,7 +9,7 @@ package ModuloTienda;
  * @author Padilla
  */
 public class GestionVentas {
-    private Venta[] venta = new Venta[500];
+    private Venta[] venta = new Venta[1000];
     private int cantVentas = 0;
 
     public Venta[] getVenta() {

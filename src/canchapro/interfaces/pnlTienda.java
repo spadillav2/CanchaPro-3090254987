@@ -101,18 +101,6 @@ private Producto leerProducto() {
     }
 }
 
-private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {
-    Producto p = leerProducto();
-    if (p != null) {
-        String mensaje = gestionProductos.agregarProducto(p);
-        JOptionPane.showMessageDialog(this, mensaje);
-        if (mensaje.equals("Producto agregado correctamente")) {
-            limpiarProducto();
-            refrescarProductos();
-            refrescarCombo();
-        }
-    }
-}
 
 private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {
     int fila = tblProductos.getSelectedRow();
@@ -130,33 +118,7 @@ private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {
     }
 }
 
-private void btnActualizarProductoActionPerformed(java.awt.event.ActionEvent evt) {
-    Producto nuevo = leerProducto();
-    if (nuevo != null) {
-        Producto actual = gestionProductos.buscarPorCodigo(nuevo.getCodigo());
-        String validacion = gestionProductos.validar(nuevo);
-        if (actual == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla para actualizarlo");
-        } else if (!validacion.equals("OK")) {
-            JOptionPane.showMessageDialog(this, validacion);
-        } else {
-            actual.setNombre(nuevo.getNombre());
-            actual.setCategoria(nuevo.getCategoria());
-            actual.setPrecio(nuevo.getPrecio());
-            actual.setExistencia(nuevo.getExistencia());
-            actual.setStockMinimo(nuevo.getStockMinimo());
-            actual.setEstado(nuevo.getEstado());
-            JOptionPane.showMessageDialog(this, "Producto actualizado correctamente");
-            limpiarProducto();
-            refrescarProductos();
-            refrescarCombo();
-        }
-    }
-}
 
-private void btnLimpiarProductoActionPerformed(java.awt.event.ActionEvent evt) {
-    limpiarProducto();
-}
     
     
     // VENTA
@@ -178,78 +140,11 @@ private void actualizarTotalVendido() {
     txtTotalVendido.setText("Q "+String.format("%.2f", gestionVentas.calcularTotalVendido()));
 }
 
-private void btnAnadirActionPerformed(java.awt.event.ActionEvent evt) {
-    int indice = cmbProductoVenta.getSelectedIndex();
-    int cantidad = (Integer) spnCantidad.getValue();
 
-    if (indice < 0) {
-        JOptionPane.showMessageDialog(this, "No hay productos registrados");
-    } else {
-        Producto p = gestionProductos.getProducto()[indice];
-        int posicion = -1;
-        for (int i = 0; i < cantCarrito; i++) {
-            if (carrito[i].getProducto() == p) {
-                posicion = i;
-            }
-        }
 
-        if (posicion >= 0) {
-            carrito[posicion] = new DetalleVenta(p, carrito[posicion].getCantidad() + cantidad, p.getPrecio());
-        } else if (cantCarrito >= carrito.length) {
-            JOptionPane.showMessageDialog(this, "El carrito está lleno");
-        } else {
-            carrito[cantCarrito] = new DetalleVenta(p, cantidad, p.getPrecio());
-            cantCarrito++;
-        }
-        refrescarCarrito();
-    }
-}
 
-private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {
-    int fila = tblCarrito.getSelectedRow();
-    if (fila < 0 || fila >= cantCarrito) {
-        JOptionPane.showMessageDialog(this, "Seleccione en el carrito el producto a quitar");
-    } else {
-        for (int i = fila; i < cantCarrito - 1; i++) {
-            carrito[i] = carrito[i + 1];
-        }
-        carrito[cantCarrito - 1] = null;
-        cantCarrito--;
-        refrescarCarrito();
-    }
-}
 
-private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
-    String codigoReserva = txtReservaVenta.getText().trim();
 
-    if (cantCarrito == 0) {
-        JOptionPane.showMessageDialog(this, "Agregue productos al carrito");
-    } else if (!codigoReserva.isEmpty() && gestionReservas.buscarReservaPorCodigo(codigoReserva) == null) {
-        JOptionPane.showMessageDialog(this, "No existe la reserva " + codigoReserva);
-    } else {
-        String metodo = cmbMetodoVenta.getSelectedItem().toString().toLowerCase();
-        Venta v = new Venta(gestionVentas.generarNumero(), LocalDateTime.now(), codigoReserva, metodo);
-        for (int i = 0; i < cantCarrito; i++) {
-            v.agregarDetalle(carrito[i]);
-        }
-
-        String mensaje = gestionVentas.registrarVenta(v);
-        if (mensaje.equals("Venta registrada correctamente")) {
-            JOptionPane.showMessageDialog(this, mensaje + "\nTotal: Q" + String.format("%.2f", v.calcularTotal()));
-            for (int i = 0; i < carrito.length; i++) {
-                carrito[i] = null;
-            }
-            cantCarrito = 0;
-            txtReservaVenta.setText("");
-            refrescarProductos();
-            refrescarCombo();
-            refrescarCarrito();
-            actualizarTotalVendido();
-        } else {
-            JOptionPane.showMessageDialog(this, mensaje);
-        }
-    }
-}
     
     
     
@@ -342,6 +237,7 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         btnQuitar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnQuitar.setForeground(new java.awt.Color(255, 255, 255));
         btnQuitar.setText("Quitar");
+        btnQuitar.addActionListener(this::btnQuitarActionPerformed);
         pnlVentas.add(btnQuitar);
         btnQuitar.setBounds(550, 20, 90, 27);
 
@@ -349,6 +245,7 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         btnConfirmarVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnConfirmarVenta.setForeground(new java.awt.Color(255, 255, 255));
         btnConfirmarVenta.setText("Confirmar Venta");
+        btnConfirmarVenta.addActionListener(this::btnConfirmarVentaActionPerformed);
         pnlVentas.add(btnConfirmarVenta);
         btnConfirmarVenta.setBounds(580, 450, 170, 27);
 
@@ -440,6 +337,7 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         btnAnadir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAnadir.setForeground(new java.awt.Color(255, 255, 255));
         btnAnadir.setText("Añadir");
+        btnAnadir.addActionListener(this::btnAnadirActionPerformed);
         pnlVentas.add(btnAnadir);
         btnAnadir.setBounds(670, 20, 90, 27);
 
@@ -531,6 +429,7 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         btnLimpiarProducto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpiarProducto.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiarProducto.setText("Limpiar");
+        btnLimpiarProducto.addActionListener(this::btnLimpiarProductoActionPerformed);
         pnlProductos.add(btnLimpiarProducto);
         btnLimpiarProducto.setBounds(380, 140, 100, 30);
 
@@ -538,6 +437,7 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         btnAgregarProducto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarProducto.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarProducto.setText("Agregar");
+        btnAgregarProducto.addActionListener(this::btnAgregarProductoActionPerformed);
         pnlProductos.add(btnAgregarProducto);
         btnAgregarProducto.setBounds(650, 140, 100, 30);
 
@@ -545,6 +445,7 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         btnActualizarProducto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnActualizarProducto.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizarProducto.setText("Actualizar");
+        btnActualizarProducto.addActionListener(this::btnActualizarProductoActionPerformed);
         pnlProductos.add(btnActualizarProducto);
         btnActualizarProducto.setBounds(510, 140, 100, 30);
 
@@ -616,6 +517,120 @@ private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {
         add(jLabel11);
         jLabel11.setBounds(640, 40, 50, 50);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
+    Producto p = leerProducto();
+    if (p != null) {
+        String mensaje = gestionProductos.agregarProducto(p);
+        JOptionPane.showMessageDialog(this, mensaje);
+        if (mensaje.equals("Producto agregado correctamente")) {
+            limpiarProducto();
+            refrescarProductos();
+            refrescarCombo();
+        }
+    }
+    }//GEN-LAST:event_btnAgregarProductoActionPerformed
+
+    private void btnActualizarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarProductoActionPerformed
+           Producto nuevo = leerProducto();
+    if (nuevo != null) {
+        Producto actual = gestionProductos.buscarPorCodigo(nuevo.getCodigo());
+        String validacion = gestionProductos.validar(nuevo);
+        if (actual == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla para actualizarlo");
+        } else if (!validacion.equals("OK")) {
+            JOptionPane.showMessageDialog(this, validacion);
+        } else {
+            actual.setNombre(nuevo.getNombre());
+            actual.setCategoria(nuevo.getCategoria());
+            actual.setPrecio(nuevo.getPrecio());
+            actual.setExistencia(nuevo.getExistencia());
+            actual.setStockMinimo(nuevo.getStockMinimo());
+            actual.setEstado(nuevo.getEstado());
+            JOptionPane.showMessageDialog(this, "Producto actualizado correctamente");
+            limpiarProducto();
+            refrescarProductos();
+            refrescarCombo();
+        }
+    }
+    }//GEN-LAST:event_btnActualizarProductoActionPerformed
+
+    private void btnLimpiarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarProductoActionPerformed
+          limpiarProducto();
+    }//GEN-LAST:event_btnLimpiarProductoActionPerformed
+
+    private void btnAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirActionPerformed
+           int indice = cmbProductoVenta.getSelectedIndex();
+    int cantidad = (Integer) spnCantidad.getValue();
+
+    if (indice < 0) {
+        JOptionPane.showMessageDialog(this, "No hay productos registrados");
+    } else {
+        Producto p = gestionProductos.getProducto()[indice];
+        int posicion = -1;
+        for (int i = 0; i < cantCarrito; i++) {
+            if (carrito[i].getProducto() == p) {
+                posicion = i;
+            }
+        }
+
+        if (posicion >= 0) {
+            carrito[posicion] = new DetalleVenta(p, carrito[posicion].getCantidad() + cantidad, p.getPrecio());
+        } else if (cantCarrito >= carrito.length) {
+            JOptionPane.showMessageDialog(this, "El carrito está lleno");
+        } else {
+            carrito[cantCarrito] = new DetalleVenta(p, cantidad, p.getPrecio());
+            cantCarrito++;
+        }
+        refrescarCarrito();
+    }
+    }//GEN-LAST:event_btnAnadirActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        int fila = tblCarrito.getSelectedRow();
+    if (fila < 0 || fila >= cantCarrito) {
+        JOptionPane.showMessageDialog(this, "Seleccione en el carrito el producto a quitar");
+    } else {
+        for (int i = fila; i < cantCarrito - 1; i++) {
+            carrito[i] = carrito[i + 1];
+        }
+        carrito[cantCarrito - 1] = null;
+        cantCarrito--;
+        refrescarCarrito();
+    }
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarVentaActionPerformed
+         String codigoReserva = txtReservaVenta.getText().trim();
+
+    if (cantCarrito == 0) {
+        JOptionPane.showMessageDialog(this, "Agregue productos al carrito");
+    } else if (!codigoReserva.isEmpty() && gestionReservas.buscarReservaPorCodigo(codigoReserva) == null) {
+        JOptionPane.showMessageDialog(this, "No existe la reserva " + codigoReserva);
+    } else {
+        String metodo = cmbMetodoVenta.getSelectedItem().toString().toLowerCase();
+        Venta v = new Venta(gestionVentas.generarNumero(), LocalDateTime.now(), codigoReserva, metodo);
+        for (int i = 0; i < cantCarrito; i++) {
+            v.agregarDetalle(carrito[i]);
+        }
+
+        String mensaje = gestionVentas.registrarVenta(v);
+        if (mensaje.equals("Venta registrada correctamente")) {
+            JOptionPane.showMessageDialog(this, mensaje + "\nTotal: Q" + String.format("%.2f", v.calcularTotal()));
+            for (int i = 0; i < carrito.length; i++) {
+                carrito[i] = null;
+            }
+            cantCarrito = 0;
+            txtReservaVenta.setText("");
+            refrescarProductos();
+            refrescarCombo();
+            refrescarCarrito();
+            actualizarTotalVendido();
+        } else {
+            JOptionPane.showMessageDialog(this, mensaje);
+        }
+    }
+    }//GEN-LAST:event_btnConfirmarVentaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

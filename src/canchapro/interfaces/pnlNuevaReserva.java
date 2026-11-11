@@ -870,7 +870,7 @@ if (indice >= 0) {
     }
         
        double total = r.calcularTotal(tarifa);
-       double pagoMinimo = total * Reserva.getPorcentajeAnticipoMinimo();
+       double pagoMinimo = total * tarifa.getPorcentajeAnticipoMinimo();
        
        try{
            double anticipo = Double.parseDouble( txtAnticipo.getText().trim());
@@ -1025,7 +1025,7 @@ private void actualizarTotales() {
     double total = precioCancha + totalServicios + totalTienda;
     txtTotal.setText(String.format("%.2f", total));
     txtSaldo.setText(String.format("%.2f", total - leerAnticipo()));
-    txtAnticipoMinimo.setText("Q. "+String.format("%.2f", total * Reserva.PORCENTAJE_ANTICIPO_MINIMO));
+    txtAnticipoMinimo.setText("Q. "+String.format("%.2f", total * tarifa.getPorcentajeAnticipoMinimo()));
 }
 
 
