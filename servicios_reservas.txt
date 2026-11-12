@@ -1,0 +1,4 @@
+R6,S02,Arbitro,50.0
+R7,V1,Consumo Tienda V1,5.0
+R7,V2,Consumo Tienda V2,20.0
+R10,S04,Iluminacion,30.0

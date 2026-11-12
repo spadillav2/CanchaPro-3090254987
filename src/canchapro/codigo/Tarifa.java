@@ -79,10 +79,13 @@ public double calcularPrecioTotal(LocalDate fecha, LocalTime horaInicio, int dur
     int dia = fecha.getDayOfWeek().getValue();
 
     if (dia >= 6) {
-        return (FinesdeSemana * duracionMinutos) / 60.0;
+        double precioTotal=(FinesdeSemana+duracionMinutos)/60.0;
+        return precioTotal;
     }
 
-    int inicioMinutos = horaInicio.getHour() * 60 + horaInicio.getMinute();
+    int inicioEnHoras= horaInicio.getHour();
+    int inicioEnMinutos=horaInicio.getMinute();
+    int inicioMinutos = inicioEnHoras * 60 + inicioEnMinutos;
     int corte = 17 * 60;
 
     int minutosMatutino = 0;
@@ -90,8 +93,8 @@ public double calcularPrecioTotal(LocalDate fecha, LocalTime horaInicio, int dur
         minutosMatutino = Math.min(duracionMinutos, corte - inicioMinutos);
     }
     int minutosVespertino = duracionMinutos - minutosMatutino;
-
-    return (LunesViernesMatutino * minutosMatutino + LunesViernesVespertino * minutosVespertino) / 60.0;
+double precioTotalJornadasMixtas=(LunesViernesMatutino * minutosMatutino + LunesViernesVespertino * minutosVespertino) / 60.0;
+    return precioTotalJornadasMixtas;
 }
 
 }

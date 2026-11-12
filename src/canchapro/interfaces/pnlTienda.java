@@ -3,12 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package canchapro.interfaces;
+import ModuloTienda.ConfiguracionTienda;
 import ModuloTienda.DetalleVenta;
 import ModuloTienda.GestionProductos;
 import ModuloTienda.GestionVentas;
 import ModuloTienda.Producto;
 import ModuloTienda.Venta;
 import canchapro.codigo.GestionReservas;
+import canchapro.codigo.Reserva;
+import canchapro.codigo.ServicioAdicional;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,29 +24,65 @@ public class pnlTienda extends javax.swing.JPanel {
 private GestionProductos gestionProductos;
 private GestionVentas gestionVentas;
 private GestionReservas gestionReservas;
+private Reserva[] reservasActivasCombo = new Reserva[200];
+private int cantReservasCombo = 0;
 private DetalleVenta[] carrito = new DetalleVenta[20];
 private int cantCarrito = 0;
+private ConfiguracionTienda configuracion;
 
     /**
      * Creates new form pnlTienda
      */
-    public pnlTienda(GestionProductos gp, GestionVentas gv, GestionReservas gr) {
-       initComponents();
+    public pnlTienda(GestionProductos gp, GestionVentas gv, GestionReservas gr, ConfiguracionTienda config) {
+    initComponents();
     this.gestionProductos = gp;
     this.gestionVentas = gv;
     this.gestionReservas = gr;
+    this.configuracion = config;
+    
     tblProductos.setDefaultEditor(Object.class, null);
     tblCarrito.setDefaultEditor(Object.class, null);
     txtTotalVenta.setEditable(false);
+
+    cmbReservasEnCurso.setEnabled(false);
+    rbtnAnadirReserva.addActionListener(e -> {
+        boolean seleccionado = rbtnAnadirReserva.isSelected();
+        cmbReservasEnCurso.setEnabled(seleccionado);
+        cmbMetodoVenta.setEnabled(!seleccionado);
+    });
+
     refrescarProductos();
     refrescarCombo();
+    refrescarComboReservas();
     refrescarCarrito();
-    actualizarTotalVendido();
+    
     limpiarProducto();
-
-        
     }
 
+    //ESCOGER RESERVAS QUE NO ESTEN CANCELADAS
+    private void refrescarComboReservas() {
+    cmbReservasEnCurso.removeAllItems();
+    cantReservasCombo = 0;
+    gestionReservas.actualizarEstados();
+
+    for (int i = 0; i < gestionReservas.getCantReservas(); i++) {
+        canchapro.codigo.Reserva r = gestionReservas.getReserva()[i];
+        String est = r.getEstado();
+       
+        if (!est.equals(canchapro.codigo.Reserva.CANCELADA) 
+                && !est.equals(canchapro.codigo.Reserva.FINALIZADA)) {
+            if (cantReservasCombo < reservasActivasCombo.length) {
+                reservasActivasCombo[cantReservasCombo] = r;
+                cantReservasCombo++;
+                cmbReservasEnCurso.addItem(r.getCodigo() + " - " + r.getCliente().getNombre() + " (" + r.getCancha().getNombre() + ")");
+            }
+        }
+    }
+}
+    
+    
+    
+    
     
     //PRODUCTOS
     private void refrescarProductos() {
@@ -135,11 +174,6 @@ private void refrescarCarrito() {
     txtTotalVenta.setText(String.format("%.2f", total));
 }
 
-private void actualizarTotalVendido() {
- 
-    txtTotalVendido.setText("Q "+String.format("%.2f", gestionVentas.calcularTotalVendido()));
-}
-
 
 
 
@@ -166,16 +200,15 @@ private void actualizarTotalVendido() {
         btnConfirmarVenta = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCarrito = new javax.swing.JTable();
-        jLabel14 = new javax.swing.JLabel();
-        txtTotalVendido = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         cmbMetodoVenta = new javax.swing.JComboBox<>();
         lblTotalVendido = new javax.swing.JLabel();
-        txtReservaVenta = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         txtTotalVenta = new javax.swing.JTextField();
         btnAnadir = new javax.swing.JButton();
+        cmbReservasEnCurso = new javax.swing.JComboBox<>();
+        rbtnAnadirReserva = new javax.swing.JRadioButton();
         pnlProductos = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -275,19 +308,6 @@ private void actualizarTotalVendido() {
         pnlVentas.add(jScrollPane2);
         jScrollPane2.setBounds(30, 70, 720, 310);
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel14.setText("Total Venta:");
-        pnlVentas.add(jLabel14);
-        jLabel14.setBounds(550, 390, 110, 40);
-
-        txtTotalVendido.setEditable(false);
-        txtTotalVendido.setBackground(new java.awt.Color(255, 255, 255));
-        txtTotalVendido.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtTotalVendido.setForeground(new java.awt.Color(0, 0, 0));
-        pnlVentas.add(txtTotalVendido);
-        txtTotalVendido.setBounds(110, 440, 160, 38);
-
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("Cantidad:");
@@ -299,7 +319,7 @@ private void actualizarTotalVendido() {
         cmbMetodoVenta.setForeground(new java.awt.Color(0, 0, 0));
         cmbMetodoVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Transferencia", "Tarjeta" }));
         pnlVentas.add(cmbMetodoVenta);
-        cmbMetodoVenta.setBounds(160, 400, 110, 22);
+        cmbMetodoVenta.setBounds(430, 450, 110, 22);
 
         lblTotalVendido.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTotalVendido.setForeground(new java.awt.Color(0, 0, 0));
@@ -307,31 +327,24 @@ private void actualizarTotalVendido() {
         pnlVentas.add(lblTotalVendido);
         lblTotalVendido.setBounds(30, 440, 110, 40);
 
-        txtReservaVenta.setEditable(false);
-        txtReservaVenta.setBackground(new java.awt.Color(255, 255, 255));
-        txtReservaVenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtReservaVenta.setForeground(new java.awt.Color(0, 0, 0));
-        pnlVentas.add(txtReservaVenta);
-        txtReservaVenta.setBounds(380, 390, 130, 31);
-
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setText("Método de Pago:");
         pnlVentas.add(jLabel17);
-        jLabel17.setBounds(30, 400, 130, 20);
+        jLabel17.setBounds(300, 450, 130, 20);
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 0));
         jLabel18.setText("Reserva:");
         pnlVentas.add(jLabel18);
-        jLabel18.setBounds(310, 400, 80, 20);
+        jLabel18.setBounds(180, 400, 80, 20);
 
         txtTotalVenta.setEditable(false);
         txtTotalVenta.setBackground(new java.awt.Color(255, 255, 255));
         txtTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtTotalVenta.setForeground(new java.awt.Color(0, 0, 0));
         pnlVentas.add(txtTotalVenta);
-        txtTotalVenta.setBounds(640, 390, 100, 31);
+        txtTotalVenta.setBounds(110, 440, 170, 31);
 
         btnAnadir.setBackground(new java.awt.Color(0, 102, 0));
         btnAnadir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -340,6 +353,17 @@ private void actualizarTotalVendido() {
         btnAnadir.addActionListener(this::btnAnadirActionPerformed);
         pnlVentas.add(btnAnadir);
         btnAnadir.setBounds(670, 20, 90, 27);
+
+        cmbReservasEnCurso.setBackground(new java.awt.Color(255, 255, 255));
+        cmbReservasEnCurso.setForeground(new java.awt.Color(0, 0, 0));
+        cmbReservasEnCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlVentas.add(cmbReservasEnCurso);
+        cmbReservasEnCurso.setBounds(260, 400, 280, 22);
+
+        rbtnAnadirReserva.setForeground(new java.awt.Color(0, 0, 0));
+        rbtnAnadirReserva.setText("Añadir a Reserva");
+        pnlVentas.add(rbtnAnadirReserva);
+        rbtnAnadirReserva.setBounds(40, 400, 130, 21);
 
         Venta.addTab("Venta", pnlVentas);
 
@@ -601,35 +625,95 @@ private void actualizarTotalVendido() {
     }//GEN-LAST:event_btnQuitarActionPerformed
 
     private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarVentaActionPerformed
-         String codigoReserva = txtReservaVenta.getText().trim();
-
-    if (cantCarrito == 0) {
+if (cantCarrito == 0) {
         JOptionPane.showMessageDialog(this, "Agregue productos al carrito");
-    } else if (!codigoReserva.isEmpty() && gestionReservas.buscarReservaPorCodigo(codigoReserva) == null) {
-        JOptionPane.showMessageDialog(this, "No existe la reserva " + codigoReserva);
-    } else {
-        String metodo = cmbMetodoVenta.getSelectedItem().toString().toLowerCase();
-        Venta v = new Venta(gestionVentas.generarNumero(), LocalDateTime.now(), codigoReserva, metodo);
-        for (int i = 0; i < cantCarrito; i++) {
-            v.agregarDetalle(carrito[i]);
+        return;
+    }
+
+    boolean anadirAReserva = rbtnAnadirReserva.isSelected();
+    canchapro.codigo.Reserva reservaDestino = null;
+    String codigoReserva = "";
+
+    if (anadirAReserva) {
+        int idxReserva = cmbReservasEnCurso.getSelectedIndex();
+        if (idxReserva < 0 || idxReserva >= cantReservasCombo) {
+            JOptionPane.showMessageDialog(this, "No hay reservas activas seleccionadas para cargar el consumo");
+            return;
+        }
+        reservaDestino = reservasActivasCombo[idxReserva];
+        codigoReserva = reservaDestino.getCodigo();
+    }
+
+    String metodo = anadirAReserva 
+            ? "cargo_reserva" 
+            : cmbMetodoVenta.getSelectedItem().toString().toLowerCase();
+
+    Venta v = new Venta(gestionVentas.generarNumero(), LocalDateTime.now(), codigoReserva, metodo);
+    for (int i = 0; i < cantCarrito; i++) {
+        v.agregarDetalle(carrito[i]);
+    }
+
+    String mensaje = gestionVentas.registrarVenta(v);
+    if (mensaje.equals("Venta registrada correctamente")) {
+        double totalVenta = v.calcularTotal();
+
+        // Si se marcó "Añadir a Reserva", sumarlo al saldo pendiente de la reserva
+        if (anadirAReserva && reservaDestino != null) {
+            canchapro.codigo.ServicioAdicional cargoTienda = new canchapro.codigo.ServicioAdicional(
+                    v.getNumero(),
+                    "Consumo Tienda " + v.getNumero(),
+                    totalVenta
+            );
+            boolean agregado = reservaDestino.agregarServicio(cargoTienda);
+            if (!agregado) {
+                JOptionPane.showMessageDialog(this, "Venta registrada, pero la reserva alcanzó el límite de servicios adicionales.");
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                        "Venta registrada y cargada a la reserva " + codigoReserva 
+                        + "\nMonto añadido al saldo pendiente: Q" + String.format("%.2f", totalVenta));
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, mensaje + "\nTotal: Q" + String.format("%.2f", totalVenta));
         }
 
-        String mensaje = gestionVentas.registrarVenta(v);
-        if (mensaje.equals("Venta registrada correctamente")) {
-            JOptionPane.showMessageDialog(this, mensaje + "\nTotal: Q" + String.format("%.2f", v.calcularTotal()));
-            for (int i = 0; i < carrito.length; i++) {
-                carrito[i] = null;
-            }
-            cantCarrito = 0;
-            txtReservaVenta.setText("");
-            refrescarProductos();
-            refrescarCombo();
-            refrescarCarrito();
-            actualizarTotalVendido();
-        } else {
-            JOptionPane.showMessageDialog(this, mensaje);
+        // Limpiar carrito y controles
+        for (int i = 0; i < carrito.length; i++) {
+            carrito[i] = null;
         }
+        cantCarrito = 0;
+        rbtnAnadirReserva.setSelected(false);
+        cmbReservasEnCurso.setEnabled(false);
+        cmbMetodoVenta.setEnabled(true);
+
+        refrescarProductos();
+        refrescarCombo();
+        refrescarComboReservas();
+        refrescarCarrito();
+        
+        
+           //Guardar info para el desglose
+    StringBuilder desc = new StringBuilder("Tienda (" + v.getNumero() + "): ");
+for (int i = 0; i < v.getCantidadDetalles(); i++) {
+    DetalleVenta d = v.getDetalles()[i];
+    desc.append(d.getCantidad()).append("x ").append(d.getProducto().getNombre());
+    if (i < v.getCantidadDetalles() - 1) {
+        desc.append(", ");
     }
+}
+
+ServicioAdicional cargoTienda = new ServicioAdicional(
+        v.getNumero(),
+        desc.toString(),
+        totalVenta
+);
+reservaDestino.agregarServicio(cargoTienda);
+      
+    } else {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    
+ 
     }//GEN-LAST:event_btnConfirmarVentaActionPerformed
 
 
@@ -645,11 +729,11 @@ private void actualizarTotalVendido() {
     private javax.swing.JComboBox<String> cmbEstadoProducto;
     private javax.swing.JComboBox<String> cmbMetodoVenta;
     private javax.swing.JComboBox<String> cmbProductoVenta;
+    private javax.swing.JComboBox<String> cmbReservasEnCurso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -668,6 +752,7 @@ private void actualizarTotalVendido() {
     private javax.swing.JLabel lblTotalVendido;
     private javax.swing.JPanel pnlProductos;
     private javax.swing.JPanel pnlVentas;
+    private javax.swing.JRadioButton rbtnAnadirReserva;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTable tblCarrito;
     private javax.swing.JTable tblProductos;
@@ -675,9 +760,7 @@ private void actualizarTotalVendido() {
     private javax.swing.JTextField txtExistencia;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtReservaVenta;
     private javax.swing.JTextField txtStockMinimo;
-    private javax.swing.JTextField txtTotalVendido;
     private javax.swing.JTextField txtTotalVenta;
     // End of variables declaration//GEN-END:variables
 }

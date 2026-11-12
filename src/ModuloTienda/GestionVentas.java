@@ -45,7 +45,7 @@ public class GestionVentas {
             return "La venta no tiene productos";
         }
 
-        // 1. Validar todo ANTES de tocar el inventario
+    
         for (int i = 0; i < v.getCantidadDetalles(); i++) {
             DetalleVenta d = v.getDetalles()[i];
             Producto p = d.getProducto();
@@ -60,19 +60,19 @@ public class GestionVentas {
             }
         }
 
-        // 2. Descontar el inventario
+        
         for (int i = 0; i < v.getCantidadDetalles(); i++) {
-            DetalleVenta d = v.getDetalles()[i];
-            d.getProducto().descontar(d.getCantidad());
+            DetalleVenta detalle = v.getDetalles()[i];
+            detalle.getProducto().descontar(detalle.getCantidad());
         }
 
-        // 3. Guardar la venta
+       
         venta[cantVentas] = v;
         cantVentas++;
         return "Venta registrada correctamente";
     }
 
-    // Solo para cargar desde archivo: NO descuenta inventario (ya quedó descontado al guardar)
+ 
     public boolean restaurarVenta(Venta v) {
         if (cantVentas >= venta.length || buscarPorNumero(v.getNumero()) != null) {
             return false;

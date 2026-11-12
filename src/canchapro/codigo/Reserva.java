@@ -23,7 +23,7 @@ private String operadorCancelacion;
     public static final String CANCELADA = "cancelada";
   
     
-    //Atributos de una Reserva
+    //Atributos 
     private String codigo;
     private Cliente cliente;
     private Cancha cancha;
@@ -304,7 +304,7 @@ public boolean seTraslapaCon(LocalDate fechaNueva, LocalTime inicioNueva, int du
     return traslape;
 }
 
-
+//Cancelacion 
 public boolean cancelar(String motivo, String operador) {
     if (estado.equals(FINALIZADA) || estado.equals(CANCELADA)) {
         return false;
@@ -317,6 +317,25 @@ public boolean cancelar(String motivo, String operador) {
 }
 
 
+//RESTAURACIONES 
+public void restaurarCancelacion(LocalDate fecha, String motivo, String operador) {
+    this.fechaCancelacion = fecha;
+    this.motivoCancelacion = motivo;
+    this.operadorCancelacion = operador;
+}
+
+public void restaurarPago(Pago p) {
+  for (int i = 0; i < cantidadPagos; i++) {
+        if (pago[i].getCodigo().equals(p.getCodigo())) {
+            return; // Ya existe, no lo vuelve a agregar
+        }
+    }
+    if (cantidadPagos < pago.length) {
+        pago[cantidadPagos] = p;
+        cantidadPagos++;
+    }
+}
+
 
 //Servicios Adicionales
 public boolean agregarServicio(ServicioAdicional s){
@@ -327,18 +346,9 @@ public boolean agregarServicio(ServicioAdicional s){
         cantidadServicios ++;
         return true;
     }
-public void restaurarCancelacion(LocalDate fecha, String motivo, String operador) {
-    this.fechaCancelacion = fecha;
-    this.motivoCancelacion = motivo;
-    this.operadorCancelacion = operador;
-}
 
-public void restaurarPago(Pago p) {
-    if (cantidadPagos < pago.length) {
-        pago[cantidadPagos] = p;
-        cantidadPagos++;
-    }
-}
+
+
 
 
 //Cambiar estado de reserva

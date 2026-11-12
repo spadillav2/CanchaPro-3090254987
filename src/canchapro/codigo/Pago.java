@@ -9,18 +9,20 @@ import java.time.LocalDateTime;
  * @author Padilla
  */
 public class Pago {
-    
+    //Constantes
     public static final String EFECTIVO ="efectivo";
     public static final String TRANSFERENCIA = "transferencia";
     public static final String TARJETA = "tarjeta";
     
-    
+    //Variables
     private String codigo;
     private LocalDateTime fechaHoraPago;
     private double monto;
     private String metodo;
     private String observacion;
 
+    
+    //Constructor
     public Pago(String codigo, LocalDateTime fechaHoraPago, double monto, String metodo) {
         this.codigo = codigo;
         this.fechaHoraPago = fechaHoraPago;
@@ -29,7 +31,7 @@ public class Pago {
     }
 
    
-
+//Getters
     public String getCodigo() {
         return codigo;
     }
@@ -50,6 +52,8 @@ public class Pago {
         return observacion;
     }
 
+    
+    //Setters
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }

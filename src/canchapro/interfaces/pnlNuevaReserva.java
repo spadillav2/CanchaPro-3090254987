@@ -30,7 +30,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
     /**
      * Creates new form pnlNuevaReserva
      */
-    //Atributos del PanelNuevaReserva
+    //Atributos
     
     private GestionClientes gestionClientes;
     private GestionCanchas gestionCanchas;
@@ -42,7 +42,8 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
     private Cancha[] disponibles = new Cancha[0];
     private double precioCancha = 0;
     private double totalServicios=0;
-    private double totalTienda=0; //Solo si el modulo tienda está activado
+    //si el modulo de tienda esta activo se generará un total de lo comprado
+    private double totalTienda=0; 
     
     
      //Servicios Adicionales
@@ -66,7 +67,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
         this.tarifa = t;
     this.principal = p;
     
-    //jdateFechaReserva.setMinSelectableDate(new java.util.Date()); // Probar despues si deja o no elegir fechas pasadas
+
      rbnTienda.setVisible(false);
     btnDesgloseTienda.setVisible(false);
 txtCodigoReserva.setEditable(false);

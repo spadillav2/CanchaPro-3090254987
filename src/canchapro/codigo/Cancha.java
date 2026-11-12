@@ -10,7 +10,7 @@ import java.time.LocalTime;
  * @author Padilla
  */
 public class Cancha {
-    
+    //Constantes
     public static final String DISPONIBLE = "disponible";
     public static final String MANTENIMIENTO ="mantenimiento";
     public static final String INACTIVA="inactiva";
@@ -23,7 +23,8 @@ public class Cancha {
     private String estado;
     private LocalTime horaApertura;
     private LocalTime horaCierre;
-
+    
+//Constructor
     public Cancha(String codigo, String nombre, String tipo, int capacidad, String estado, LocalTime horaApertura, LocalTime horaCierre) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -34,6 +35,8 @@ public class Cancha {
         this.horaApertura = horaApertura;
         this.horaCierre = horaCierre;
     }
+    
+    //getters
 
     public String getCodigo() {
         return codigo;
@@ -63,6 +66,8 @@ public class Cancha {
     public LocalTime getHoraCierre() {
         return horaCierre;
     }
+    
+    //setters
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
@@ -95,7 +100,7 @@ public class Cancha {
     }
     
     
-    
+    //Para ver si una cancha esta disponible
     public boolean estaDisponible() {
     if (estado.equals(DISPONIBLE)){
         return true;

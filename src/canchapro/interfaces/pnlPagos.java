@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import canchapro.codigo.GestionReservas;
 import canchapro.codigo.Pago;
 import canchapro.codigo.Reserva;
+import canchapro.codigo.ServicioAdicional;
 import canchapro.codigo.Tarifa;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
@@ -111,6 +112,7 @@ private void actualizarPantalla() {
         txtSaldo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        btnVerDesglose = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -294,6 +296,14 @@ private void actualizarPantalla() {
         jPanel1.add(jPanel4);
         jPanel4.setBounds(0, 0, 20, 80);
 
+        btnVerDesglose.setBackground(new java.awt.Color(0, 153, 153));
+        btnVerDesglose.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVerDesglose.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerDesglose.setText("Ver Desglose");
+        btnVerDesglose.addActionListener(this::btnVerDesgloseActionPerformed);
+        jPanel1.add(btnVerDesglose);
+        btnVerDesglose.setBounds(620, 30, 130, 30);
+
         add(jPanel1);
         jPanel1.setBounds(20, 510, 780, 80);
 
@@ -423,7 +433,7 @@ private void actualizarPantalla() {
         try {
             double monto = Double.parseDouble(txtMonto.getText().trim());
             String metodo = cmbMetodo.getSelectedItem().toString().toLowerCase();
-            String codigoPago = reservaElegida.generarCodigoPago() + "-P" + (reservaElegida.getCantidadPagos() + 1);
+           String codigoPago = reservaElegida.generarCodigoPago();
 
             Pago pago = new Pago(codigoPago, LocalDateTime.now(), monto, metodo);
             String observacion = txtObservacion.getText().trim();
@@ -528,6 +538,36 @@ private void actualizarPantalla() {
     }
     }//GEN-LAST:event_btnModificarAbonoActionPerformed
 
+    private void btnVerDesgloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDesgloseActionPerformed
+   if (reservaElegida == null) {
+        JOptionPane.showMessageDialog(this, "Seleccione una reserva de la tabla");
+        return;
+    }
+
+    StringBuilder detalle = new StringBuilder();
+    detalle.append("ESTADO DE CUENTA - RESERVA ").append(reservaElegida.getCodigo()).append("\n");
+    detalle.append("Cliente: ").append(reservaElegida.getCliente().getNombre()).append("\n");
+    detalle.append("--------------------------------------------------\n");
+    detalle.append(String.format("Alquiler Cancha (%s): Q %.2f\n", 
+            reservaElegida.getCancha().getNombre(), 
+            reservaElegida.calcularPrecioCancha(tarifa)));
+
+    if (reservaElegida.getCantidadServicios() > 0) {
+        detalle.append("\nServicios y Consumos Adicionales:\n");
+        for (int i = 0; i < reservaElegida.getCantidadServicios(); i++) {
+            ServicioAdicional s = reservaElegida.getServicios()[i];
+            detalle.append(String.format("  • %s: Q %.2f\n", s.getNombre(), s.getPrecio()));
+        }
+    }
+
+    detalle.append("--------------------------------------------------\n");
+    detalle.append(String.format("TOTAL A PAGAR: Q %.2f\n", reservaElegida.calcularTotal(tarifa)));
+    detalle.append(String.format("TOTAL PAGADO:  Q %.2f\n", reservaElegida.calcularTotalPagado()));
+    detalle.append(String.format("SALDO PENDIENTE: Q %.2f", reservaElegida.calcularSaldo(tarifa)));
+
+    JOptionPane.showMessageDialog(this, detalle.toString(), "Desglose de Cuenta", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnVerDesgloseActionPerformed
+
     private void limpiarAbono() {
     txtMonto.setText("");
     txtObservacion.setText("");
@@ -540,6 +580,7 @@ private void actualizarPantalla() {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminarAbono;
     private javax.swing.JButton btnModificarAbono;
+    private javax.swing.JButton btnVerDesglose;
     private javax.swing.JComboBox<String> cmbMetodo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

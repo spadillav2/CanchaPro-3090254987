@@ -87,9 +87,8 @@ public Principal() {
        
        
    //CARGA DE ARCHIVOS Y MENSAJES DE ERROR
-    System.out.println(archivoClientes.cargarClientes(gestionClientes, "clientes.txt"));
-     System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, "canchas.txt"));
-     System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, "reservas.txt", "servicios_reservas.txt", "pagos.txt"));
+
+     
      System.out.println(archivoClientes.cargarClientes(gestionClientes, RUTA_CLIENTES));
 System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, RUTA_CANCHAS));
 System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, RUTA_RESERVAS, RUTA_SERVICIOS, RUTA_PAGOS));
@@ -563,13 +562,14 @@ mostrarPanel(new pnlCanchas(gestionCanchas));
 
    
     private void chkTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTiendaActionPerformed
-        configuracion.setTiendaActiva(chkTienda.isSelected());
+      configuracion.setTiendaActiva(chkTienda.isSelected());
+    configuracion.guardar(RUTA_CONFIG); 
     actualizarMenuTienda();
     DlgModuloTienda.setVisible(false);
     }//GEN-LAST:event_chkTiendaActionPerformed
 
     private void lblTiendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseClicked
-       mostrarPanel(new pnlTienda(gestionProductos, gestionVentas, gestionReservas));
+       mostrarPanel(new pnlTienda(gestionProductos, gestionVentas, gestionReservas,configuracion));
     }//GEN-LAST:event_lblTiendaMouseClicked
 
     private void lblTiendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTiendaMouseEntered

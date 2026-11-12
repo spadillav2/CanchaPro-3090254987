@@ -129,11 +129,11 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         add(cmbCancha);
         cmbCancha.setBounds(520, 110, 260, 22);
 
-        lblFiltros.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblFiltros.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         lblFiltros.setForeground(new java.awt.Color(51, 51, 51));
-        lblFiltros.setText("Cancha:");
+        lblFiltros.setText("Filtros");
         add(lblFiltros);
-        lblFiltros.setBounds(290, 590, 70, 20);
+        lblFiltros.setBounds(60, 620, 710, 16);
 
         cmbEstado.setBackground(new java.awt.Color(255, 255, 255));
         cmbEstado.setForeground(new java.awt.Color(0, 0, 0));
@@ -154,30 +154,36 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLimpiarMouseClicked(evt);
-            }
-        });
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
         add(btnLimpiar);
         btnLimpiar.setBounds(550, 150, 100, 30);
 
+        tblReporteScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        tblReporteScrollPane.setForeground(new java.awt.Color(0, 0, 0));
+
         tblReporte.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Fecha", "Inicio", "Fin", "Codigo", "Cancha", "Cliente", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblReporteScrollPane.setViewportView(tblReporte);
 
         add(tblReporteScrollPane);
-        tblReporteScrollPane.setBounds(60, 220, 710, 350);
+        tblReporteScrollPane.setBounds(60, 220, 710, 370);
 
         lblDatosHorario5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         lblDatosHorario5.setForeground(new java.awt.Color(51, 51, 51));
@@ -185,16 +191,12 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
         add(lblDatosHorario5);
         lblDatosHorario5.setBounds(450, 110, 70, 20);
 
-        lblResumen.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblResumen.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         lblResumen.setForeground(new java.awt.Color(51, 51, 51));
-        lblResumen.setText("Cancha:");
+        lblResumen.setText("Tipo de Busqueda");
         add(lblResumen);
-        lblResumen.setBounds(60, 590, 70, 20);
+        lblResumen.setBounds(60, 600, 710, 14);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
-
-    }//GEN-LAST:event_btnLimpiarMouseClicked
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
@@ -230,7 +232,7 @@ private LocalDate leerFecha(com.toedter.calendar.JDateChooser selector) {
        int opcion = cmbReporte.getSelectedIndex();
         DefaultTableModel modelo;
         if (opcion == 0) {
-            modelo = reportes.reservasPorFecha();
+            modelo= reportes.reservasPorFecha();
         } else if (opcion == 1) {
             modelo = reportes.reservasPorCancha();
         } else if (opcion == 2) {

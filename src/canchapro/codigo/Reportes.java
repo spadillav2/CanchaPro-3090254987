@@ -13,17 +13,19 @@ import javax.swing.table.DefaultTableModel;
  * @author Padilla
  */
 public class Reportes {
+    //Atributos
     private GestionReservas gestionReservas;
     private GestionCanchas gestionCanchas;
     private GestionClientes gestionClientes;
     private Tarifa tarifa;
 
-    // Filtros: null significa "sin filtro"
+    // Filtros de busqueda
     private LocalDate desde = null;
     private LocalDate hasta = null;
     private String codigoCancha = null;
     private String estado = null;
 
+    // Constructor
     public Reportes(GestionReservas gestionReservas, GestionCanchas gestionCanchas, GestionClientes gestionClientes, Tarifa tarifa) {
         this.gestionReservas = gestionReservas;
         this.gestionCanchas = gestionCanchas;
@@ -31,6 +33,7 @@ public class Reportes {
         this.tarifa = tarifa;
     }
 
+    //Setter de los filtros
     public void setFiltros(LocalDate desde, LocalDate hasta, String codigoCancha, String estado) {
         this.desde = desde;
         this.hasta = hasta;
@@ -38,7 +41,7 @@ public class Reportes {
         this.estado = estado;
     }
 
-    // ---------- FILTROS ----------
+    // RESULTADOS PPOR FLTRO
     private boolean cumpleFecha(LocalDate fecha) {
         if (desde != null && fecha.isBefore(desde)) {
             return false;
@@ -141,7 +144,9 @@ public DefaultTableModel reservasPorFecha() {
         }
     }
 
-    DefaultTableModel modelo = new DefaultTableModel(new String[]{"Fecha", "Inicio", "Fin", "Código", "Cancha", "Cliente", "Estado"}, 0);
+    
+ 
+  DefaultTableModel modelo = new DefaultTableModel(new String[]{"Fecha", "Inicio", "Fin", "Código", "Cancha", "Cliente", "Estado"}, 0);
     for (int i = 0; i < cantidad; i++) {
         Reserva r = lista[i];
         modelo.addRow(new Object[]{r.getFecha(), r.getHoraInicio(), r.calcularHoraFin(), r.getCodigo(), r.getCancha().getNombre(), r.getCliente().getNombre(), r.getEstado()});

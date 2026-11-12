@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Venta {
     private String numero;
     private LocalDateTime fechaHora;
-    private String codigoReserva;   // vacío si la venta es independiente
+    private String codigoReserva;  
     private String metodo;
     private DetalleVenta[] detalles = new DetalleVenta[20];
     private int cantidadDetalles = 0;

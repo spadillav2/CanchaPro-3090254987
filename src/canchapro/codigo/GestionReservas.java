@@ -12,14 +12,15 @@ import java.time.LocalTime;
  * @author Padilla
  */
 public class GestionReservas {
-    //Atributos de Gestion Reservas
+    
+    
     private Reserva[] reserva = new Reserva [1000];
     private int cantReservas = 0;
     
-    //Verficar si la cancha está libre
+    //Para ver si la cancha está libre
      public Cancha[] canchasDisponibles(GestionCanchas canchas, LocalDate fecha, LocalTime inicio, int duracion, String tipo) {
 
-    // PRIMER CICLO: contar cuántas canchas cumplen
+    //  cuántas canchas cumplen
     int contador = 0;
     for (int i = 0; i < canchas.getCantCancha(); i++) {
         Cancha c = canchas.getCancha()[i];
@@ -28,10 +29,10 @@ public class GestionReservas {
         }
     }
 
-    // Crear el array del tamaño exacto
+    //el array es del tamaño de las canchas que cumplen con esta disponibless
     Cancha[] resultado = new Cancha[contador];
 
-    // SEGUNDO CICLO: llenar el array
+    // se llena el aray con los datos de las canchas disponibles
     int posicion = 0;
     for (int i = 0; i < canchas.getCantCancha(); i++) {
         Cancha c = canchas.getCancha()[i];

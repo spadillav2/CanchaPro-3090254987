@@ -18,6 +18,8 @@ public class Cliente {
     private String telefono;
     private LocalDate fechaRegistro;
 
+    
+    //Constructor
     public Cliente(String codigo, String nombre, String telefono, LocalDate fecha) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -25,6 +27,8 @@ public class Cliente {
         this.fechaRegistro = fecha;
     }
 
+    
+    //Getters
     public String getCodigo() {
         return codigo;
     }
@@ -45,6 +49,8 @@ public class Cliente {
         return fechaRegistro;
     }
 
+    
+    //Setters
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
