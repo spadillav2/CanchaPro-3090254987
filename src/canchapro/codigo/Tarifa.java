@@ -79,7 +79,7 @@ public double calcularPrecioTotal(LocalDate fecha, LocalTime horaInicio, int dur
     int dia = fecha.getDayOfWeek().getValue();
 
     if (dia >= 6) {
-        double precioTotal=(FinesdeSemana+duracionMinutos)/60.0;
+        double precioTotal=(FinesdeSemana*duracionMinutos)/60.0;
         return precioTotal;
     }
 

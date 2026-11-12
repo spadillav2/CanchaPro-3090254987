@@ -5,3 +5,4 @@ CL4,Emily Daniela Muñoz,9584468,2026-11-05,emilymuñoz@gmail.com
 CL5,Carlos Santiago Robles Gomez,15487956,2026-11-11,
 CL6,Ana Camila Valdez Maltez,15478962,2026-11-11,
 CL7,Sergio David Flores Galdamez,24598765,2026-11-11,sergiodavid@gmail.com
+CL8,Antonio Padilla,40094004,2026-11-12,

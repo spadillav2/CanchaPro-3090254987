@@ -2,3 +2,7 @@ R6,S02,Arbitro,50.0
 R7,V1,Consumo Tienda V1,5.0
 R7,V2,Consumo Tienda V2,20.0
 R10,S04,Iluminacion,30.0
+R11,V3,Consumo Tienda V3,10.0
+R11,V7,Consumo Tienda V7,5.0
+R11,V7,Tienda (V7): 1x Pepsi,5.0
+R12,S01,Balon,20.0

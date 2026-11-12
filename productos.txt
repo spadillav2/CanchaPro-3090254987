@@ -1,5 +1,5 @@
-P1,Pepsi,Bebidas,5.0,25,5,activo
-P2,Papas Lays,Golosinas,5.0,46,5,activo
-P3,Tortrix Chilero,Golosinas,5.0,2,5,activo
-P4,Hot Dogs,Alimentos,15.0,9,5,activo
+P1,Pepsi,Bebidas,5.0,22,5,activo
+P2,Papas Lays,Golosinas,5.0,45,5,activo
+P3,Tortrix Chilero,Golosinas,5.0,1,5,activo
+P4,Hot Dogs,Alimentos,15.0,8,5,activo
 P5,Mani Japones,Snacks,3.5,50,10,activo

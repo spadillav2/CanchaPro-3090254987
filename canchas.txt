@@ -4,3 +4,4 @@ CA3,El Monumental,Futbol 7,14,disponible,08:00,23:00
 CA4,La Chachacha,Futbol 7,14,disponible,10:00,17:00
 CA5,La Champion,Futbol 5,10,mantenimiento,09:00,15:00
 CA6,El Mundialito,Futbol 7,14,disponible,08:00,23:00
+CA7,Futigol,Futbol 5,10,disponible,08:00,23:00

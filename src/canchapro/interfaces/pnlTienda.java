@@ -362,6 +362,7 @@ private void refrescarCarrito() {
 
         rbtnAnadirReserva.setForeground(new java.awt.Color(0, 0, 0));
         rbtnAnadirReserva.setText("Añadir a Reserva");
+        rbtnAnadirReserva.addActionListener(this::rbtnAnadirReservaActionPerformed);
         pnlVentas.add(rbtnAnadirReserva);
         rbtnAnadirReserva.setBounds(40, 400, 130, 21);
 
@@ -626,95 +627,92 @@ private void refrescarCarrito() {
 
     private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarVentaActionPerformed
 if (cantCarrito == 0) {
-        JOptionPane.showMessageDialog(this, "Agregue productos al carrito");
-        return;
-    }
-
-    boolean anadirAReserva = rbtnAnadirReserva.isSelected();
-    canchapro.codigo.Reserva reservaDestino = null;
-    String codigoReserva = "";
-
-    if (anadirAReserva) {
-        int idxReserva = cmbReservasEnCurso.getSelectedIndex();
-        if (idxReserva < 0 || idxReserva >= cantReservasCombo) {
-            JOptionPane.showMessageDialog(this, "No hay reservas activas seleccionadas para cargar el consumo");
+            JOptionPane.showMessageDialog(this, "Agregue productos al carrito");
             return;
         }
-        reservaDestino = reservasActivasCombo[idxReserva];
-        codigoReserva = reservaDestino.getCodigo();
-    }
 
-    String metodo = anadirAReserva 
-            ? "cargo_reserva" 
-            : cmbMetodoVenta.getSelectedItem().toString().toLowerCase();
+        boolean anadirAReserva = rbtnAnadirReserva.isSelected();
+        canchapro.codigo.Reserva reservaDestino = null;
+        String codigoReserva = "";
 
-    Venta v = new Venta(gestionVentas.generarNumero(), LocalDateTime.now(), codigoReserva, metodo);
-    for (int i = 0; i < cantCarrito; i++) {
-        v.agregarDetalle(carrito[i]);
-    }
-
-    String mensaje = gestionVentas.registrarVenta(v);
-    if (mensaje.equals("Venta registrada correctamente")) {
-        double totalVenta = v.calcularTotal();
-
-        // Si se marcó "Añadir a Reserva", sumarlo al saldo pendiente de la reserva
-        if (anadirAReserva && reservaDestino != null) {
-            canchapro.codigo.ServicioAdicional cargoTienda = new canchapro.codigo.ServicioAdicional(
-                    v.getNumero(),
-                    "Consumo Tienda " + v.getNumero(),
-                    totalVenta
-            );
-            boolean agregado = reservaDestino.agregarServicio(cargoTienda);
-            if (!agregado) {
-                JOptionPane.showMessageDialog(this, "Venta registrada, pero la reserva alcanzó el límite de servicios adicionales.");
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                        "Venta registrada y cargada a la reserva " + codigoReserva 
-                        + "\nMonto añadido al saldo pendiente: Q" + String.format("%.2f", totalVenta));
+        if (anadirAReserva) {
+            int idxReserva = cmbReservasEnCurso.getSelectedIndex();
+            if (idxReserva < 0 || idxReserva >= cantReservasCombo) {
+                JOptionPane.showMessageDialog(this, "Seleccione una reserva activa válida para cargar el consumo");
+                return;
             }
+            reservaDestino = reservasActivasCombo[idxReserva];
+            if (reservaDestino == null) {
+                JOptionPane.showMessageDialog(this, "Error al obtener la reserva seleccionada.");
+                return;
+            }
+            codigoReserva = reservaDestino.getCodigo();
+        }
+
+        String metodo = anadirAReserva 
+                ? "cargo_reserva" 
+                : cmbMetodoVenta.getSelectedItem().toString().toLowerCase();
+
+        Venta v = new Venta(gestionVentas.generarNumero(), LocalDateTime.now(), codigoReserva, metodo);
+        for (int i = 0; i < cantCarrito; i++) {
+            v.agregarDetalle(carrito[i]);
+        }
+
+        String mensaje = gestionVentas.registrarVenta(v);
+        if (mensaje.equals("Venta registrada correctamente")) {
+            double totalVenta = v.calcularTotal();
+
+            // Si se marcó "Añadir a Reserva", armar desglose y sumarlo a la reserva
+            if (anadirAReserva && reservaDestino != null) {
+                StringBuilder desc = new StringBuilder("Tienda (" + v.getNumero() + "): ");
+                for (int i = 0; i < v.getCantidadDetalles(); i++) {
+                    DetalleVenta d = v.getDetalles()[i];
+                    desc.append(d.getCantidad()).append("x ").append(d.getProducto().getNombre());
+                    if (i < v.getCantidadDetalles() - 1) {
+                        desc.append(", ");
+                    }
+                }
+
+                ServicioAdicional cargoTienda = new ServicioAdicional(
+                        v.getNumero(),
+                        desc.toString(),
+                        totalVenta
+                );
+
+                boolean agregado = reservaDestino.agregarServicio(cargoTienda);
+                if (!agregado) {
+                    JOptionPane.showMessageDialog(this, "Venta registrada, pero la reserva alcanzó el límite de servicios adicionales.");
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                            "Venta registrada y cargada a la reserva " + codigoReserva 
+                            + "\nMonto añadido al saldo pendiente: Q" + String.format("%.2f", totalVenta));
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, mensaje + "\nTotal: Q" + String.format("%.2f", totalVenta));
+            }
+
+            // Limpiar carrito y controles
+            for (int i = 0; i < carrito.length; i++) {
+                carrito[i] = null;
+            }
+            cantCarrito = 0;
+            rbtnAnadirReserva.setSelected(false);
+            cmbReservasEnCurso.setEnabled(false);
+            cmbMetodoVenta.setEnabled(true);
+
+            refrescarProductos();
+            refrescarCombo();
+            refrescarComboReservas();
+            refrescarCarrito();
+
         } else {
-            JOptionPane.showMessageDialog(this, mensaje + "\nTotal: Q" + String.format("%.2f", totalVenta));
+            JOptionPane.showMessageDialog(this, mensaje);
         }
-
-        // Limpiar carrito y controles
-        for (int i = 0; i < carrito.length; i++) {
-            carrito[i] = null;
-        }
-        cantCarrito = 0;
-        rbtnAnadirReserva.setSelected(false);
-        cmbReservasEnCurso.setEnabled(false);
-        cmbMetodoVenta.setEnabled(true);
-
-        refrescarProductos();
-        refrescarCombo();
-        refrescarComboReservas();
-        refrescarCarrito();
-        
-        
-           //Guardar info para el desglose
-    StringBuilder desc = new StringBuilder("Tienda (" + v.getNumero() + "): ");
-for (int i = 0; i < v.getCantidadDetalles(); i++) {
-    DetalleVenta d = v.getDetalles()[i];
-    desc.append(d.getCantidad()).append("x ").append(d.getProducto().getNombre());
-    if (i < v.getCantidadDetalles() - 1) {
-        desc.append(", ");
-    }
-}
-
-ServicioAdicional cargoTienda = new ServicioAdicional(
-        v.getNumero(),
-        desc.toString(),
-        totalVenta
-);
-reservaDestino.agregarServicio(cargoTienda);
-      
-    } else {
-        JOptionPane.showMessageDialog(this, mensaje);
-    }
-
-    
- 
     }//GEN-LAST:event_btnConfirmarVentaActionPerformed
+
+    private void rbtnAnadirReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnAnadirReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnAnadirReservaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
