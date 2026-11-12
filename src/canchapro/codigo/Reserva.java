@@ -356,6 +356,24 @@ public void restaurarPago(Pago p) {
 }
 
 
+  
+  // Generar Codigo de PagoReserva
+  public String generarCodigoPago() {
+    int numero = cantidadPagos + 1;
+    boolean repetido = true;
+    while (repetido) {
+        repetido = false;
+        for (int i = 0; i < cantidadPagos; i++) {
+            if (pago[i].getCodigo().equals(codigo + "-P" + numero)) {
+                repetido = true;
+            }
+        }
+        if (repetido) {
+            numero++;
+        }
+    }
+    return codigo + "-P" + numero;
+}
 }
 
 

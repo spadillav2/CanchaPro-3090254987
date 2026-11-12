@@ -75,11 +75,23 @@ public class Tarifa {
 
 
 
-public double calcularPrecioTotal (LocalDate fecha, LocalTime horaInicio, int duracionMinutos){
-   double precioHoraCancha=calcularPrecioHoraCancha(fecha, horaInicio);
-    double precioTotal = (precioHoraCancha * duracionMinutos )/ 60.0;
-    return precioTotal;
-}
+public double calcularPrecioTotal(LocalDate fecha, LocalTime horaInicio, int duracionMinutos) {
+    int dia = fecha.getDayOfWeek().getValue();
 
+    if (dia >= 6) {
+        return (FinesdeSemana * duracionMinutos) / 60.0;
+    }
+
+    int inicioMinutos = horaInicio.getHour() * 60 + horaInicio.getMinute();
+    int corte = 17 * 60;
+
+    int minutosMatutino = 0;
+    if (inicioMinutos < corte) {
+        minutosMatutino = Math.min(duracionMinutos, corte - inicioMinutos);
+    }
+    int minutosVespertino = duracionMinutos - minutosMatutino;
+
+    return (LunesViernesMatutino * minutosMatutino + LunesViernesVespertino * minutosVespertino) / 60.0;
+}
 
 }

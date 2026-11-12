@@ -423,7 +423,7 @@ private void actualizarPantalla() {
         try {
             double monto = Double.parseDouble(txtMonto.getText().trim());
             String metodo = cmbMetodo.getSelectedItem().toString().toLowerCase();
-            String codigoPago = reservaElegida.getCodigo() + "-P" + (reservaElegida.getCantidadPagos() + 1);
+            String codigoPago = reservaElegida.generarCodigoPago() + "-P" + (reservaElegida.getCantidadPagos() + 1);
 
             Pago pago = new Pago(codigoPago, LocalDateTime.now(), monto, metodo);
             String observacion = txtObservacion.getText().trim();

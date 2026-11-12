@@ -26,63 +26,96 @@ import java.awt.Color;
 public class Principal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
-private GestionClientes gestionClientes = new GestionClientes();
-private GestionCanchas gestionCanchas = new GestionCanchas();
-private GestionReservas gestionReservas = new GestionReservas();
+    
+    
+    //RUTA DE ARCHIVOS TXT
+ 
+    private static final String RUTA_CLIENTES = "clientes.txt";
+private static final String RUTA_CANCHAS = "canchas.txt";
+private static final String RUTA_RESERVAS = "reservas.txt";
+private static final String RUTA_SERVICIOS = "servicios_reservas.txt";
+private static final String RUTA_PAGOS = "pagos.txt";
+  private static final String RUTA_TARIFAS = "tarifas.txt";
+  private static final String RUTA_PRODUCTOS = "productos.txt";
+private static final String RUTA_VENTAS = "ventas.txt";
+private static final String RUTA_DETALLES = "detalle_ventas.txt";
+private static final String RUTA_CONFIG = "configuracion.txt";
+
+
+// DECLARACIÓN E INSTANCIACIÓN DE ATRIBUTOS
+    
 private javax.swing.JPanel panelContenido;
-private ArchivoCanchas archivoCanchas = new ArchivoCanchas();
+//Clientes
+private GestionClientes gestionClientes = new GestionClientes();
 private ArchivoClientes archivoClientes = new ArchivoClientes();
+
+// Canchas
+private GestionCanchas gestionCanchas = new GestionCanchas();
+private ArchivoCanchas archivoCanchas = new ArchivoCanchas();
+
+//Tarifa
 private Tarifa tarifa = new Tarifa();
 private ArchivoTarifa archivoTarifa = new ArchivoTarifa();
-private static final String RUTA_TARIFAS = "tarifas.txt";
+
+//RESERVAS
+private GestionReservas gestionReservas = new GestionReservas();
+private ArchivoReservas archivoReservas = new ArchivoReservas();
 
 //MODULO DE TIENDA
 private String teclasEscritas = "";
 private static final String CODIGO_TIENDA = "3090254987";
 private ConfiguracionTienda configuracion = new ConfiguracionTienda();
-private static final String RUTA_CONFIG = "configuracion.txt";
 private GestionProductos gestionProductos = new GestionProductos();
 private GestionVentas gestionVentas = new GestionVentas();
 private ArchivoProductos archivoProductos = new ArchivoProductos();
 private ArchivoVentas archivoVentas = new ArchivoVentas();
-private static final String RUTA_PRODUCTOS = "productos.txt";
-private static final String RUTA_VENTAS = "ventas.txt";
-private static final String RUTA_DETALLES = "detalle_ventas.txt";
 
 
-
-//RESERVAS
-
-private ArchivoReservas archivoReservas = new ArchivoReservas();
 
     /**
      * Creates new form Principal
      */
 public Principal() {
+    
     initComponents();
     this.setLocationRelativeTo(null);
 
+    // Funcionamiento de la pantalla con panels
     panelContenido = new javax.swing.JPanel(new java.awt.BorderLayout());
    jPanel1.add(panelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 832, 652));
+       mostrarPanel(new PnlInicio(gestionReservas));
+       
+       
+   //CARGA DE ARCHIVOS Y MENSAJES DE ERROR
     System.out.println(archivoClientes.cargarClientes(gestionClientes, "clientes.txt"));
      System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, "canchas.txt"));
      System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, "reservas.txt", "servicios_reservas.txt", "pagos.txt"));
-     
-    mostrarPanel(new PnlInicio(gestionReservas));
-    
-    configuracion.cargar(RUTA_CONFIG);
+     System.out.println(archivoClientes.cargarClientes(gestionClientes, RUTA_CLIENTES));
+System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, RUTA_CANCHAS));
+System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, RUTA_RESERVAS, RUTA_SERVICIOS, RUTA_PAGOS));
+System.out.println(archivoProductos.cargarProductos(gestionProductos, RUTA_PRODUCTOS));
+System.out.println(archivoVentas.cargarVentas(gestionVentas, gestionProductos, RUTA_VENTAS, RUTA_DETALLES));
+
+        configuracion.cargar(RUTA_CONFIG);
+        
+        // VERIFICAR SI EL MODULO TIENDA ESTÁ ACTIVO
 lblTienda.setVisible(configuracion.isTiendaActiva());
-
  chkTienda.setSelected(configuracion.isTiendaActiva());
- archivoProductos.cargarProductos(gestionProductos, RUTA_PRODUCTOS);
-archivoVentas.cargarVentas(gestionVentas,gestionProductos, RUTA_VENTAS, RUTA_DETALLES);
- 
- DlgModuloTienda.setModal(true);
+ //Diseño del mensaje para entrar a tienda
+  DlgModuloTienda.setModal(true);
 DlgModuloTienda.setSize(500, 400);
-
+// Funcion del logo, botón de guardar archivos y actualizar el estado de las reservas
 lblLogo2.setFocusable(true);
 btnGuardarArchivos.setFocusable(false);
  gestionReservas.actualizarEstados();
+}
+
+// METODO QUE VALIDA SI Configuracion.isTiendaActiva=true
+    private void actualizarMenuTienda() {
+    lblTienda.setVisible(configuracion.isTiendaActiva());
+    if (!configuracion.isTiendaActiva()) {
+        mostrarPanel(new PnlInicio(gestionReservas));
+    }
 }
 
     /**
@@ -410,31 +443,27 @@ btnGuardarArchivos.setFocusable(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivosActionPerformed
-gestionReservas.actualizarEstados();
-        archivoClientes.guardarClientes(gestionClientes, "clientes.txt");
-     archivoCanchas.guardarCanchas(gestionCanchas, "canchas.txt");
-     archivoReservas.guardarReservas(gestionReservas, "reservas.txt", "servicios_reservs.txt", "pagos.txt");
-     
-     archivoTarifa.guardar(tarifa, RUTA_TARIFAS);
-     
-     archivoProductos.guardarProductos(gestionProductos, RUTA_PRODUCTOS);
+// Obtiene el estado actual de las reservas
+        gestionReservas.actualizarEstados();
+        // Guardar Archivos
+       archivoClientes.guardarClientes(gestionClientes, RUTA_CLIENTES);
+archivoCanchas.guardarCanchas(gestionCanchas, RUTA_CANCHAS);
+archivoReservas.guardarReservas(gestionReservas, RUTA_RESERVAS, RUTA_SERVICIOS, RUTA_PAGOS);
+archivoProductos.guardarProductos(gestionProductos, RUTA_PRODUCTOS);
 archivoVentas.guardarVentas(gestionVentas, RUTA_VENTAS, RUTA_DETALLES);
-     
 configuracion.guardar(RUTA_CONFIG);
+     
     javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
     }//GEN-LAST:event_btnGuardarArchivosActionPerformed
 
     private void lblLogo2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogo2MouseClicked
-lblLogo2.requestFocusInWindow();       
+//Se convierte la imagen en el objeto que recibirá la orden para mostrar el Mensaje de Activación de la Tienda
+        lblLogo2.requestFocusInWindow();       
     }//GEN-LAST:event_lblLogo2MouseClicked
 
     private void lblInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseClicked
        mostrarPanel(new PnlInicio(gestionReservas));
     }//GEN-LAST:event_lblInicioMouseClicked
-
-    private void lblInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblInicioFocusGained
-      
-    }//GEN-LAST:event_lblInicioFocusGained
 
     private void lblInicioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInicioMouseEntered
  
@@ -532,15 +561,7 @@ mostrarPanel(new pnlCanchas(gestionCanchas));
      detectarTeclas(evt.getKeyChar());
     }//GEN-LAST:event_lblLogo2KeyTyped
 
-       private void detectarTeclas(char tecla) {
-    teclasEscritas = teclasEscritas + tecla;
-    if (teclasEscritas.endsWith(CODIGO_TIENDA)) {
-        teclasEscritas = "";
-        chkTienda.setSelected(configuracion.isTiendaActiva());
-        DlgModuloTienda.setLocationRelativeTo(this);
-        DlgModuloTienda.setVisible(true);
-    }
-}
+   
     private void chkTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTiendaActionPerformed
         configuracion.setTiendaActiva(chkTienda.isSelected());
     actualizarMenuTienda();
@@ -571,12 +592,25 @@ lblConfiguracion.setForeground(Color.gray);
        lblConfiguracion.setForeground(Color.white);
     }//GEN-LAST:event_lblConfiguracionMouseExited
 
+    private void lblInicioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblInicioFocusGained
+
+    }//GEN-LAST:event_lblInicioFocusGained
+
     /**
      * @param args the command line arguments
      */
     
-    
-    
+     // Metodo que detecta que lo que se escribe con el teclado sea igual a  CODIGO_TIENDA
+       private void detectarTeclas(char tecla) {
+    teclasEscritas = teclasEscritas + tecla;
+    if (teclasEscritas.endsWith(CODIGO_TIENDA)) {
+        teclasEscritas = "";
+        chkTienda.setSelected(configuracion.isTiendaActiva());
+        DlgModuloTienda.setLocationRelativeTo(this);
+        DlgModuloTienda.setVisible(true);
+    }
+}
+    // Metodo que ayudará a mostrar todos los paneles.
     private void mostrarPanel(javax.swing.JPanel nuevo) {
     panelContenido.removeAll();
     panelContenido.add(nuevo, java.awt.BorderLayout.CENTER);
@@ -606,17 +640,12 @@ lblConfiguracion.setForeground(Color.gray);
        
         
     }
-
+// Metodo para ir al Panel Clientes como atajo en CrearNuevaReserva
 public void irAClientes() {
     mostrarPanel(new pnlClientes(gestionClientes));
 }
     
-    private void actualizarMenuTienda() {
-    lblTienda.setVisible(configuracion.isTiendaActiva());
-    if (!configuracion.isTiendaActiva()) {
-        mostrarPanel(new PnlInicio(gestionReservas));
-    }
-}
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
