@@ -31,46 +31,53 @@ CanchaPro-Entrega/
 ├── ventas.csv
 └── config.properties             # Archivo de configuración modular
 
+
+```
 Importante: No mueva el archivo CanchaPro-SandraPadilla.jar fuera de esta carpeta ni elimine la subcarpeta lib/, ya que el programa requiere ambas rutas relativas para cargar el selector de fechas (JDateChooser).
 
 ## 3. Instrucciones de Ejecución
-Opción A: Ejecución directa (Recomendada)
+**Opción A:** Ejecución directa (Recomendada)
 Asegúrese de tener instalado Java en el equipo.
 
 Haga doble clic sobre el archivo CanchaPro-SandraPadilla.jar.
 
-Opción B: Ejecución desde consola / terminal
+**Opción B:** Ejecución desde consola / terminal
 Si el sistema operativo no asocia los archivos .jar con Java automáticamente:
 
 Abra una terminal o símbolo del sistema (CMD) dentro de la carpeta CanchaPro-Entrega/.
 
 Ejecute el siguiente comando:
 
+``` text
 java -jar CanchaPro-SandraPadilla.jar
+```
 
-4. Restauración, Respaldo y Reinicio de Datos
+## 4. Restauración, Respaldo y Reinicio de Datos
 El sistema utiliza persistencia local en archivos planos estructurados (sin gestor de base de datos externo), reconstruyendo los objetos en memoria al iniciar.
 
-* Cómo realizar un respaldo (Backup)
+**Cómo realizar un respaldo (Backup)**
 Cierre completamente la aplicación CanchaPro para asegurar que todos los flujos de escritura en disco hayan finalizado.
 Copie todos los archivos de datos (.csv / .txt) ubicados junto al .jar y guárdelos en una carpeta segura (por ejemplo, Respaldo_Fecha/).
-* Cómo restaurar datos previos.
+**Cómo restaurar datos previos.**
 Cierre la aplicación si está en ejecución.
 Copie los archivos respaldados y péguelos en la carpeta raíz junto a CanchaPro-SandraPadilla.jar, reemplazando los actuales.
 Inicie nuevamente el programa; el paquete canchaproArchivos cargará automáticamente los registros restaurados.
-* Cómo iniciar el sistema desde cero (Datos limpios)
-* Si desea probar el sistema sin registros previos o si algún archivo de datos fue eliminado accidentalmente:
+**Cómo iniciar el sistema desde cero (Datos limpios)**
+Si desea probar el sistema sin registros previos o si algún archivo de datos fue eliminado accidentalmente:
 Elimine o mueva los archivos de datos existentes fuera de la carpeta del ejecutable
 .Ejecute CanchaPro-SandraPadilla.jar.
 El sistema detectará la ausencia de los archivos y los regenerará automáticamente vacíos para evitar errores de lectura (FileNotFoundException).
 
-5. Configuración del Módulo de Tienda
+## 5. Configuración del Módulo de Tienda
 El módulo de tienda opera de forma desacoplada del núcleo de reservas. Para habilitarlo o deshabilitarlo sin recompilar el código:
 Abra el archivo de configuración (config.properties o configuracion.txt) con el Bloc de notas
 .Modifique el parámetro correspondiente (modulo_tienda=true para activar / modulo_tienda=false para desactivar).
 Guarde los cambios y reinicie la aplicación.
 
-6. Arquitectura del Proyectocanchapro.interfaces:
+## 6. Arquitectura del Proyectocanchapro.interfaces:
  Vistas gráficas en Java Swing (Login, Principal y paneles dinámicos).canchapro.codigo:
  Modelos de dominio (Cliente, Cancha, Reserva, Pago, Tarifa, ServicioAdicional) y clases gestoras con reglas de negocio y arreglos estáticos[cite: 2, 3].
 canchaproArchivos: Capa de persistencia encargada de la lectura, validación y escritura de archivos locales. 
+
+
+
