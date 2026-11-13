@@ -94,7 +94,7 @@ System.out.println(archivoCanchas.cargarCanchas(gestionCanchas, RUTA_CANCHAS));
 System.out.println(archivoReservas.cargarReservas(gestionReservas, gestionClientes, gestionCanchas, RUTA_RESERVAS, RUTA_SERVICIOS, RUTA_PAGOS));
 System.out.println(archivoProductos.cargarProductos(gestionProductos, RUTA_PRODUCTOS));
 System.out.println(archivoVentas.cargarVentas(gestionVentas, gestionProductos, RUTA_VENTAS, RUTA_DETALLES));
-
+    System.out.println(archivoTarifa.cargar(tarifa, RUTA_TARIFAS));
         configuracion.cargar(RUTA_CONFIG);
         
         // VERIFICAR SI EL MODULO TIENDA ESTÁ ACTIVO
@@ -451,7 +451,7 @@ archivoReservas.guardarReservas(gestionReservas, RUTA_RESERVAS, RUTA_SERVICIOS, 
 archivoProductos.guardarProductos(gestionProductos, RUTA_PRODUCTOS);
 archivoVentas.guardarVentas(gestionVentas, RUTA_VENTAS, RUTA_DETALLES);
 configuracion.guardar(RUTA_CONFIG);
-     
+     archivoTarifa.guardar(tarifa, RUTA_TARIFAS);
     javax.swing.JOptionPane.showMessageDialog(this, "Datos guardados correctamente");
     }//GEN-LAST:event_btnGuardarArchivosActionPerformed
 
