@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author Padilla
  */
 public class Cliente {
-//Atributos
+
     private String codigo;
     private String nombre;
     private String correo;
