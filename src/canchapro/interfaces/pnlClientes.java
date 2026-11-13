@@ -159,7 +159,6 @@ private void limpiarCampos() {
         add(txtCorreoCliente);
         txtCorreoCliente.setBounds(420, 150, 360, 22);
 
-        txtCodigoCliente.setEditable(false);
         txtCodigoCliente.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigoCliente.setForeground(new java.awt.Color(0, 0, 0));

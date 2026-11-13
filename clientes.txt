@@ -6,3 +6,6 @@ CL5,Carlos Santiago Robles Gomez,15487956,2026-11-11,
 CL6,Ana Camila Valdez Maltez,15478962,2026-11-11,
 CL7,Sergio David Flores Galdamez,24598765,2026-11-11,sergiodavid@gmail.com
 CL8,Antonio Padilla,40094004,2026-11-12,
+CL9,Rosa Antonieta Galdamez Valdez,45187564,2026-11-13,rosavaldez@gmail.com
+CL10,Juan Eduardo Valenzuela,14758964,2026-11-13,
+CL11,Juan Sebastian Sarti Olla,6251478,2026-11-13,juansarti@gmail.com

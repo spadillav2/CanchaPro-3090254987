@@ -152,7 +152,6 @@ public class pnlCanchas extends javax.swing.JPanel {
         add(jLabel7);
         jLabel7.setBounds(400, 150, 70, 16);
 
-        txtCodigo.setEditable(false);
         txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
