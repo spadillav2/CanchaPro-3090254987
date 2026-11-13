@@ -6,3 +6,5 @@ R11,V3,Consumo Tienda V3,10.0
 R11,V7,Consumo Tienda V7,5.0
 R11,V7,Tienda (V7): 1x Pepsi,5.0
 R12,S01,Balon,20.0
+R13,S01,Balon,20.0
+R14,S04,Iluminacion,30.0

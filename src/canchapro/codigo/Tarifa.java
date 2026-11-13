@@ -57,21 +57,7 @@ public class Tarifa {
     
     
     
-    public double calcularPrecioHoraCancha(LocalDate fecha, LocalTime horaInicio){
-        int dia = fecha.getDayOfWeek().getValue();
-        double hora = horaInicio.getHour();
-        double precioHoraCancha=0;
-        if (dia <6 &&  hora<17.00){
-            precioHoraCancha = LunesViernesMatutino;
-        }
-        else if (dia <6 && hora >=17){
-            precioHoraCancha = LunesViernesVespertino;
-        }
-        else if (dia >= 6){
-            precioHoraCancha= FinesdeSemana;
-        }
-        return precioHoraCancha;
-    }
+ 
 
 
 

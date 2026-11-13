@@ -15,7 +15,7 @@ public class Venta {
     private LocalDateTime fechaHora;
     private String codigoReserva;  
     private String metodo;
-    private DetalleVenta[] detalles = new DetalleVenta[20];
+    private DetalleVenta[] detalles = new DetalleVenta[100];
     private int cantidadDetalles = 0;
 
     public Venta(String numero, LocalDateTime fechaHora, String codigoReserva, String metodo) {

@@ -67,7 +67,7 @@ public class Producto {
     }
     
 
-
+  //Setters
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
@@ -92,7 +92,7 @@ public class Producto {
         this.stockMinimo = stockMinimo;
     }
 
-    //Setters
+  
     public void setEstado(String estado) {
         this.estado = estado;
     }
