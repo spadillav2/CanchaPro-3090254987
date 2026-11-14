@@ -2,6 +2,12 @@
 
 Sistema de escritorio desarrollado en Java (POO) para la administración integral de reservas, disponibilidad de canchas, pagos, reportería analítica y control opcional de tienda para complejos deportivos.
 
+
+## Documentacion
+* [Manual de Usuario](Manuales y UML/MANUAL USUARIO - CANCHAPRO - SandraPadilla3090254987.pdf)
+* [Manual Técnico](Manuales y UML/MANUAL TÉCNICO - CANCHAPRO - SandraPadilla3090254987.pdf)
+* [UML](Manuales y UML/UML_SandraPadilla3090254987.pdf)
+* [Calendario de Actividades](Manuales y UML/Calendario de actividades – CanchaPro-SandraPadilla3090254987).pdf)
 ---
 
 ## 1. Requisitos del Sistema
