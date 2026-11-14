@@ -68,8 +68,7 @@ public class pnlNuevaReserva extends javax.swing.JPanel {
     this.principal = p;
     
 
-     rbnTienda.setVisible(false);
-    btnDesgloseTienda.setVisible(false);
+    
 txtCodigoReserva.setEditable(false);
 txtCodigoCancha.setEditable(false); 
 cmbCapacidad.setEnabled(false);
@@ -137,8 +136,6 @@ cmbCapacidad.setEnabled(false);
         cmbServiciosAdicionales = new javax.swing.JComboBox<>();
         btnEliminar = new javax.swing.JButton();
         lblTotalServicios = new javax.swing.JLabel();
-        rbnTienda = new javax.swing.JRadioButton();
-        btnDesgloseTienda = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         txtTotalServicios = new javax.swing.JTextField();
         lblTotalReserva = new javax.swing.JLabel();
@@ -451,21 +448,6 @@ cmbCapacidad.setEnabled(false);
         pnlDatosServicios.add(lblTotalServicios);
         lblTotalServicios.setBounds(390, 60, 110, 16);
 
-        rbnTienda.setBackground(new java.awt.Color(255, 255, 255));
-        rbnTienda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        rbnTienda.setForeground(new java.awt.Color(0, 0, 0));
-        rbnTienda.setText("Añadir Total Tienda");
-        rbnTienda.addActionListener(this::rbnTiendaActionPerformed);
-        pnlDatosServicios.add(rbnTienda);
-        rbnTienda.setBounds(20, 50, 180, 25);
-
-        btnDesgloseTienda.setBackground(new java.awt.Color(255, 204, 0));
-        btnDesgloseTienda.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDesgloseTienda.setForeground(new java.awt.Color(0, 0, 0));
-        btnDesgloseTienda.setText("Ver desglose de Tienda");
-        pnlDatosServicios.add(btnDesgloseTienda);
-        btnDesgloseTienda.setBounds(210, 50, 160, 23);
-
         btnAdd.setBackground(new java.awt.Color(255, 153, 0));
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -742,10 +724,6 @@ if (indice >= 0) {
     private void txtAnticipoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnticipoKeyReleased
         actualizarTotales();
     }//GEN-LAST:event_txtAnticipoKeyReleased
-
-    private void rbnTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnTiendaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbnTiendaActionPerformed
 
     private void btnDisponibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisponibilidadActionPerformed
                                                             
@@ -1067,7 +1045,6 @@ private void limpiarFormulario() {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCrearReserva;
-    private javax.swing.JButton btnDesgloseTienda;
     private javax.swing.JButton btnDisponibilidad;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
@@ -1112,7 +1089,6 @@ private void limpiarFormulario() {
     private javax.swing.JPanel pnlDatosServicios2;
     private javax.swing.JPanel pnlHorario;
     private javax.swing.JPanel pnlHorario2;
-    private javax.swing.JRadioButton rbnTienda;
     private javax.swing.JSpinner spnDuracionHora;
     private javax.swing.JSpinner spnDuracionMinutos;
     private javax.swing.JSpinner spnInicioHora;

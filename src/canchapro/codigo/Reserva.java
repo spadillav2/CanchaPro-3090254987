@@ -188,14 +188,10 @@ public double calcularTotalPagado(){
 }
     
 
-
-
 public double calcularPrecioCancha(Tarifa tarifa) {
     double total = tarifa.calcularPrecioTotal(fecha, horaInicio,duracion);
     return total;
 }
-
-
 
 
 public double calcularTotal(Tarifa tarifa) {
