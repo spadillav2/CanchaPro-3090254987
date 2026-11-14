@@ -6,3 +6,4 @@ CA5,La Champion,Futbol 5,10,mantenimiento,09:00,15:00
 CA6,El Mundialito,Futbol 7,14,disponible,08:00,23:00
 CA7,Futigol,Futbol 5,10,disponible,08:00,23:00
 CA8,La Canchita,Futbol 5,10,disponible,08:00,15:00
+CA9,La Chula,Futbol 7,14,disponible,10:00,22:00

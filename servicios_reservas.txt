@@ -1,4 +1,5 @@
 R6,S02,Arbitro,50.0
+R6,V8,Tienda (V8): 1x Tortrix Chilero, 1x Papas Lays,10.0
 R7,V1,Consumo Tienda V1,5.0
 R7,V2,Consumo Tienda V2,20.0
 R10,S04,Iluminacion,30.0
@@ -11,3 +12,5 @@ R14,S04,Iluminacion,30.0
 R16,S04,Iluminacion,30.0
 R16,S03,Chalecos,15.0
 R16,S05,Agua para jugadores,10.0
+R17,S01,Balon,20.0
+R17,V9,Tienda (V9): 1x Pepsi,5.0
