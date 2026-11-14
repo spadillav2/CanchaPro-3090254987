@@ -4,10 +4,10 @@ Sistema de escritorio desarrollado en Java (POO) para la administración integra
 
 
 ## Documentacion
-* [Manual de Usuario](Manuales y UML/MANUAL USUARIO - CANCHAPRO - SandraPadilla3090254987.pdf)
-* [Manual Técnico](Manuales y UML/MANUAL TÉCNICO - CANCHAPRO - SandraPadilla3090254987.pdf)
-* [UML](Manuales y UML/UML_SandraPadilla3090254987.pdf)
-* [Calendario de Actividades](Manuales y UML/Calendario de actividades – CanchaPro-SandraPadilla3090254987).pdf)
+* [Manual de Usuario](https://github.com/spadillav2/CanchaPro-3090254987/blob/master/Manuales%20y%20UML/MANUAL%20USUARIO%20-%20CANCHAPRO%20-%20SandraPadilla3090254987.pdf)
+* [Manual Técnico](https://github.com/spadillav2/CanchaPro-3090254987/blob/master/Manuales%20y%20UML/MANUAL%20T%C3%89CNICO%20-%20CANCHAPRO%20-%20SandraPadilla3090254987.pdf) 
+* [UML](https://github.com/spadillav2/CanchaPro-3090254987/blob/master/Manuales%20y%20UML/UML_SandraPadilla3090254987.pdf)
+* [Calendario de Actividades](https://github.com/spadillav2/CanchaPro-3090254987/blob/master/Manuales%20y%20UML/Calendario%20de%20actividades%20%E2%80%93%20CanchaPro-SandraPadilla3090254987.pdf)
 ---
 
 ## 1. Requisitos del Sistema
